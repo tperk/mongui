@@ -9,7 +9,8 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) 
             scope.items = [
                 { label: 'Home', state: 'home' },
                 { label: 'About', state: 'about' },
-                { label: 'Projects', state: 'projects'}
+                { label: 'Projects', state: 'projects'},
+                { label: 'Ref', state: 'reference'}
             ];
 
             scope.user = null;
