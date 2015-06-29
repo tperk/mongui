@@ -13,6 +13,7 @@ app.directive('field', function ($state) {
                 required: false,
                 options: {stringEnums: []}
     		};
+            scope.test = "test"
             scope.clearOptions = function(){
                 scope.field.options = {stringEnums: []};
             };

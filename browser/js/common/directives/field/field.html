@@ -15,6 +15,7 @@
 							{{type}}
 						</md-option>
 					</md-select>
+					<md-button class="md-warn md-raised" ng-click="deleteField()">Delete Field</md-button>
 				</div>
 				<div layout="row" class="field-options md-padding" flex="66">
 					<field-number props="field.options" ng-if="field.type === 'Number'"></field-number>

@@ -10,6 +10,12 @@ app.config(function ($stateProvider) {
 });
 
 app.controller('EngineController', function ($scope) {
-	$scope.toPass="anything really";
+	$scope.fieldArr = [{}];
+	$scope.createField = function(){
+		$scope.fieldArr.push({});
+	};
+	$scope.deleteField = function(){
+	}
 
+	$scope.fieldObj = {};
 });
