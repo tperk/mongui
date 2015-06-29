@@ -23,6 +23,7 @@ app.controller('projectsCtrl', function ($scope, ProjectsFactory, $state) {
     };
 
     $scope.submitProject = function (newProject) {
+        console.log('newProject', newProject)
         ProjectsFactory.submitNewProject(newProject).then(function (result) {
             console.log('submit new project result: ', result);
         });
