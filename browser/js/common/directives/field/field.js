@@ -8,12 +8,14 @@ app.directive('field', function ($state) {
         link: function (scope) {
     		scope.types = ["String", "Number", "Date", "Buffer", "Boolean", "Mixed", "Object", "Objectid", "Array", "Schema"];
     		scope.field = {
-    			name: "",
-    			type: "",
-    			required: false,
-    			stringEnums: []
-
+                name: "",
+                type: "",
+                required: false,
+                options: {stringEnums: []}
     		};
+            scope.clearOptions = function(){
+                scope.field.options = {stringEnums: []};
+            };
         }
    };
 });
