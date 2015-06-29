@@ -1,0 +1,30 @@
+<h1>Date</h1>
+<div layout="row" layout-wrap layout-fill layout-padding>
+    <md-input-container>
+        <label>Expires</label>
+        <input type="number" ng-model="field.dateExpire">
+    </md-input-container>
+    <md-input-container>
+        <label>Max Date Validator</label>
+            <mb-datepicker element-id='maxDate'
+               input-class="testClass"
+               input-name="testName"
+               arrows="arrows"
+               calendar-header="header"
+               date="date"
+               date-format="DD-MM-YYYY">
+            </mb-datepicker>
+    </md-input-container>
+    <md-input-container>
+        <label>Min Date Validator</label>
+            <mb-datepicker element-id='minDate'
+               input-class="testClass"
+               input-name="testName"
+               arrows="arrows"
+               calendar-header="header"
+               date="date"
+               date-format="DD-MM-YYYY">
+            </mb-datepicker>
+    </md-input-container>
+
+</div>
