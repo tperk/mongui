@@ -1,7 +1,7 @@
 <md-content class="md-padding">
 	<md-card>
 		<md-card-content>
-			<div layout="row">
+			<div layout="row" layout-wrap>
 				<div class="field-name md-padding" flex="33" layout-wrap layout-fill layout-padding>
 					<md-input-container>
 						<label>Field Name </label>
@@ -28,6 +28,8 @@
 					<field-array props="field" ng-if="field.type === 'Array'"></field-array>
 					<field-schema props="field" ng-if="field.type === 'Schema'"></field-schema>
   				</div>
+  				<pre flex>{{field | json}}</pre>
+  				<pre flex>{{generatedCode}}</pre>
 			</div>
 		</md-card-content>
 	</md-card>
