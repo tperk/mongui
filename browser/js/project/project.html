@@ -1,0 +1,15 @@
+<section id="project">
+    <h1>Project</h1>
+    <div class="container">
+        <div class="col-lg-2 col-md-2 col-sm-2">
+            <p>Sidebar</p>
+            <div ng-repeat="schema in schemas">
+                <a ui-sref=".schema">{{schema}}</a>
+            </div>
+        </div>
+        <div class="col-lg-10 col-md-10 col-sm-10">
+            <ui-view></ui-view>
+        </div>
+    </div>    
+    
+</section>
