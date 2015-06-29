@@ -2,31 +2,31 @@
 <div layout="row" layout-wrap layout-fill layout-padding>
 	<md-input-container>
 		<label>Min Length</label>
-		<input type="number" ng-model="field.stringMin">
+		<input type="number" ng-model="props.stringMin">
 	</md-input-container>
 	<md-input-container>
 		<label>Max Length</label>
-		<input type="number" ng-model="field.stringMax">
+		<input type="number" ng-model="props.stringMax">
 	</md-input-container>
-	<md-radio-group ng-model="field.stringCaseGroup">
+	<md-radio-group ng-model="props.stringCaseGroup">
 		<md-radio-button value="nocase">No Case Setter</md-radio-button>
 		<md-radio-button value="lowercase">Lowercase Setter</md-radio-button>
 		<md-radio-button value="uppercase">Uppercase Setter</md-radio-button>
 	</md-radio-group>
-	<md-switch ng-model="field.stringTrim">
+	<md-switch ng-model="props.stringTrim">
 		Trim Setter
 	</md-switch>
 	<md-input-container>
 		<label>Regular Expression Match</label>
-		<input ng-model="field.stringRegEx">
+		<input ng-model="props.stringRegEx">
 	</md-input-container>
 	<md-input-container>
 		<label>RegEx Custom Error Message</label>
-		<input ng-model="field.stringRegExCustomErrorMessage">
+		<input ng-model="props.stringRegExCustomErrorMessage">
 	</md-input-container>
 	<md-chips
 		flex="100" 
-		ng-model="field.stringEnums"
+		ng-model="props.stringEnums"
 		placeholder="+Enum"
 		secondary-placeholder="Enter an Enum"
 		>

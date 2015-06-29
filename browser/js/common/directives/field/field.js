@@ -7,9 +7,9 @@ app.directive('field', function ($state) {
     		scope.types = ["String", "Number", "Date", "Buffer", "Boolean", "Mixed", "Object", "Objectid", "Array", "Schema"];
     		scope.field = {
     			name: "",
-    			type: ""//,
-    			//required: false,
-    			//stringEnums: []
+    			type: "",
+    			required: false,
+    			stringEnums: []
     		};
         }
    };

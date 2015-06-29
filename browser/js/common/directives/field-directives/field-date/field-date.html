@@ -2,7 +2,7 @@
 <div layout="row" layout-wrap layout-fill layout-padding>
     <md-input-container>
         <label>Expires</label>
-        <input type="number" ng-model="field.dateExpire">
+        <input type="number" ng-model="props.dateExpire">
     </md-input-container>
     <md-input-container>
         <label>Max Date Validator</label>
@@ -12,7 +12,8 @@
                arrows="arrows"
                calendar-header="header"
                date="date"
-               date-format="DD-MM-YYYY">
+               date-format="DD-MM-YYYY"
+               ng-model="props.dateMax">
             </mb-datepicker>
     </md-input-container>
     <md-input-container>
@@ -23,7 +24,8 @@
                arrows="arrows"
                calendar-header="header"
                date="date"
-               date-format="DD-MM-YYYY">
+               date-format="DD-MM-YYYY"
+               ng-model="props.dateMin">
             </mb-datepicker>
     </md-input-container>
 
