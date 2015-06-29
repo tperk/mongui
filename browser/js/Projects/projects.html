@@ -2,9 +2,15 @@
     <h1>Projects</h1>
 
     <div class="container">
-        <div>
-        </div>
+        <form name="newProjectForm" ng-submit="newProjectForm.$valid && submitProject(newProject)" class="col-lg-8 col-md-8 col-sm-8">
+            <md-input-container>
+                <label>Project Name</label>
+                <input type="text" ng-model="newProject.name" required>
+            </md-input-container>
+            <button type="submit">New Project</button>
+        </form>
     </div>
+    
     <button ui-sref="project">Project</button>
     
 </section>

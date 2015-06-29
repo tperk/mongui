@@ -6,13 +6,27 @@ app.config(function ($stateProvider) {
         controller: 'projectsCtrl',
         ncyBreadcrumb: {
             label: 'Projects page'
+        },
+        resolve: {
+            projects: function (ProjectsFactory) {
+                return ProjectsFactory.getProjects();
+            }
         }
     });
 
 });
 
-app.controller('projectsCtrl', function ($scope, $mdSidenav, $state) {
+app.controller('projectsCtrl', function ($scope, ProjectsFactory, $state) {
 
-    
+    $scope.newProject = {
+        name: ''
+    };
+
+    $scope.submitProject = function (newProject) {
+        console.log('newProject', newProject)
+        ProjectsFactory.submitNewProject(newProject).then(function (result) {
+            console.log('submit new project result: ', result);
+        });
+    };
 
 });
