@@ -13,6 +13,12 @@ app.config(function ($stateProvider) {
 
 app.controller('projectsCtrl', function ($scope, $mdSidenav, $state) {
 
-    
+    $scope.newProject = {
+        name: ''
+    }
+
+    $scope.submitProject = function () {
+
+    }
 
 });
