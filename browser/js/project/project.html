@@ -1,8 +1,7 @@
 <section id="project">
-    <h1>Project</h1>
     <div class="container">
-        <div class="col-lg-2 col-md-2 col-sm-2">
-            <p>Sidebar</p>
+        <div id='sidenav' class="col-lg-2 col-md-2 col-sm-2">
+            <h4 id="projectName">{{projectName}}</h4>
             <div ng-repeat="schema in schemas">
                 <a ui-sref=".schema">{{schema}}</a>
             </div>
