@@ -5,13 +5,35 @@
     padding-left: 0;
   }
     #sidenav {
-      background: lightblue;
+      border-right: solid;
       padding-bottom: 100%;
+      padding-left: 0;
+      padding-right: 0;
 
-      #projectName {
-        text-align: center;
+      .sidenavHeader {
+        height: 50px;
+        padding-top: 5%;
+        padding-bottom: 20%;
       }
 
+      .sidenavBack {
+        float: left;
+        width: 10%;
+        height: 50px;
+        text-align: center;
+      }
+      .sidenavName {
+        float: left;
+        width: 75%;
+        height: 100%;
+        text-align: center;
+      }
+      .sidenavPlus {
+        float: left;
+        width: 10%;
+        height: 100%;
+        text-align: center
+      }
   }
 
 }

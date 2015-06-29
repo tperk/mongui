@@ -1,11 +1,24 @@
 <section id="project">
     <div class="container">
         <div id='sidenav' class="col-lg-2 col-md-2 col-sm-2">
-            <p><i class="zmdi zmdi-local-florist zmd-lg"></i> zmd-lg</p>
-            <h4 id="projectName">{{projectName}}</h4>
+
+            <!--Side Navigation Header-->
+            <div class="sidenavHeader">
+                <div class="sidenavBack">
+                    <a class="zmdi zmdi-arrow-back zmd-lg"></a>
+                </div>
+                <div class="sidenavName">
+                    <h4>{{projectName}}</h4>
+                </div>
+                <div class="sidenavPlus">
+                    <a class="zmdi zmdi-plus-circle-o zmd-lg"></a>
+                </div>
+            </div>
+
             <div ng-repeat="schema in schemas">
                 <a ui-sref=".schema">{{schema}}</a>
             </div>
+            <div></div>
         </div>
         <div class="col-lg-10 col-md-10 col-sm-10">
             <ui-view></ui-view>
@@ -13,3 +26,4 @@
     </div>    
     
 </section>
+
