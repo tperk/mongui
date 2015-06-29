@@ -10,8 +10,8 @@ app.directive('generatedCode', function ($state) {
             scope.generatedCode = "";
             scope.name = 'ben';
             scope.generateCode = function(){
-                scope.generatedCode = 
-                `hello ${scope.name} this is a parsed string: ${scope.parsedString}`; 
+                // scope.generatedCode = 
+                // `hello ${scope.name} this is a parsed string: ${scope.parsedString}`; 
             };
         }
    };
