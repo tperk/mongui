@@ -7,7 +7,7 @@ app.directive('field', function ($state) {
         templateUrl: 'js/common/directives/field/field.html',
         link: function (scope) {
     		scope.types = ["String", "Number", "Date", "Buffer", "Boolean", "Mixed", "Object", "Objectid", "Array", "Schema"];
-    		scope.field = {
+    		scope.formdata = scope.field = {
                 name: "",
                 type: "",
                 required: false,
