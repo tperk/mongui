@@ -1,21 +1,10 @@
 <section id="projects">
     <h1>Projects</h1>
-    <div layout="row">
-        <md-sidenav md-component-id="left" class="md-sidenav-left">
-            <h2>Schema Tree</h2>
-            <md-button ng-click="closeLeftMenu()">
-                Close
-            </md-button>
-        </md-sidenav>
-        <md-content>
-            <md-button ng-click="openLeftMenu()">
-                Open Schema Tree
-            </md-button>
-        </md-content>
+
+    <div class="container">
+        <div>
+        </div>
     </div>
-    <div>
-        <md-tabs>
-                <md-tab ng-repeat="path in objectPath" label="{{path.name}}"></md-tab>
-        </md-tabs>
-    </div>
+    <button ui-sref="project">Project</button>
+    
 </section>
