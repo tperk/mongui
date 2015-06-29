@@ -1,12 +1,12 @@
 app.directive('fieldString', function ($state) {
 	return {
         restrict: 'E',
-        scope: {},
+        scope: {
+            props: '='
+        },
         templateUrl: 'js/common/directives/field-directives/field-string/field-string.html',
         link: function (scope) {
-        		scope.field = {
-        			stringEnums: []
-        		};
+
         }
    };
 });

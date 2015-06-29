@@ -1,7 +1,7 @@
 <md-content class="md-padding">
 	<md-card>
 		<md-card-content>
-			<div layout="row">
+			<div layout="row" layout-wrap>
 				<div class="field-name md-padding" flex="33" layout-wrap layout-fill layout-padding>
 					<md-input-container>
 						<label>Field Name </label>
@@ -17,17 +17,19 @@
 					</md-select>
 				</div>
 				<div layout="row" class="field-options md-padding" flex="66">
-					<field-number ng-if="field.type === 'Number'"></field-number>
-					<field-string ng-if="field.type === 'String'"></field-string>
-					<field-date ng-if="field.type === 'Date'"></field-string>
-					<field-buffer ng-if="field.type === 'Buffer'"></field-string>
-					<field-boolean ng-if="field.type === 'Boolean'"></field-string>
-					<field-mixed ng-if="field.type === 'Mixed'"></field-string>
-					<field-object ng-if="field.type === 'Object'"></field-string>
-					<field-objectid ng-if="field.type === 'Objectid'"></field-string>
-					<field-array ng-if="field.type === 'Array'"></field-string>
-					<field-schema ng-if="field.type === 'Schema'"></field-string>
+					<field-number props="field" ng-if="field.type === 'Number'"></field-number>
+					<field-string props="field" ng-if="field.type === 'String'"></field-string>
+					<field-date props="field" ng-if="field.type === 'Date'"></field-date>
+					<field-buffer props="field" ng-if="field.type === 'Buffer'"></field-buffer>
+					<field-boolean props="field" ng-if="field.type === 'Boolean'"></field-boolean>
+					<field-mixed props="field" ng-if="field.type === 'Mixed'"></field-mixed>
+					<field-object props="field" ng-if="field.type === 'Object'"></field-object>
+					<field-objectid props="field" ng-if="field.type === 'Objectid'"></field-objectid>
+					<field-array props="field" ng-if="field.type === 'Array'"></field-array>
+					<field-schema props="field" ng-if="field.type === 'Schema'"></field-schema>
   				</div>
+  				<pre flex>{{field | json}}</pre>
+  				<pre flex>{{generatedCode}}</pre>
 			</div>
 		</md-card-content>
 	</md-card>

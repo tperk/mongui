@@ -62,34 +62,34 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $state) {
         }
     };
 
-    $scope.objectPath = []
-    $scope.currentPath = 'three.threeThree'
+    $scope.objectPath = [];
+    $scope.currentPath = 'three.threeThree';
 
     //schema expects an object, path expects a simple path in the form 'key1.key2'
 
     var schemaParser = function (schema, path) {
-        var parsed = []
-        var finalObj = schema
+        var parsed = [];
+        var finalObj = schema;
         function keyCounter (obj) {
-            var count = 0
+            var count = 0;
             Object.keys(obj).forEach(function (key) {
-                count += 1
+                count += 1;
             });
-            return (count > 0 )
-        };
+            return (count > 0 );
+        }
         path.split('.').forEach(function (link) {
-            parsed.push({name: link, child: false})
-            finalObj = finalObj[link]
+            parsed.push({name: link, child: false});
+            finalObj = finalObj[link];
         });
         if (keyCounter(finalObj)) {
             Object.keys(finalObj).forEach(function (key) {
                 if (typeof(finalObj[key]) === 'object') {
-                    parsed.push({name: key, child: true})
+                    parsed.push({name: key, child: true});
                 }
             });
-        };
-        return parsed
+        }
+        return parsed;
     };
 
-    $scope.objectPath = schemaParser($scope.testSchema, $scope.currentPath)
+    $scope.objectPath = schemaParser($scope.testSchema, $scope.currentPath);
 });
