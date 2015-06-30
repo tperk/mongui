@@ -16,7 +16,9 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('projectsCtrl', function ($scope, ProjectsFactory, $state) {
+app.controller('projectsCtrl', function ($scope, ProjectsFactory, projects, $state) {
+
+    console.log('here are the current projects in the database: ', projects)
 
     $scope.newProject = {
         name: ''
