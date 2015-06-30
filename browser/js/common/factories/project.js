@@ -1,19 +1,17 @@
 app.factory('ProjectFactory', function ($http) {
 	return {
-		submitNewSchema: function (newSchema) {
-			return $http.post('/api/project', {
-				params: newSchema
-			}).then(function (result) {
+		submitNewSchema: function (newSchema, id) {
+			return $http.post('/api/project/'+id, newSchema).then(function (result) {
 				return result.data;
 			});
 		},
-		getSchemas: function () {
-			return $http.get('/api/project').then(function (schemas) {
+		getSchemas: function (id) {
+			return $http.get('/api/project/'+id).then(function (schemas) {
 				return schemas.data;
 			});
 		},
-		updateSchema: function (schema) {
-			return $http.put('/api/project', schema).then(function (result) {
+		updateSchema: function (schema, id) {
+			return $http.put('/api/project/'+id, schema).then(function (result) {
 				return result.data;
 			});
 		}

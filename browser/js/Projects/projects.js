@@ -16,14 +16,11 @@ app.config(function ($stateProvider) {
             }
         }
     });
-
 });
 
 app.controller('projectsCtrl', function ($scope, ProjectsFactory, projects, user, $state) {
 
-    console.log('user', user)
-
-    console.log('here are the current projects in the database: ', projects);
+    $scope.projects = projects
 
     $scope.newProject = {
         name: ''
@@ -35,5 +32,9 @@ app.controller('projectsCtrl', function ($scope, ProjectsFactory, projects, user
             console.log('submit new project result: ', result);
         });
     };
+
+    $scope.goToProject = function (projectId) {
+        $state.go('project', {id: projectId})
+    }
 
 });

@@ -11,6 +11,11 @@
         </form>
     </div>
     
-    <button ui-sref="project">Project</button>
+    
+
+    <h2>Current projects in the database</h2>
+    <div ng-repeat="project in projects">
+        <button ng-click="goToProject(project._id)">{{project.name}}</button>
+    </div>
     
 </section>

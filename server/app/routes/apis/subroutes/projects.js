@@ -7,7 +7,7 @@ var User = mongoose.model('User');
 var Project = mongoose.model('Project');
 
 router.get('/:id', function (req, res, next){
-	console.log(req.params)
+	console.log(req.params);
 	User.findById(req.params.id)
 	.populate('projects')
 	.exec()
@@ -18,13 +18,13 @@ router.get('/:id', function (req, res, next){
 });
 
 router.post('/:id', function (req, res, next){
-	return Promise.all([Project.create(req.body.params), User.findById(req.params.id).exec() ])
-	.spread(function(project, user){
-		user.projects.push(project._id)
-		return user.save()
+	return Promise.all([Project.create(req.body.params), User.findById(req.params.id).exec()])
+	.spread(function (project, user){
+		user.projects.push(project._id);
+		return user.save();
 	})
 	.then(function (savedUser) {
-		console.log(savedUser)
+		console.log(savedUser);
 		res.status(200).json(savedUser);
 	})
 	.then(null, next);

@@ -1,7 +1,9 @@
 var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema({
-	content: String
+	name: String,
+	content: String,
+	functions: String
 });
 
 mongoose.model('Schema', schema);
