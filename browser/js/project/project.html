@@ -1,35 +1,36 @@
 <section id="project">
-    <div class="container">
-        <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="true">
-            <md-toolbar>
-                <div id="sidenav-header">
-                <a class="snb zmdi zmdi-arrow-back md-toolbar-tools zmd-lg"></a>
-                <p class="sntitle md-toolbar-tools">{{projectName}}</p>
-                <!--<a class="snb zmdi zmdi-plus-circle-o md-toolbar-tools zmd-lg"></a>-->
-                </div>
-            </md-toolbar>
-            <!--<md-content layout-padding ng-controller="LeftCtrl">-->
-            <md-content layout-padding>
-                <p hide-md show-gt-md>
-                    This sidenav is locked open on your device. To go back to the default behavior,
-                    narrow your display.
-                </p>
-                <div ng-repeat="schema in schemas">
-                    <a ui-sref=".schema">{{schema.name}}</a>
-                </div>
-            </md-content>
-            <form name="newSchemaForm" ng-submit="newSchemaForm.$valid && submitSchema(newSchema)">
-                <md-input-container>
-                    <label>Schema Name</label>
-                    <input type="text" ng-model="newSchema.name" required>
-                </md-input-container>
-                <button type="submit">New Schema</button>
-            </form>
-        </md-sidenav>
+    <div layout="row">
+        <div flex="20" layout="column">
+            <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="true">
+                <md-toolbar>
+                    <div id="sidenav-header">
+                    <a class="snb zmdi zmdi-arrow-back md-toolbar-tools zmd-lg"></a>
+                    <p class="sntitle md-toolbar-tools">{{projectName}}</p>
+                    <!--<a class="snb zmdi zmdi-plus-circle-o md-toolbar-tools zmd-lg"></a>-->
+                    </div>
+                </md-toolbar>
+                <!--<md-content layout-padding ng-controller="LeftCtrl">-->
+                <md-content layout-padding>
+                    <p hide-md show-gt-md>
+                        This sidenav is locked open on your device. To go back to the default behavior,
+                        narrow your display.
+                    </p>
+                    <div ng-repeat="schema in schemas">
+                        <a ui-sref=".schema">{{schema.name}}</a>
+                    </div>
+                </md-content>
+                <form name="newSchemaForm" ng-submit="newSchemaForm.$valid && submitSchema(newSchema)">
+                    <md-input-container>
+                        <label>Schema Name</label>
+                        <input type="text" ng-model="newSchema.name" required>
+                    </md-input-container>
+                    <button type="submit">New Schema</button>
+                </form>
+            </md-sidenav>
 
-            </div>
+        </div>
         <!--</div>-->
-        <div class="col-lg-10 col-md-10 col-sm-10">
+        <div flex="80" layout="column">
             <ui-view></ui-view>
         </div>
     </div>    

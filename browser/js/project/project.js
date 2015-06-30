@@ -36,12 +36,13 @@ app.controller('projectCtrl', function ($scope, schemas, user, $state, ProjectFa
 		console.log('newSchema', newSchema);
 		ProjectFactory.submitNewSchema(newSchema, $stateParams.id).then(function (result) {
 			console.log('submit new schema result: ', result);
+			$state.reload();
 		});
 	};
 
 	//The put route exepects the schema _id to be inputted for req.body._id
-	$scope.updateSchema = function (schema) {
-		ProjectFactory.updateSchema(schema, $stateParams.id).then(function (response) {
+	$scope.updateSchema = function (schema, schemaId) {
+		ProjectFactory.updateSchema(schema, schemaId).then(function (response) {
 			console.log('updated schema response: ', response);
 		});
 	};

@@ -30,6 +30,7 @@ app.controller('projectsCtrl', function ($scope, ProjectsFactory, projects, user
         console.log('newProject', newProject);
         ProjectsFactory.submitNewProject(newProject, user._id).then(function (result) {
             console.log('submit new project result: ', result);
+            $state.reload();
         });
     };
 
