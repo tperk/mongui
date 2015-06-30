@@ -2,7 +2,7 @@
   <h1>Code Generation Engine</h1>
   <div layout="row">
     <div flex="66"layout="column">
-      <field ng-repeat="field in fieldArr" formdata="field.something"></field>
+      <field ng-repeat="field in fieldArr" formdata="field.formdata"></field>
     </div>
       <md-content flex="33">
         <generated-code schemadata="fieldArr" parsed-string="toPass"></generated-code>
