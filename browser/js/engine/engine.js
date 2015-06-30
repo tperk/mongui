@@ -14,6 +14,7 @@ app.controller('EngineController', function ($scope) {
 	$scope.createField = function(){
 		$scope.fieldArr.push({});
 	};
+
 	// $scope.deleteField = function(name){
 	// 	console.log('called with ', name);
 	// 	$scope.fieldArr.forEach(obj, index){
