@@ -1,8 +1,9 @@
-app.directive('field', function ($state) {
+app.directive('field', function ($state, $rootScope) {
 	return {
         restrict: 'E',
         scope: {
-            formdata: "="
+            formdata: "=",
+            deletefield: "&"
         },
         templateUrl: 'js/common/directives/field/field.html',
         link: function (scope) {
@@ -13,8 +14,12 @@ app.directive('field', function ($state) {
                 required: false,
                 options: {stringEnums: []}
     		};
+            scope.test = "test"
             scope.clearOptions = function(){
                 scope.field.options = {stringEnums: []};
+            };
+            scope.deleteField = function(field){
+                $rootScope.$broadcast('deleteField', scope.field);
             };
         }
    };
