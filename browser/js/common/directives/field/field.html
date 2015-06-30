@@ -10,26 +10,26 @@
 					<md-switch class="md-primary" ng-model="field.required">
 						Required: {{ field.required }}
 					</md-switch>
-					<md-select placeholder="Type" ng-model="field.type">
+					<md-select placeholder="Type" ng-model="field.type" ng-change="clearOptions()">
 						<md-option class="md-success" ng-repeat="type in types" value="{{type}}">
 							{{type}}
 						</md-option>
 					</md-select>
+					<md-button class="md-warn md-raised" ng-click="deleteField()">Delete Field</md-button>
 				</div>
 				<div layout="row" class="field-options md-padding" flex="66">
-					<field-number props="field" ng-if="field.type === 'Number'"></field-number>
-					<field-string props="field" ng-if="field.type === 'String'"></field-string>
-					<field-date props="field" ng-if="field.type === 'Date'"></field-date>
-					<field-buffer props="field" ng-if="field.type === 'Buffer'"></field-buffer>
-					<field-boolean props="field" ng-if="field.type === 'Boolean'"></field-boolean>
-					<field-mixed props="field" ng-if="field.type === 'Mixed'"></field-mixed>
-					<field-object props="field" ng-if="field.type === 'Object'"></field-object>
-					<field-objectid props="field" ng-if="field.type === 'Objectid'"></field-objectid>
-					<field-array props="field" ng-if="field.type === 'Array'"></field-array>
-					<field-schema props="field" ng-if="field.type === 'Schema'"></field-schema>
+					<field-number props="field.options" ng-if="field.type === 'Number'"></field-number>
+					<field-string props="field.options" ng-if="field.type === 'String'"></field-string>
+					<field-date props="field.options" ng-if="field.type === 'Date'"></field-date>
+					<field-buffer props="field.options" ng-if="field.type === 'Buffer'"></field-buffer>
+					<field-boolean props="field.options" ng-if="field.type === 'Boolean'"></field-boolean>
+					<field-mixed props="field.options" ng-if="field.type === 'Mixed'"></field-mixed>
+					<field-object props="field.options" ng-if="field.type === 'Object'"></field-object>
+					<field-objectid props="field.options" ng-if="field.type === 'Objectid'"></field-objectid>
+					<field-array props="field.options" ng-if="field.type === 'Array'"></field-array>
+					<field-schema props="field.options" ng-if="field.type === 'Schema'"></field-schema>
   				</div>
   				<pre flex>{{field | json}}</pre>
-  				<pre flex>{{generatedCode}}</pre>
 			</div>
 		</md-card-content>
 	</md-card>

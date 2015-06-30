@@ -3,7 +3,7 @@ app.directive('generatedCode', function ($state) {
         restrict: 'E',
         scope: {
             parsedString: "=",
-            formdata: "="
+            schemadata: "="
         },
         templateUrl: 'js/common/directives/generated-code/generated-code.html',
         link: function (scope) {
