@@ -1,25 +1,27 @@
 <section id="project">
     <div class="container">
-        <div id='sidenav' class="col-lg-2 col-md-2 col-sm-2">
-
-            <!--Side Navigation Header-->
-            <div class="sidenavHeader">
-                <div class="sidenavBack">
-                    <a class="zmdi zmdi-arrow-back zmd-lg"></a>
+        <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="true">
+            <md-toolbar>
+                <div id="sidenav-header">
+                <a class="snb zmdi zmdi-arrow-back md-toolbar-tools zmd-lg"></a>
+                <p class="sntitle md-toolbar-tools">{{projectName}}</p>
+                <!--<a class="snb zmdi zmdi-plus-circle-o md-toolbar-tools zmd-lg"></a>-->
                 </div>
-                <div class="sidenavName">
-                    <h4>{{projectName}}</h4>
+            </md-toolbar>
+            <!--<md-content layout-padding ng-controller="LeftCtrl">-->
+            <md-content layout-padding">
+                <p hide-md show-gt-md>
+                    This sidenav is locked open on your device. To go back to the default behavior,
+                    narrow your display.
+                </p>
+                <div ng-repeat="schema in schemas">
+                    <a ui-sref=".schema">{{schema}}</a>
                 </div>
-                <div class="sidenavPlus">
-                    <a class="zmdi zmdi-plus-circle-o zmd-lg"></a>
-                </div>
-            </div>
-
-            <div ng-repeat="schema in schemas">
-                <a ui-sref=".schema">{{schema}}</a>
+            </md-content>
+        </md-sidenav>
             </div>
             <div></div>
-        </div>
+        <!--</div>-->
         <div class="col-lg-10 col-md-10 col-sm-10">
             <ui-view></ui-view>
         </div>

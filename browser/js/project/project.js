@@ -16,3 +16,4 @@ app.controller('projectCtrl', function ($scope, $mdSidenav, $state) {
 	$scope.schemas = ['Users', 'Listings', 'Items']
     $scope.projectName = 'Stackstore';
 });
+
