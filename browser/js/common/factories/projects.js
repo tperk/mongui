@@ -1,14 +1,14 @@
 app.factory('ProjectsFactory', function ($http) {
 	return {
-		submitNewProject: function (newProject) {
-			return $http.post('/api/projects', {
+		submitNewProject: function (newProject, id) {
+			return $http.post('/api/projects/'+id, {
 				params: newProject
 			}).then(function (result) {
 				return result.data;
 			});
 		},
-		getProjects: function () {
-			return $http.get('/api/projects').then(function (projects) {
+		getProjects: function (id) {
+			return $http.get('/api/projects/'+id).then(function (projects) {
 				return projects.data;
 			});
 		}

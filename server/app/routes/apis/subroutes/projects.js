@@ -1,24 +1,31 @@
 var mongoose = require('mongoose');
 var router = require('express').Router();
+var Promise = require('bluebird');
 module.exports = router;
 
 var User = mongoose.model('User');
 var Project = mongoose.model('Project');
 
-router.get('/', function (req, res, next){
-	Project.find({})
-	.populate('schemas')
+router.get('/:id', function (req, res, next){
+	console.log(req.params)
+	User.findById(req.params.id)
+	.populate('projects')
 	.exec()
-	.then(function (projects) {
-		res.send(projects);
+	.then(function (user) {
+		res.send(user.projects);
 	})
 	.then(null, next);
 });
 
-router.post('/', function (req, res, next){
-	Project.create(req.body.params)
-	.then(function (project) {
-		res.send('saved');
-	}).
-	then(null, next);
+router.post('/:id', function (req, res, next){
+	return Promise.all([Project.create(req.body.params), User.findById(req.params.id).exec() ])
+	.spread(function(project, user){
+		user.projects.push(project._id)
+		return user.save()
+	})
+	.then(function (savedUser) {
+		console.log(savedUser)
+		res.status(200).json(savedUser);
+	})
+	.then(null, next);
 });

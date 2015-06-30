@@ -8,7 +8,10 @@ app.config(function ($stateProvider) {
             label: 'Project page'
         },
         resolve: {
-        	schemas: function (ProjectFactory) {
+        	user: function (AuthService) {
+        		return AuthService.getLoggedInUser()
+        	},
+        	schemas: function (ProjectFactory, user) {
         		return ProjectFactory.getSchemas();
         	}
         }
@@ -16,7 +19,9 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('projectCtrl', function ($scope, schemas, $state, ProjectFactory) {
+app.controller('projectCtrl', function ($scope, schemas, user, $state, ProjectFactory) {
+
+	console.log('user', user)
 
 	console.log('these are the schemas attached to this project', schemas);
 
