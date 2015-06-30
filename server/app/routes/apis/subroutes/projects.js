@@ -7,12 +7,12 @@ var Project = mongoose.model('Project');
 
 router.get('/', function (req, res, next){
 	Project.find({})
-	// uncomment when schemas schema is made
-	// .populate('schemas')
+	.populate('schemas')
 	.exec()
 	.then(function (projects) {
 		res.send(projects);
-	});
+	})
+	.then(null, next);
 });
 
 router.post('/', function (req, res, next){
