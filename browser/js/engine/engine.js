@@ -10,9 +10,20 @@ app.config(function ($stateProvider) {
 });
 
 app.controller('EngineController', function ($scope) {
-	$scope.fieldArr = [{}];
+	$scope.fieldArr = {};
+	$scope.fieldConstructor = function(name){
+		this.name = name;
+		this.type = "";
+		this.required = false;
+		this.options = {
+			stringEnums: []
+		};
+	};
+
 	$scope.createField = function(){
-		$scope.fieldArr.push({});
+		var name = prompt("What's the name of the field");
+		$scope.fieldArr[name] = new $scope.fieldConstructor(name);
+		console.log($scope.fieldArr);
 	};
 
 	// $scope.deleteField = function(name){

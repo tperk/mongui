@@ -1,6 +1,6 @@
 <md-content class="md-padding">
 	<md-card>
-			<ol class="breadcrumb">
+			<ol class="breadcrumb" ng-if="field.type === 'Object'">
 				<li><a href="">Something</a></li>
 				<li><a href="">Something</a></li>
 				<li><a href="">Something</a></li>
@@ -42,6 +42,7 @@
 					<field-schema props="field.options" ng-if="field.type === 'Schema'"></field-schema>
   				</div>
   				<pre flex>{{field | json}}</pre>
+  				<pre flex>{{key | json}}</pre>
 			</div>
 		</md-card-content>
 	</md-card>

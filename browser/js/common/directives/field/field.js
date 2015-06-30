@@ -2,22 +2,26 @@ app.directive('field', function ($state, $rootScope) {
 	return {
         restrict: 'E',
         scope: {
-            formdata: "=",
-            deletefield: "&"
+            field: "=",
+            deletefield: "&",
+            key: "="
         },
         templateUrl: 'js/common/directives/field/field.html',
         link: function (scope) {
-    		scope.types = ["String", "Number", "Date", "Buffer", "Boolean", "Mixed", "Object", "Objectid", "Array", "Schema"];
-    		scope.formdata = scope.field = {
-                name: "",
+            scope.types = ["String", "Number", "Date", "Buffer", "Boolean", "Mixed", "Object", "Objectid", "Array", "Schema"];
+            scope.field = {
+                name: scope.key,
                 type: "",
                 required: false,
                 options: {stringEnums: []}
-    		};
+            };
+            scope.key = scope.formdata.name;
             scope.test = "test"
+
             scope.clearOptions = function(){
                 scope.field.options = {stringEnums: []};
             };
+
             scope.deleteField = function(field){
                 $rootScope.$broadcast('deleteField', scope.field);
             };
