@@ -20,6 +20,7 @@ app.controller('projectCtrl', function ($scope, schemas, $state, ProjectFactory)
 
 	console.log('these are the schemas attached to this project', schemas);
 
+	$scope.projectName = 'Stackstore';
 	$scope.schemas = ['Users', 'Listings', 'Items'];
 
 	$scope.submitSchema = function (newSchema) {
@@ -36,3 +37,4 @@ app.controller('projectCtrl', function ($scope, schemas, $state, ProjectFactory)
 		});
 	};
 });
+
