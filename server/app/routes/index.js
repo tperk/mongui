@@ -3,6 +3,7 @@ var router = require('express').Router();
 module.exports = router;
 
 router.use('/projects', require('./apis/subroutes/projects.js'));
+router.use('/project', require('./apis/subroutes/project.js'));
 
 // Make sure this is after all of
 // the registered routes!
