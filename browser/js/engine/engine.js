@@ -9,37 +9,28 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('EngineController', function ($scope) {
-	$scope.fieldArr = {};
-	$scope.fieldConstructor = function(name){
-		this.name = name;
-		this.type = "";
-		this.required = false;
-		this.options = {
-			stringEnums: []
-		};
-	};
+app.controller('EngineController', function ($scope, fieldFactory) {
 
+	$scope.setAllFields = function(){
+		fieldFactory.getAllFields().then(function(fields){
+			$scope.fields = fields;
+		});
+	};
+	
 	$scope.createField = function(){
 		var name = prompt("What's the name of the field");
 		$scope.fieldArr[name] = new $scope.fieldConstructor(name);
 		console.log($scope.fieldArr);
 	};
 
-	// $scope.deleteField = function(name){
-	// 	console.log('called with ', name);
-	// 	$scope.fieldArr.forEach(obj, index){
-	// 		if(obj.formdata.name == name){
-	// 			$scope.fieldArr.splice(index, 1);
-	// 		}
-	// 	}
-	// }
+	$scope.deleteField = function(id){
+		console.log("DELETE CALLED WITH ", id);
+		fieldFactory.deleteFieldById(id).then(function (response){
+			$scope.setAllFields();
+		});
+	};
+	$scope.setAllFields();
+
 	
-	$scope.$on('deleteField', function(event, field){
-		 $scope.fieldArr.forEach(function(obj, index){
-		 		if(obj.formdata.name === field.name){
-					$scope.fieldArr.splice(index, 1);
-				}
-		 })
-	});
+
 });

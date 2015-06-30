@@ -27,7 +27,7 @@
 							{{type}}
 						</md-option>
 					</md-select>
-					<md-button class="md-warn md-raised" ng-click="deleteField()">Delete Field</md-button>
+					<md-button class="md-warn md-raised" ng-click="deletebyid()">Delete Field</md-button>
 				</div>
 				<div layout="row" class="field-options md-padding" flex="66">
 					<field-number props="field.options" ng-if="field.type === 'Number'"></field-number>
@@ -42,7 +42,6 @@
 					<field-schema props="field.options" ng-if="field.type === 'Schema'"></field-schema>
   				</div>
   				<pre flex>{{field | json}}</pre>
-  				<pre flex>{{key | json}}</pre>
 			</div>
 		</md-card-content>
 	</md-card>
