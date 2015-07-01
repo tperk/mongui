@@ -1,7 +1,7 @@
 app.config(function ($stateProvider) {
 
     $stateProvider.state('project', {
-        url: '/project/:id',
+        url: '/project/:projectid',
         templateUrl: 'js/project/project.html',
         controller: 'projectCtrl',
         ncyBreadcrumb: {
@@ -12,7 +12,7 @@ app.config(function ($stateProvider) {
         		return AuthService.getLoggedInUser();
         	},
         	schemas: function (ProjectFactory, $stateParams) {
-        		return ProjectFactory.getSchemas($stateParams.id);
+        		return ProjectFactory.getSchemas($stateParams.projectid);
         	}
         },
         data: {
@@ -51,7 +51,7 @@ app.controller('projectCtrl', function ($scope, schemas, user, $state, ProjectFa
 	};
 
 	$scope.goToSchema = function (schemaId) {
-		$state.go('schema', {id: schemaId})
+		$state.go('project.schema', {schemaid: schemaId})
 	}
 });
 

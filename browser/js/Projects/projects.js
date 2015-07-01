@@ -38,7 +38,7 @@ app.controller('projectsCtrl', function ($scope, ProjectsFactory, projects, user
     };
 
     $scope.goToProject = function (projectId) {
-        $state.go('project', {id: projectId})
+        $state.go('project', {projectid: projectId})
     }
 
 });
