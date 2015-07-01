@@ -1,7 +1,7 @@
 app.config(function ($stateProvider) {
 
     $stateProvider.state('project.schema', {
-        url: '/project/schema/:id',
+        url: '/project/schema/:schemaid',
         templateUrl: 'js/project/schema/schema.html',
         controller: 'schemaCtrl',
         ncyBreadcrumb: {
@@ -9,7 +9,7 @@ app.config(function ($stateProvider) {
         },
         resolve: {
             fields: function (fieldFactory, $stateParams) {
-                return fieldFactory.getAllFields($stateParams.id)
+                return fieldFactory.getAllFields($stateParams.schemaid);
             }
         },
         data: {
