@@ -1,18 +1,27 @@
 app.config(function ($stateProvider) {
 
     $stateProvider.state('project.schema', {
-        url: '/project/schema',
+        url: '/project/schema/:id',
         templateUrl: 'js/project/schema/schema.html',
         controller: 'schemaCtrl',
         ncyBreadcrumb: {
             label: 'Schema page'
+        },
+        resolve: {
+            fields: function (fieldFactory, $stateParams) {
+                return fieldFactory.getAllFields($stateParams.id)
+            }
         }
+
     });
 
 });
 
-app.controller('schemaCtrl', function ($scope, $mdSidenav, $state) {
-	$scope.testSchema = {
+app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields) {
+	
+    console.log('These are all the fields for this schema', fields)
+
+    $scope.testSchema = {
 
         one: {
             type: String
