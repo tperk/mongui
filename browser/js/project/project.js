@@ -14,6 +14,9 @@ app.config(function ($stateProvider) {
         	schemas: function (ProjectFactory, $stateParams) {
         		return ProjectFactory.getSchemas($stateParams.id);
         	}
+        },
+        data: {
+            authenticate: true
         }
     });
 
