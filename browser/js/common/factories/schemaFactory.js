@@ -10,7 +10,7 @@ app.factory('SchemaFactory', function(){
 				if(prop === "custom"){
 					innerObj = infoObj[prop];
 					for(el in infoObj[prop]){
-						infoStr += '\n' + innerObj[el].toString() + ';'
+						infoStr += '\n' + innerObj[el].toString() + ';';
 					}
 				}else if(prop === "methods"){
 					innerObj = infoObj[prop];
@@ -32,15 +32,15 @@ app.factory('SchemaFactory', function(){
 					for(hookType in hooks){
 						var hookObj = hooks[hookType];
 						if(hookType === "preSerial"){
-							for(var hook in hookObj){
+							for(hook in hookObj){
 								infoStr += "\nschema.pre('"+hookObj[hook].name+"', " + hookObj[hook] + ");";
 							}
 						}else if(hookType === "preParallel"){
-							for(var hook in hookObj){
+							for(hook in hookObj){
 								infoStr += "\nschema.pre('"+hookObj[hook].name+"', 'true', " + hookObj[hook] + ");";
 							}
 						}else if(hookType === "post"){
-							for(var hook in hookObj){
+							for(hook in hookObj){
 								infoStr += "\nschema.post('"+hookObj[hook].name+"', " + hookObj[hook] + ");";
 							}
 						}

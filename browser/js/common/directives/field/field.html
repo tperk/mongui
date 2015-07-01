@@ -22,7 +22,7 @@
 					<md-switch class="md-primary" ng-model="field.required">
 						Required: {{ field.required }}
 					</md-switch>
-					<md-select placeholder="Type" ng-model="field.fieldType" ng-change="clearOptions()">
+					<md-select placeholder="Type" ng-model="field.fieldType" ng-change="typechangeclear()">
 						<md-option class="md-success" ng-repeat="type in types" value="{{type}}">
 							{{type}}
 						</md-option>

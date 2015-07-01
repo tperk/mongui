@@ -16,9 +16,9 @@ var schema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Field'
 	}],
-	parent: {
+	parents: [{
 		type: "String"
-	},
+	}],
 	generatedCode: {
 		type: "String",
 	}
