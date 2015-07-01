@@ -28,20 +28,6 @@ router.get('/', function (req, res, next){
 	.then(null, next);
 });
 
-// router.delete('/children/:id', function (req, res, next) {
-// 	Field.find({_id: req.params.id})
-// 	.populate('children')
-// 	.exec()
-// 	.then(function (fields) {
-// 		fields.forEach(function(field) {
-// 			if(field.children) {
-
-// 			}
-// 		})
-// 	})
-// })
-
-// get by field ID
 router.get('/:id', function (req, res, next){
 	Field.findOne({_id: req.params.id})
 	.populate('children')
