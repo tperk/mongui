@@ -16,7 +16,7 @@
                         narrow your display.
                     </p>
                     <div ng-repeat="schema in schemas">
-                        <a ui-sref=".schema">{{schema.name}}</a>
+                        <button ng-click="goToSchema(schema._id)">{{schema.name}}</button>
                     </div>
                 </md-content>
                 <form name="newSchemaForm" ng-submit="newSchemaForm.$valid && submitSchema(newSchema)">
