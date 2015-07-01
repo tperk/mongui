@@ -26,10 +26,15 @@ app.controller('EngineController', function ($scope, fieldFactory) {
 	};
 
 	$scope.deleteField = function(field){
+  		// console.log("field.children is ", field.children);
+  		// if(field.children.length){
+  		// 	field.children.forEach(function(child){
+  		// 		console.log("child is ", child);
+  		// 		// var formattedChild = typeof child === 'object' ? child : {_id: child};
+  		// 		$scope.deleteField(formattedChild);
+  		// 	});
+  		// }
 		fieldFactory.deleteFieldById(field._id).then(function (response){
-			// $scope.fields = _.reject($scope.fields, function(obj){
-			// 	return obj._id === field._id;
-			// });
 			$scope.setAllFields();
 		});
 
@@ -51,10 +56,8 @@ app.controller('EngineController', function ($scope, fieldFactory) {
 	};
 
 	$scope.createSubField = function(parent){
-		console.log("should be []", parent.parents);
 		var copyOfParents = parent.parents.slice();
 		copyOfParents.push(parent._id);
-		console.log("parent is ", parent);
 		fieldFactory.createField({parents: copyOfParents}).then(function(child){
 			var justIds = _.map(parent.children, function(child){
 				if(typeof child === 'object'){

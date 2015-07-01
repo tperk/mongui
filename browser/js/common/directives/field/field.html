@@ -1,16 +1,7 @@
 <md-content class="md-padding">
 	<md-card>
-			<ol class="breadcrumb" ng-if="field.fieldType === 'Nested'">
-				<li><a href="">Something</a></li>
-				<li><a href="">Something</a></li>
-				<li><a href="">Something</a></li>
-				<li><a href="">Something</a></li>
-				<li><a href="">Something</a></li>
-				<li><a href="">Something</a></li>
-				<li><a href="">Something</a></li>
-				<li><a href="">Something</a></li>
-				<li><a href="">Something</a></li>
-				<li><a href="">Something</a></li>
+			<ol class="breadcrumb" ng-if="field.parents.length">
+				<li ng-repeat="parent in field.parents"><a href="">{{parent}}</a></li>
 			</ol>
 		<md-card-content>
 			<div layout="row" layout-wrap>
@@ -39,7 +30,7 @@
 					<field-boolean props="field.typeOptions" ng-if="field.fieldType === 'Boolean'"></field-boolean>
 					<field-mixed props="field.typeOptions" ng-if="field.fieldType === 'Mixed'"></field-mixed>
 					<field-objectid props="field.typeOptions" ng-if="field.fieldType === 'Objectid'"></field-objectid>
-					<field-nested subfield="subfield()"props="field.typeOptions" ng-if="field.fieldType === 'Nested'"></field-objectid>
+					<field-nested subfield="subfield()" children="field.children" props="field.typeOptions" ng-if="field.fieldType === 'Nested'"></field-objectid>
   				</div>
   				<pre flex>{{field | json}}</pre>
 			</div>
