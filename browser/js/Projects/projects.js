@@ -14,6 +14,9 @@ app.config(function ($stateProvider) {
             projects: function (ProjectsFactory, user) {
                 return ProjectsFactory.getProjects(user._id);
             }
+        },
+        data: {
+            authenticate: true
         }
     });
 });

@@ -1,0 +1,38 @@
+<div layout="row">
+	<form name="registerForm" ng-submit="registerForm.$valid && isMatched() && signUp(userInfo)" flex="66" layout="column">
+	    <md-input-container>
+	        <label>First Name</label>
+	        <input type="text" ng-model="userInfo.firstName" required>
+	    </md-input-container>
+
+	    <md-input-container>
+	        <label>Last Name</label>
+	        <input type="text" ng-model="userInfo.lastName" required>
+	    </md-input-container>
+
+	    <md-input-container>
+	        <label>Email</label>
+	        <input type="text" ng-model="userInfo.email" required>
+	    </md-input-container>
+
+	    <md-input-container>
+	        <label>Password</label>
+	        <input type="text" ng-model="userInfo.password" required>
+	    </md-input-container>
+
+	    <error-message ng-if="!passwordsMatched">
+	        Password Doesn't Match
+	    </error-message>
+
+	    <md-input-container>
+	        <label>Re-Type Password</label>
+	        <input name="confirmPassword" type="text" ng-model="userInfo.confirmPassword" required>
+	    </md-input-container>
+	    <button type="submit">Create Account</button>
+	</form>
+	<div flex="33" layout="column">
+		<button ui-sref=".facebook">Facebook</button>
+		<button ui-sref=".google">Google</button>
+		<ui-view></ui-view>
+	</div>
+</div>

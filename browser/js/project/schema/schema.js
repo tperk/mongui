@@ -11,6 +11,9 @@ app.config(function ($stateProvider) {
             fields: function (fieldFactory, $stateParams) {
                 return fieldFactory.getAllFields($stateParams.id)
             }
+        },
+        data: {
+            authenticate: true
         }
 
     });
