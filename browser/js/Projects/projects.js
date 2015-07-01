@@ -8,27 +8,34 @@ app.config(function ($stateProvider) {
             label: 'Projects page'
         },
         resolve: {
-            projects: function (ProjectsFactory) {
-                return ProjectsFactory.getProjects();
+            user: function (AuthService) {
+                return AuthService.getLoggedInUser()
+            },
+            projects: function (ProjectsFactory, user) {
+                return ProjectsFactory.getProjects(user._id);
             }
         }
     });
-
 });
 
-app.controller('projectsCtrl', function ($scope, ProjectsFactory, projects, $state) {
+app.controller('projectsCtrl', function ($scope, ProjectsFactory, projects, user, $state) {
 
-    console.log('here are the current projects in the database: ', projects)
+    $scope.projects = projects
 
     $scope.newProject = {
         name: ''
     };
 
     $scope.submitProject = function (newProject) {
-        console.log('newProject', newProject)
-        ProjectsFactory.submitNewProject(newProject).then(function (result) {
+        console.log('newProject', newProject);
+        ProjectsFactory.submitNewProject(newProject, user._id).then(function (result) {
             console.log('submit new project result: ', result);
+            $state.reload();
         });
     };
+
+    $scope.goToProject = function (projectId) {
+        $state.go('project', {id: projectId})
+    }
 
 });
