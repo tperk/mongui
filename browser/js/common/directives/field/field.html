@@ -1,6 +1,6 @@
 <md-content class="md-padding">
 	<md-card>
-			<ol class="breadcrumb">
+			<ol class="breadcrumb" ng-if="field.fieldType === 'Nested'">
 				<li><a href="">Something</a></li>
 				<li><a href="">Something</a></li>
 				<li><a href="">Something</a></li>
@@ -22,24 +22,24 @@
 					<md-switch class="md-primary" ng-model="field.required">
 						Required: {{ field.required }}
 					</md-switch>
-					<md-select placeholder="Type" ng-model="field.type" ng-change="clearOptions()">
+					<md-select placeholder="Type" ng-model="field.fieldType" ng-change="clearOptions()">
 						<md-option class="md-success" ng-repeat="type in types" value="{{type}}">
 							{{type}}
 						</md-option>
 					</md-select>
-					<md-button class="md-warn md-raised" ng-click="deleteField()">Delete Field</md-button>
+					<md-button class="md-accent md-hue-3" ng-click="savefield()" ng-hide="saving">Save Field</md-button>
+					<md-progress-circular md-mode="indeterminate" ng-show="saving"></md-progress-circular>
+					<md-button class="md-warn" ng-click="deletebyid()">Delete Field</md-button>
 				</div>
 				<div layout="row" class="field-options md-padding" flex="66">
-					<field-number props="field.options" ng-if="field.type === 'Number'"></field-number>
-					<field-string props="field.options" ng-if="field.type === 'String'"></field-string>
-					<field-date props="field.options" ng-if="field.type === 'Date'"></field-date>
-					<field-buffer props="field.options" ng-if="field.type === 'Buffer'"></field-buffer>
-					<field-boolean props="field.options" ng-if="field.type === 'Boolean'"></field-boolean>
-					<field-mixed props="field.options" ng-if="field.type === 'Mixed'"></field-mixed>
-					<field-object props="field.options" ng-if="field.type === 'Object'"></field-object>
-					<field-objectid props="field.options" ng-if="field.type === 'Objectid'"></field-objectid>
-					<field-array props="field.options" ng-if="field.type === 'Array'"></field-array>
-					<field-schema props="field.options" ng-if="field.type === 'Schema'"></field-schema>
+					<field-number props="field.typeOptions" ng-if="field.fieldType === 'Number'"></field-number>
+					<field-string props="field.typeOptions" ng-if="field.fieldType === 'String'"></field-string>
+					<field-date props="field.typeOptions" ng-if="field.fieldType === 'Date'"></field-date>
+					<field-buffer props="field.typeOptions" ng-if="field.fieldType  === 'Buffer'"></field-buffer>
+					<field-boolean props="field.typeOptions" ng-if="field.fieldType === 'Boolean'"></field-boolean>
+					<field-mixed props="field.typeOptions" ng-if="field.fieldType === 'Mixed'"></field-mixed>
+					<field-objectid props="field.typeOptions" ng-if="field.fieldType === 'Objectid'"></field-objectid>
+					<field-nested subfield="subfield()"props="field.typeOptions" ng-if="field.fieldType === 'Nested'"></field-objectid>
   				</div>
   				<pre flex>{{field | json}}</pre>
 			</div>
