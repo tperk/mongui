@@ -9,7 +9,7 @@ app.config(function ($stateProvider) {
         },
         resolve: {
         	user: function (AuthService) {
-        		return AuthService.getLoggedInUser()
+        		return AuthService.getLoggedInUser();
         	},
         	schemas: function (ProjectFactory, $stateParams) {
         		return ProjectFactory.getSchemas($stateParams.id);
@@ -24,15 +24,15 @@ app.config(function ($stateProvider) {
 
 app.controller('projectCtrl', function ($scope, schemas, user, $state, ProjectFactory, $stateParams) {
 
-	console.log('project id', $stateParams.id)
+	console.log('project id', $stateParams.id);
 
-	console.log('user', user)
+	console.log('user', user);
 
 	console.log('these are the schemas attached to this project', schemas);
 
 	$scope.projectName = 'Stackstore';
 
-	$scope.newSchema = {}
+	$scope.newSchema = {};
 	$scope.schemas = schemas;
 
 	$scope.submitSchema = function (newSchema) {

@@ -18,64 +18,71 @@ app.controller('EngineController', function ($scope, fieldFactory) {
 		});
 	};
 	
-	$scope.createField = function(){
-		fieldFactory.createField({}).then(function(field){
+	//schemaId will be accessable as $stateParams.id
+	$scope.createField = function(schemaId){
+		fieldFactory.createField({}, schemaId).then(function(field){
 			$scope.fields.push(field);
 		});
 	};
 
 	$scope.deleteField = function(field){
-		// console.log("field.parent is ", field.parent)
-		// if(field.parent){
-		// 	fieldFactory.getFieldById(field.parent).then(function(parent){
-		// 		console.log("FOUND PARENT with children", parent)
-		// 		 parent.children = _.reject(parent.children, function(obj){
-		// 			return obj._id === field._id
-		// 		});
-		// 		 console.log("after map ", parent.children);
-		// 		 return parent;
-		// 	}).then(function(parent){
-		// 		console.log("new parent", parent);
-		// 		return $scope.saveField(parent._id, parent);
-		// 	});
-		// }
-
+  		// console.log("field.children is ", field.children);
+  		// if(field.children.length){
+  		// 	field.children.forEach(function(child){
+  		// 		console.log("child is ", child);
+  		// 		// var formattedChild = typeof child === 'object' ? child : {_id: child};
+  		// 		$scope.deleteField(formattedChild);
+  		// 	});
+  		// }
 		fieldFactory.deleteFieldById(field._id).then(function (response){
-			$scope.fields = _.reject($scope.fields, function(obj){
-				return obj._id === field._id;
-			});
+			$scope.setAllFields();
 		});
 
 	};
 
 	$scope.saveField = function(id, field){
 		$scope.saving = true;
-		return fieldFactory.editFieldById(id, field).then(function (response){
+		var fieldCopy = field;
+		var justIds = field.children.map(function(child){
+			if(typeof child === 'object'){return child._id;} 
+			else {return child;}
+		});
+		fieldCopy.children = justIds;
+		return fieldFactory.editFieldById(id, fieldCopy).then(function (response){
 			$scope.saving = false;
-			return response;
+			$scope.setAllFields();
+			return;
 		});
 	};
 
 	$scope.createSubField = function(parent){
-		fieldFactory.createField({parent: parent._id}).then(function(child){
-			var justIds = parent.children.map(function(child){
-				if(typeof child == 'object'){
+		var copyOfParents = parent.parents.slice();
+		copyOfParents.push(parent._id);
+		fieldFactory.createField({parents: copyOfParents}).then(function(child){
+			var justIds = _.map(parent.children, function(child){
+				if(typeof child === 'object'){
 					return child._id;
 				} 
 				else {
-					return child
+					return child;
 				}
-			})
-			console.log('just ids = ', justIds);
-			parent.children = justIds;
-			console.log("parent before push ", parent.children);
-			parent.children.push(child._id);
-			console.log("parent after push ", parent.children);
-			$scope.saveField(parent._id, parent).then(function(response){
-				$scope.setAllFields();
 			});
-		})
+			parent.children = justIds;
+			parent.children.push(child._id);
+			$scope.saveField(parent._id, parent);
+		});
 	};
+
+    $scope.typeChangeClear = function(field){
+       field.typeOptions = {stringEnums: [], array: false};
+  		$scope.saveField(field._id, field).then(function(result){
+    		if(field.children.length){
+    			field.children.forEach(function(child){
+    				$scope.deleteField({_id: child});
+    			});
+    		}
+  		});
+    };
 
 	$scope.setAllFields();
 	// fieldFactory.createField({name: "test", required: false});
