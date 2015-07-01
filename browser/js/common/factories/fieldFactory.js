@@ -12,6 +12,13 @@ app.factory('fieldFactory', function ($http) {
 				return response.data;
 			});
 		},
+		// uncomment when engine is moved to schemacontroller
+		// createField: function(body, schemaId){
+		// 	return $http.post('/api/fields/'+schemaId, body)
+		// 	.then(function (response){
+		// 		return response.data;
+		// 	});
+		// },
 		createField: function(body){
 			return $http.post('/api/fields/', body)
 			.then(function (response){
@@ -28,6 +35,12 @@ app.factory('fieldFactory', function ($http) {
 			return $http.delete('/api/fields/' + fieldId)
 			.then(function (response){
 				return response.data;
+			});
+		},
+		getAllFieldsById: function (schemaId) {
+			return $http.get('/api/fields/schema/' + schemaId)
+			.then(function (fields) {
+				return fields.data;
 			});
 		}
 	};

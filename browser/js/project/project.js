@@ -46,5 +46,9 @@ app.controller('projectCtrl', function ($scope, schemas, user, $state, ProjectFa
 			console.log('updated schema response: ', response);
 		});
 	};
+
+	$scope.goToSchema = function (schemaId) {
+		$state.go('schema', {id: schemaId})
+	}
 });
 
