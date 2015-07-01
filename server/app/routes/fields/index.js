@@ -36,7 +36,7 @@ router.post('/', function (req, res, next){
 });
 // put by field ID
 router.put('/:id', function (req, res, next){
-	Field.findByIdAndUpdate(req.params.id, req.body)
+	Field.findByIdAndUpdate(req.params.id, req.body, {"new": true})
 	.exec()
 	.then(function (field){
 		res.status(200).send(field);

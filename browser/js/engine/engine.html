@@ -1,12 +1,19 @@
 <section id="engine">
   <h1>Code Generation Engine</h1>
   <div layout="row">
-    <div flex="66"layout="column">
-      <field ng-repeat="field in fields" field="field" deletebyid="deleteField(field._id)"></field>
+    <div flex layout="column">
+      <field 
+      ng-repeat="field in fields" 
+      field="field" 
+      deletebyid="deleteField(field)"
+      savefield="saveField(field._id, field)"
+      saving="saving"
+      subfield="createSubField(field)">
+      </field>
     </div>
-      <md-content flex="33">
+      <!-- <md-content flex="33">
         <generated-code schemadata="fieldArr" parsed-string="toPass"></generated-code>
-      </md-content>
+      </md-content> -->
   </div>
   <md-button class="md-raised md-primary" ng-click="createField()">Add Field</md-button>
   <pre>{{fieldArr | json}}</pre>
