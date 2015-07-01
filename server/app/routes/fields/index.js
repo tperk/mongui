@@ -1,9 +1,21 @@
 var mongoose = require('mongoose');
 var router = require('express').Router();
+var Promise = require('bluebird');
 module.exports = router;
 
 var Field = mongoose.model('Field');
-var Schema = mongoose.model('Schema')
+var Schema = mongoose.model('Schema');
+
+var childDelete = function(parentId){
+	console.log("child delete called on ", parentId);
+	return Field.findOne({_id: parentId}).exec().then(function(parent){
+		var deletedChildren = parent.children.map(function(child){
+			return childDelete(child);
+		});
+		deletedChildren.push(Field.findByIdAndRemove(parent._id).exec());
+		return Promise.all(deletedChildren);
+	});
+};
 
 //get all fields
 router.get('/', function (req, res, next){
@@ -15,6 +27,19 @@ router.get('/', function (req, res, next){
 	})
 	.then(null, next);
 });
+
+// router.delete('/children/:id', function (req, res, next) {
+// 	Field.find({_id: req.params.id})
+// 	.populate('children')
+// 	.exec()
+// 	.then(function (fields) {
+// 		fields.forEach(function(field) {
+// 			if(field.children) {
+
+// 			}
+// 		})
+// 	})
+// })
 
 // get by field ID
 router.get('/:id', function (req, res, next){
@@ -74,9 +99,7 @@ router.put('/:id', function (req, res, next){
 
 // delete by field ID 
 router.delete('/:id', function (req, res, next){
-	Field.findByIdAndRemove(req.params.id)
-	.exec()
-	.then(function (){
+	childDelete(req.params.id).then(function (){
 		res.status(204).send();
 	})
 	.then(null, next);

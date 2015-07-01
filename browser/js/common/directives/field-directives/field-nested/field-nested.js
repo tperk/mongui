@@ -3,7 +3,8 @@ app.directive('fieldNested', function ($state) {
         restrict: 'E',
         scope: {
             props: '=',
-            subfield: '&'
+            subfield: '&',
+            children: '='
         },
         templateUrl: 'js/common/directives/field-directives/field-nested/field-nested.html',
         link: function (scope) {
