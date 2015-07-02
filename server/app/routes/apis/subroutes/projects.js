@@ -7,7 +7,6 @@ var User = mongoose.model('User');
 var Project = mongoose.model('Project');
 
 router.get('/:id', function (req, res, next){
-	console.log(req.params);
 	User.findById(req.params.id)
 	.populate('projects')
 	.exec()
@@ -24,7 +23,6 @@ router.post('/:id', function (req, res, next){
 		return user.save();
 	})
 	.then(function (savedUser) {
-		console.log(savedUser);
 		res.status(200).json(savedUser);
 	})
 	.then(null, next);

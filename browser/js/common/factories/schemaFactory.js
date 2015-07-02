@@ -3,7 +3,6 @@ app.factory('SchemaFactory', function ($http){
 		getSchemaById: function(schemaId){
 			return $http.get('/api/schemas/' + schemaId)
 				.then(function (response){
-					console.log("factory response is ", response)
 					return response.data;
 				});
 		},
