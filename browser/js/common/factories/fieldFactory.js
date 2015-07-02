@@ -34,6 +34,7 @@ app.factory('fieldFactory', function ($http) {
 		deleteFieldById: function(fieldId){
 			return $http.delete('/api/fields/' + fieldId)
 			.then(function (response){
+				console.log("response data is ", response.data);
 				return response.data;
 			});
 		},
