@@ -36,4 +36,14 @@ schema.pre('remove', function (next){
 	next();
 });
 
+schema.methods.convertName = function() {
+	this.name = this.name.substr(0, 1).toLowerCase() + this.name.substr(1);
+	this.name = this.name.replace(/[\W\s]/g, '_');
+};
+
+schema.pre('save', function (next){
+	this.convertName();
+	next();
+});
+
 mongoose.model('Field', schema);

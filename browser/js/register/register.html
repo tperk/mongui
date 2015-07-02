@@ -1,5 +1,5 @@
 <div layout="row">
-	<form name="registerForm" ng-submit="registerForm.$valid && isMatched() && signUp(userInfo)" flex="66" layout="column">
+	<form name="registerForm" ng-submit="registerForm.$valid && isMatched() && signUp(userInfo)" flex="30" layout="column">
 	    <md-input-container>
 	        <label>First Name</label>
 	        <input type="text" ng-model="userInfo.firstName" required>
@@ -28,11 +28,6 @@
 	        <label>Re-Type Password</label>
 	        <input name="confirmPassword" type="text" ng-model="userInfo.confirmPassword" required>
 	    </md-input-container>
-	    <button type="submit">Create Account</button>
+	    <md-button class="btn md-warn md-raised" type="submit">Create Account</button>
 	</form>
-	<div flex="33" layout="column">
-		<button ui-sref=".facebook">Facebook</button>
-		<button ui-sref=".google">Google</button>
-		<ui-view></ui-view>
-	</div>
 </div>
