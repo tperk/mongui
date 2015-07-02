@@ -3,8 +3,16 @@
 		<md-subheader style="height:64px;margin-right:0px;" layout-fill class="md-accent md-hue-2">
 			{{currentSchema.name}}
 		</md-subheader>
-		<md-tabs>
-	            <md-tab style="color: blue" ng-repeat="path in objectPath" label="{{path.name}}"></md-tab>
-	    </md-tabs>
+		<field layout-fill
+      ng-repeat="field in fields" 
+      field="field" 
+      deletebyid="deleteField(field)"
+      savefield="saveField(field._id, field)"
+      saving="saving"
+      subfield="createSubField(field)"
+      typechangeclear="typeChangeClear(field)">
+      </field>
+       <md-button layout-fill class="md-raised md-primary" ng-click="createField()">Add Field</md-button>
+  		<pre flex layout-fill>{{fields | json}}</pre>
 	</md-content>	
 </section>
