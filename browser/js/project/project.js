@@ -24,7 +24,7 @@ app.config(function ($stateProvider) {
 
 app.controller('projectCtrl', function ($scope, schemas, user, $state, ProjectFactory, $stateParams, $rootScope) {
 	//SIDEBAR FUNCTIONALITY 
-	$scope.showSideBar = false;
+	$scope.showSideBar = true;
 	var toggleSideBar = function(){
 		if($scope.showSideBar) $scope.showSideBar = false;
 		else $scope.showSideBar = true;
