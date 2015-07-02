@@ -1,12 +1,13 @@
 <md-toolbar layout="row">
     <div class="md-toolbar-tools">
-        <md-button ng-click="toggleSideBar()" class="md-icon-button" aria-label="Side Bar">
-            <md-icon md-svg-icon="images/menu.svg"></md-icon>
-        </md-button>
+        <img style="height: 60%;" src="http://i.imgur.com/tAbt7Y2.png"/>
         <md-tabs>
             <md-tab ng-repeat="item in items" ng-show="!item.auth || isLoggedIn()" ui-sref-active="active" ui-sref="{{ item.state }}" label="{{item.label}}">
             </md-tab>
         </md-tabs>
+        <md-button ng-click="toggleSideBar()" class="md-icon-button" aria-label="Side Bar">
+            <md-icon md-svg-icon="images/menu.svg"></md-icon>
+        </md-button>
         <span flex></span>
         <md-button ng-show="!user" ui-sref="login" class="md-accent login-button md-raised md-hue-1">Login</md-button>
         <md-button ng-show="!user" ui-sref="register" class="md-accent md-raised md-hue-1 register-button">Sign Up</md-button>
