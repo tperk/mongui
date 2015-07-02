@@ -13,18 +13,18 @@ app.factory('fieldFactory', function ($http) {
 			});
 		},
 		// uncomment when engine is moved to schemacontroller
-		createField: function(body, schemaId){
-			return $http.post('/api/fields/'+schemaId, body)
-			.then(function (response){
-				return response.data;
-			});
-		},
-		// createField: function(body){
-		// 	return $http.post('/api/fields/', body)
+		// createField: function(body, schemaId){
+		// 	return $http.post('/api/fields/'+schemaId, body)
 		// 	.then(function (response){
 		// 		return response.data;
 		// 	});
 		// },
+		createField: function(body){
+			return $http.post('/api/fields/', body)
+			.then(function (response){
+				return response.data;
+			});
+		},
 		editFieldById: function(fieldId, updatedField){
 			return $http.put('/api/fields/' + fieldId, updatedField)
 			.then(function (response){

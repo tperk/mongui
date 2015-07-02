@@ -45,7 +45,7 @@ router.post('/:id', function (req, res, next){
 router.delete('/:id', function (req, res, next){
 	Schema.findByIdAndRemove(req.params.id)
 	.then(function () {
-		res.status(204).json('Deleted');
+		res.status(204).json();
 	})
 	.then(null, next);
 });
