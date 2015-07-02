@@ -6,14 +6,17 @@ app.factory('ProjectFactory', function ($http) {
 			});
 		},
 		getSchemas: function (id) {
-			console.log('second', id)
 			return $http.get('/api/project/'+id).then(function (schemas) {
-				console.log('schemas', schemas)
 				return schemas.data;
 			});
 		},
 		updateSchema: function (schema, id) {
 			return $http.put('/api/project/'+id, schema).then(function (result) {
+				return result.data;
+			});
+		},
+		deleteSchema: function (id) {
+			return $http.delete('/api/project/'+ id).then(function (result) {
 				return result.data;
 			});
 		}
