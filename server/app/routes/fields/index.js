@@ -68,9 +68,14 @@ router.post('/', function (req, res, next){
 
 // put by field ID
 router.put('/:id', function (req, res, next){
-	Field.findByIdAndUpdate(req.params.id, req.body, {"new": true})
+	//using save instead of update to pre hook
+	Field.findById({_id: req.params.id})
 	.exec()
 	.then(function (field){
+		for (var prop in req.body) {
+			field[prop] = req.body[prop]
+		}
+		field.save();
 		res.status(200).send(field);
 	})
 	.then(null, next);
