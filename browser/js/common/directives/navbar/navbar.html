@@ -11,7 +11,8 @@
         <md-button ng-show="!user" ui-sref="login" class="md-accent login-button md-raised md-hue-1">Login</md-button>
         <md-button ng-show="!user" ui-sref="register" class="md-accent md-raised md-hue-1 register-button">Sign Up</md-button>
         <div ng-show="user" class="welcome">
-            <span>Welcome, {{ user.email }}!</span>
+            <span ng-if="user.email">Welcome, {{ user.email }}!</span>
+            <span ng-if="!user.email">Welcome, Guest!</span>
             <md-button class="md-warn md-raised md-hue-1" ng-click="logout()">Logout</md-button>
         </div>
     </div>
