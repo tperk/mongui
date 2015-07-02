@@ -6,7 +6,7 @@ app.config(function ($stateProvider) {
     });
 });
 
-app.controller('RegisterCtrl', function ($scope, $state, AuthService, RegisterFactory) {
+app.controller('RegisterCtrl', function ($scope, $state, AuthService, UserFactory) {
     $scope.passwordsMatched = true;
     var loginInfo;
 
@@ -20,7 +20,7 @@ app.controller('RegisterCtrl', function ($scope, $state, AuthService, RegisterFa
     };
 
     $scope.signUp = function(signUpInfo) {        
-        RegisterFactory.addUser(signUpInfo).then(function(dbUserInfo){
+        UserFactory.addUser(signUpInfo).then(function(dbUserInfo){
             loginInfo = {
                 email: dbUserInfo.email,
                 password: $scope.userInfo.password,

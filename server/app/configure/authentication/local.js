@@ -4,10 +4,8 @@ var _ = require('lodash');
 var LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
 var UserModel = mongoose.model('User');
-var router = require('express').Router();
 
 module.exports = function (app) {
-
     // When passport.authenticate('local') is used, this function will receive
     // the email and password to run the actual authentication logic.
     var strategyFn = function (email, password, done) {
@@ -19,12 +17,10 @@ module.exports = function (app) {
             done(null, user);
         });
     };
-
     passport.use(new LocalStrategy({ usernameField: 'email', passwordField: 'password' }, strategyFn));
 
     // A POST /login route is created to handle login.
     app.post('/login', function (req, res, next) {
-
         var authCb = function (err, user) {
 
             if (err) return next(err);
@@ -43,17 +39,14 @@ module.exports = function (app) {
             });
 
         };
-
-        router.post('/api/register', function(req, res, next) {
-            var user = new UserModel(req.body);
-            user.save(function (err, newUser) {
-                if(err) return next(err);
-                res.send(newUser);
-            });
-        });
-
         passport.authenticate('local', authCb)(req, res, next);
-
     });
 
+    app.post('/register', function(req, res, next) {            
+        var user = new UserModel(req.body);
+        user.save(function (err, newUser) {
+            if(err) return next(err);
+            res.send(newUser);
+        });
+    });
 };
