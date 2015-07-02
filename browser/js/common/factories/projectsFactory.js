@@ -11,6 +11,11 @@ app.factory('ProjectsFactory', function ($http) {
 			return $http.get('/api/projects/'+id).then(function (projects) {
 				return projects.data;
 			});
+		},
+		deleteProject: function (id) {
+			return $http.delete('/api/projects/'+id).then(function (response) {
+				return response.data;
+			});
 		}
 	};
 });

@@ -19,4 +19,13 @@ schema.pre('remove', function (next){
 	next();
 });
 
+schema.static('getSchemas', function (id) {
+
+	return this.findById(id).populate('schemas').exec()
+	.then(function (project) {
+		return project.schemas
+	})
+	
+});
+
 mongoose.model('Project', schema);

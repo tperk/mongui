@@ -1,7 +1,7 @@
 app.config(function ($stateProvider) {
 
     $stateProvider.state('project', {
-        url: '/project/:projectid',
+        url: '/project/:projectname/:projectid',
         templateUrl: 'js/project/project.html',
         controller: 'projectCtrl',
         ncyBreadcrumb: {
@@ -11,8 +11,8 @@ app.config(function ($stateProvider) {
         	user: function (AuthService) {
         		return AuthService.getLoggedInUser();
         	},
-        	schemas: function (ProjectFactory, $stateParams) {
-        		return ProjectFactory.getSchemas($stateParams.projectid);
+        	schemas: function (SchemaFactory, $stateParams) {
+        		return SchemaFactory.getSchemas($stateParams.projectid);
         	}
         },
         data: {
@@ -22,7 +22,7 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('projectCtrl', function ($scope, schemas, user, $state, ProjectFactory, $stateParams, $rootScope) {
+app.controller('projectCtrl', function ($scope, schemas, user, $state, SchemaFactory, $stateParams, $rootScope) {
 	//SIDEBAR FUNCTIONALITY 
 	$scope.showSideBar = true;
 	var toggleSideBar = function(){
@@ -31,19 +31,19 @@ app.controller('projectCtrl', function ($scope, schemas, user, $state, ProjectFa
 	};
 	$rootScope.$on("toggleSideBar", toggleSideBar);
 
-	$scope.projectName = 'Stackstore';
+	$scope.projectName = $stateParams.projectname;
 	$scope.newSchema = {};
 	$scope.schemas = schemas;
 
 	$scope.submitSchema = function (newSchema) {
-		ProjectFactory.submitNewSchema(newSchema, $stateParams.projectid).then(function (result) {
+		SchemaFactory.submitNewSchema(newSchema, $stateParams.projectid).then(function (result) {
 			$state.reload();
 		});
 	};
 
 	//The put route exepects the schema _id to be inputted for req.body._id
 	$scope.updateSchema = function (schema, schemaId) {
-		ProjectFactory.updateSchema(schema, schemaId).then(function (response) {
+		SchemaFactory.updateSchema(schema, schemaId).then(function (response) {
 		});
 	};
 
@@ -53,8 +53,8 @@ app.controller('projectCtrl', function ($scope, schemas, user, $state, ProjectFa
 	};
 
 	$scope.deleteSchema = function (schemaId) {
-		ProjectFactory.deleteSchema(schemaId).then(function (response){
-
+		SchemaFactory.deleteSchema(schemaId).then(function (response){
+			$state.reload();
 		});
 	}
 });

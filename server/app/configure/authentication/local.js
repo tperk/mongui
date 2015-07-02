@@ -4,6 +4,7 @@ var _ = require('lodash');
 var LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
 var UserModel = mongoose.model('User');
+var router = require('express').Router();
 
 module.exports = function (app) {
 
@@ -42,6 +43,14 @@ module.exports = function (app) {
             });
 
         };
+
+        router.post('/api/register', function(req, res, next) {
+            var user = new UserModel(req.body);
+            user.save(function (err, newUser) {
+                if(err) return next(err);
+                res.send(newUser);
+            });
+        });
 
         passport.authenticate('local', authCb)(req, res, next);
 
