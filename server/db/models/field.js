@@ -24,4 +24,15 @@ var schema = new mongoose.Schema({
 	}
 });
 
+// schema.method('childDelete', function (){
+// 	return this.model('Field')
+// 		var deletedChildren = parent.children.map(function(child){
+// 			return childDelete(child);
+// 		});
+// 		deletedChildren.push(Field.findByIdAndRemove(parent._id).exec());
+// 		return Promise.all(deletedChildren);
+// 	});
+
+// })
+
 mongoose.model('Field', schema);
