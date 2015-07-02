@@ -19,5 +19,5 @@ module.exports = function (app) {
     app.use(app.getValue('log'));
 
     require('./authentication')(app);
-
+    //app.use('/test', require('./authentication/google.js'));
 };
