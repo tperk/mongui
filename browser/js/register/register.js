@@ -4,16 +4,6 @@ app.config(function ($stateProvider) {
         templateUrl: 'js/register/register.html',
         controller: 'RegisterCtrl'
     });
-    $stateProvider.state('register.google', {
-        url: '/google',
-        templateUrl: 'js/register/google.html',
-        controller: 'GoogleCtrl'
-    });
-    $stateProvider.state('register.facebook', {
-        url: '/facebook',
-        templateUrl: 'js/register/facebook.html',
-        controller: 'FacebookCtrl'
-    });
 });
 
 app.controller('RegisterCtrl', function ($scope, $state, AuthService, RegisterFactory) {
@@ -42,15 +32,4 @@ app.controller('RegisterCtrl', function ($scope, $state, AuthService, RegisterFa
             });
         });
     };
-});
-
-app.controller('GoogleCtrl', function ($scope, $state, AuthService, RegisterFactory) {
-    $scope.goToGoogle = function(){
-        RegisterFactory.loginWithGoogle();
-    }
-    
-});
-
-app.controller('FacebookCtrl', function ($scope, $state, AuthService, RegisterFactory) {
-    
 });
