@@ -1,21 +1,23 @@
-<section id="projects">
-    <h1>Projects</h1>
+<section id="projects" layout="row">
 
-    <div class="container">
-        <form name="newProjectForm" ng-submit="newProjectForm.$valid && submitProject(newProject)" class="col-lg-8 col-md-8 col-sm-8">
+    <div flex="30">
+        <h2>Current projects in the database</h2>
+        <div ng-repeat="project in projects"  >
+            <md-button class="md-primary md-raised" ng-click="goToProject(project._id, project.name)">{{project.name}}</md-button>
+            <md-button class="md-warn md-raised" ng-click="deleteProject(project._id)">Delete</md-button>
+        </div>
+    </div>
+
+    <div flex="70" >
+        <h1>Projects</h1>
+        <form name="newProjectForm" ng-submit="newProjectForm.$valid && submitProject(newProject)" >
             <md-input-container>
                 <label>Project Name</label>
                 <input type="text" ng-model="newProject.name" required>
             </md-input-container>
-            <button type="submit">New Project</button>
+            <md-button class="md-primary md-raised" type="submit">New Project</md-button>
         </form>
     </div>
     
-    
-
-    <h2>Current projects in the database</h2>
-    <div ng-repeat="project in projects">
-        <button ng-click="goToProject(project._id)">{{project.name}}</button>
-    </div>
     
 </section>

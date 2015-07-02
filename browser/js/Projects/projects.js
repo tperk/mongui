@@ -35,8 +35,14 @@ app.controller('projectsCtrl', function ($scope, ProjectsFactory, projects, user
         });
     };
 
-    $scope.goToProject = function (projectId) {
-        $state.go('project', {projectid: projectId})
+    $scope.goToProject = function (projectId, projectName) {
+        $state.go('project', {projectname: projectName, projectid: projectId})
+    }
+
+    $scope.deleteProject = function (projectId) {
+        ProjectsFactory.deleteProject(projectId).then(function (result) {
+            $state.reload();
+        });
     }
 
 });

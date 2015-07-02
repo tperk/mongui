@@ -18,17 +18,6 @@ router.get('/:id', function (req, res, next){
 	.then(null, next);
 });
 
-// Getting all schemas for a project
-// router.get('/:id', function (req, res, next){
-// 	Project.findById(req.params.id)
-// 	.populate('schemas')
-// 	.exec()
-// 	.then(function (project) {
-// 		res.status(200).json(project.schemas);
-// 	})
-// 	.then(null, next);
-// });
-
 //Update one schema
 router.put('/:id', function (req, res, next) {
 	Schema.findOneAndUpdate({_id: req.params._id}, req.body)
@@ -55,7 +44,7 @@ router.post('/:id', function (req, res, next){
 
 //Delete a schema
 router.delete('/:id', function (req, res, next){
-	Schema.findByIdAndRemove(req.params.id)
+	Schema.findByIdAndRemove(req.params.id).exec()
 	.then(function () {
 		res.status(204).json('Deleted');
 	})

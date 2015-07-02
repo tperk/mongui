@@ -27,3 +27,21 @@ router.post('/:id', function (req, res, next){
 	})
 	.then(null, next);
 });
+
+router.get('/schemas/:id', function (req, res, next) {
+
+	Project.getSchemas(req.params.id)
+	.then(function (schemas) {
+		res.json(schemas)
+	})
+	.then(null, next)
+
+});
+
+router.delete('/:id', function (req, res, next) {
+	Project.findByIdAndRemove(req.params.id).exec()
+	.then(function () {
+		res.status(204).json('Deleted');
+	})
+	.then(null, next);
+})
