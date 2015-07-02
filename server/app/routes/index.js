@@ -6,6 +6,7 @@ router.use('/register', require('./apis/subroutes/register.js'));
 router.use('/projects', require('./apis/subroutes/projects.js'));
 router.use('/fields', require('./fields'));
 router.use('/project', require('./apis/subroutes/project.js'));
+router.use('/schemas', require('./schemas'));
 
 // Make sure this is after all of
 // the registered routes!

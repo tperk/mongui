@@ -30,8 +30,6 @@ app.controller('projectCtrl', function ($scope, schemas, user, $state, ProjectFa
 		else $scope.showSideBar = true;
 	};
 	$rootScope.$on("toggleSideBar", toggleSideBar);
-
-
 	console.log('project id', $stateParams.id);
 
 	console.log('user', user);
@@ -39,7 +37,6 @@ app.controller('projectCtrl', function ($scope, schemas, user, $state, ProjectFa
 	console.log('these are the schemas attached to this project', schemas);
 
 	$scope.projectName = 'Stackstore';
-
 	$scope.newSchema = {};
 	$scope.schemas = schemas;
 
@@ -58,8 +55,9 @@ app.controller('projectCtrl', function ($scope, schemas, user, $state, ProjectFa
 		});
 	};
 
-	$scope.goToSchema = function (schemaId) {
-		$state.go('project.schema', {schemaid: schemaId})
-	}
+	$scope.goToSchema = function (schema) {
+		// $scope.currentSchema = schema.name;
+		$state.go('project.schema', {schemaid: schema._id, schemaname: schema.name});
+	};
 });
 

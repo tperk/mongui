@@ -1,5 +1,12 @@
-app.factory('SchemaFactory', function(){	
+app.factory('SchemaFactory', function ($http){	
 	return {
+		getSchemaById: function(schemaId){
+			return $http.get('/api/schemas/' + schemaId)
+				.then(function (response){
+					console.log("factory response is ", response)
+					return response.data;
+				});
+		},
 		schemaCreate: function(schemaObj, infoObj){
 			var schemaTop = "var mongoose = require('mongoose');\nvar schema = new mongoose.Schema(";
 			var schemaBottom = ');';
