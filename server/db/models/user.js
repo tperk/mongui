@@ -50,9 +50,7 @@ schema.pre('save', function (next) {
         this.salt = this.constructor.generateSalt();
         this.password = this.constructor.encryptPassword(this.password, this.salt);
     }
-
     next();
-
 });
 
 schema.statics.generateSalt = generateSalt;
@@ -60,6 +58,17 @@ schema.statics.encryptPassword = encryptPassword;
 
 schema.method('correctPassword', function (candidatePassword) {
     return encryptPassword(candidatePassword, this.salt) === this.password;
+});
+
+schema.pre('remove', function (next){
+    if(this.projects.length > 0){
+        this.populate('projects', function(err, parent){
+            for(var i = 0; i < parent.projects.length; i++){
+                parent.projects[i].remove();
+            }
+        });
+    }
+    next();
 });
 
 mongoose.model('User', schema);
