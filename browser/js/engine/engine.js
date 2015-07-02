@@ -26,14 +26,6 @@ app.controller('EngineController', function ($scope, fieldFactory) {
 	};
 
 	$scope.deleteField = function(field){
-  		// console.log("field.children is ", field.children);
-  		// if(field.children.length){
-  		// 	field.children.forEach(function(child){
-  		// 		console.log("child is ", child);
-  		// 		// var formattedChild = typeof child === 'object' ? child : {_id: child};
-  		// 		$scope.deleteField(formattedChild);
-  		// 	});
-  		// }
 		fieldFactory.deleteFieldById(field._id).then(function (response){
 			$scope.setAllFields();
 		});

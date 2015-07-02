@@ -80,6 +80,7 @@ router.put('/:id', function (req, res, next){
 router.delete('/:id', function (req, res, next){
 	Field.findOne({_id: req.params.id}).exec().then(function(field){
 		field.remove();
-	})
-	.then(null, next);
+	}).then(function(){
+		res.send();
+	}).then(null, next);
 });
