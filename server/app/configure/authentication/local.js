@@ -43,6 +43,14 @@ module.exports = function (app) {
 
         };
 
+        router.post('/', function(req, res, next) {
+            var user = new UserModel(req.body);
+            user.save(function (err, newUser) {
+                if(err) return next(err);
+                res.send(newUser);
+            });
+        });
+
         passport.authenticate('local', authCb)(req, res, next);
 
     });
