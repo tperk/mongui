@@ -22,7 +22,15 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('projectCtrl', function ($scope, schemas, user, $state, ProjectFactory, $stateParams) {
+app.controller('projectCtrl', function ($scope, schemas, user, $state, ProjectFactory, $stateParams, $rootScope) {
+	//SIDEBAR FUNCTIONALITY 
+	$scope.showSideBar = true;
+	var toggleSideBar = function(){
+		if($scope.showSideBar) $scope.showSideBar = false;
+		else $scope.showSideBar = true;
+	};
+	$rootScope.$on("toggleSideBar", toggleSideBar);
+
 
 	console.log('project id', $stateParams.id);
 

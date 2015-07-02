@@ -1,18 +1,18 @@
-<nav class="navbar navbar-static-top">
-    <div class="container">
-        <div class="navbar-header">
-            <fullstack-logo></fullstack-logo>
-        </div>
-        <ul class="nav navbar-nav">
-            <li ng-repeat="item in items" ng-show="!item.auth || isLoggedIn()">
-                <a ui-sref-active="active" ui-sref="{{ item.state }}">{{ item.label }}</a>
-            </li>
-        </ul>
-        <button ng-show="!user" ui-sref="login" class="btn login-button">Login</button>
-        <button ng-show="!user" ui-sref="register" class="btn register-button">Sign Up</button>
+<md-toolbar layout="row">
+    <div class="md-toolbar-tools">
+        <md-button ng-click="toggleSideBar()" class="md-icon-button" aria-label="Side Bar">
+            <md-icon md-svg-icon="images/menu.svg"></md-icon>
+        </md-button>
+        <md-tabs>
+            <md-tab ng-repeat="item in items" ng-show="!item.auth || isLoggedIn()" ui-sref-active="active" ui-sref="{{ item.state }}" label="{{item.label}}">
+            </md-tab>
+        </md-tabs>
+        <span flex></span>
+        <md-button ng-show="!user" ui-sref="login" class="md-accent login-button md-raised md-hue-1">Login</md-button>
+        <md-button ng-show="!user" ui-sref="register" class="md-accent md-raised md-hue-1 register-button">Sign Up</md-button>
         <div ng-show="user" class="welcome">
             <span>Welcome, {{ user.email }}!</span>
-            <a ng-click="logout()">Logout</a>
+            <md-button class="md-warn md-raised md-hue-1" ng-click="logout()">Logout</md-button>
         </div>
     </div>
-</nav>
+</md-toolbar>
