@@ -17,22 +17,23 @@ var schema = new mongoose.Schema({
 		ref: 'Field'
 	}],
 	parents: [{
-		type: "String"
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Field'
 	}],
 	generatedCode: {
 		type: "String",
 	}
 });
 
-// schema.method('childDelete', function (){
-// 	return this.model('Field')
-// 		var deletedChildren = parent.children.map(function(child){
-// 			return childDelete(child);
-// 		});
-// 		deletedChildren.push(Field.findByIdAndRemove(parent._id).exec());
-// 		return Promise.all(deletedChildren);
-// 	});
-
-// })
+schema.pre('remove', function (next){
+	if(this.children.length > 0){
+		this.populate('children', function(err, parent){
+			for(var i = 0; i < parent.children.length; i++){
+				parent.children[i].remove();
+			}
+		});
+	}
+	next();
+});
 
 mongoose.model('Field', schema);
