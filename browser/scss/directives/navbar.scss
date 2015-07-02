@@ -9,6 +9,15 @@ navbar {
     width: 30px;
   }
 
+  md-tabs{
+      .md-active{
+        color: #a3e9a4 !important;
+      }
+      .md-tab{
+        color: white;
+      }
+  }
+
   a {
     color: white;
     &:hover {
@@ -16,43 +25,19 @@ navbar {
     }
   }
 
-  .nav > li > a {
-    cursor: pointer;
-    &.active {
-      color: #f30046;
-    }
-    &:hover {
-      transition: color 0.2s;
-    }
-    &:focus {
-      color: #f30046;
-      background: transparent;
-    }
-  }
-  .navbar-static-top {
-    margin: 0px;
-  }
-
   .login-button {
-    float: right;
-    margin-top: 8px;
+    span {
+      color: #795548;
+    }
   }
   .register-button {
-    float: right;
-    margin-top: 8px;
-    margin-right: 10px;
+    span {
+      color: #795548;
+    }
   }
 
   .welcome {
-    float: right;
-    margin-top: 12px;
-    span {
-      color: white;
-    }
-    a {
-      color: #f30046;
-      cursor: pointer;
-    }
+    color: white;
   }
 
 }

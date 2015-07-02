@@ -35,6 +35,10 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) 
                 scope.user = null;
             };
 
+            scope.toggleSideBar = function(){
+                $rootScope.$broadcast("toggleSideBar");
+            };
+
             setUser();
 
             $rootScope.$on(AUTH_EVENTS.loginSuccess, setUser);

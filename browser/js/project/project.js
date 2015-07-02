@@ -1,7 +1,7 @@
 app.config(function ($stateProvider) {
 
     $stateProvider.state('project', {
-        url: '/project/:id',
+        url: '/project/:projectid',
         templateUrl: 'js/project/project.html',
         controller: 'projectCtrl',
         ncyBreadcrumb: {
@@ -12,7 +12,7 @@ app.config(function ($stateProvider) {
         		return AuthService.getLoggedInUser();
         	},
         	schemas: function (ProjectFactory, $stateParams) {
-        		return ProjectFactory.getSchemas($stateParams.id);
+        		return ProjectFactory.getSchemas($stateParams.projectid);
         	}
         },
         data: {
@@ -22,8 +22,14 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('projectCtrl', function ($scope, schemas, user, $state, ProjectFactory, $stateParams) {
-
+app.controller('projectCtrl', function ($scope, schemas, user, $state, ProjectFactory, $stateParams, $rootScope) {
+	//SIDEBAR FUNCTIONALITY 
+	$scope.showSideBar = true;
+	var toggleSideBar = function(){
+		if($scope.showSideBar) $scope.showSideBar = false;
+		else $scope.showSideBar = true;
+	};
+	$rootScope.$on("toggleSideBar", toggleSideBar);
 	console.log('project id', $stateParams.id);
 
 	console.log('user', user);
@@ -31,7 +37,6 @@ app.controller('projectCtrl', function ($scope, schemas, user, $state, ProjectFa
 	console.log('these are the schemas attached to this project', schemas);
 
 	$scope.projectName = 'Stackstore';
-
 	$scope.newSchema = {};
 	$scope.schemas = schemas;
 
@@ -50,8 +55,9 @@ app.controller('projectCtrl', function ($scope, schemas, user, $state, ProjectFa
 		});
 	};
 
-	$scope.goToSchema = function (schemaId) {
-		$state.go('schema', {id: schemaId})
-	}
+	$scope.goToSchema = function (schema) {
+		// $scope.currentSchema = schema.name;
+		$state.go('project.schema', {schemaid: schema._id, schemaname: schema.name});
+	};
 });
 

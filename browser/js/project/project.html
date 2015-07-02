@@ -1,39 +1,30 @@
 <section id="project">
     <div layout="row">
-        <div flex="20" layout="column">
-            <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="true">
-                <md-toolbar>
-                    <div id="sidenav-header">
-                    <a class="snb zmdi zmdi-arrow-back md-toolbar-tools zmd-lg"></a>
-                    <p class="sntitle md-toolbar-tools">{{projectName}}</p>
-                    <!--<a class="snb zmdi zmdi-plus-circle-o md-toolbar-tools zmd-lg"></a>-->
-                    </div>
-                </md-toolbar>
-                <!--<md-content layout-padding ng-controller="LeftCtrl">-->
-                <md-content layout-padding>
-                    <p hide-md show-gt-md>
-                        This sidenav is locked open on your device. To go back to the default behavior,
-                        narrow your display.
-                    </p>
-                    <div ng-repeat="schema in schemas">
-                        <button ng-click="goToSchema(schema._id)">{{schema.name}}</button>
-                    </div>
-                </md-content>
-                <form name="newSchemaForm" ng-submit="newSchemaForm.$valid && submitSchema(newSchema)">
-                    <md-input-container>
-                        <label>Schema Name</label>
-                        <input type="text" ng-model="newSchema.name" required>
-                    </md-input-container>
-                    <button type="submit">New Schema</button>
-                </form>
-            </md-sidenav>
-
-        </div>
+        <md-sidenav ng-show="showSideBar" layout="column" layout-fill class="md-sidenav-left" md-component-id="left" md-is-locked-open="true">
+          <md-toolbar class="md-theme-light">
+            <h1 class="md-toolbar-tools">{{projectName}}</h1>
+          </md-toolbar>
+          <md-content>
+            <md-list>
+              <md-list-item flex layout-padding ng-repeat="schema in schemas">
+               <md-button class="md-accent md-hue-3" layout-fill ng-click="goToSchema(schema)">{{schema.name}}
+               </md-button>
+              </lmd-list-item>
+            </md-list>
+          </md-content>
+          <form name="newSchemaForm" layout-padding 
+          ng-submit="newSchemaForm.$valid && submitSchema(newSchema)">
+              <md-input-container>
+                <label>Schema Name</label>
+                <input type="text" ng-model="newSchema.name" required>
+              </md-input-container>
+              <md-button ng-disabled="newSchemaForm.$invalid" class="md-accent md-raised md-hue-3" type="submit">New Schema</md-button>
+          </form>
+        </md-sidenav>
         <!--</div>-->
-        <div flex="80" layout="column">
+        <div flex layout="column">
             <ui-view></ui-view>
         </div>
-    </div>    
+    </div>
     
 </section>
-

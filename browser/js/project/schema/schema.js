@@ -1,7 +1,7 @@
 app.config(function ($stateProvider) {
 
     $stateProvider.state('project.schema', {
-        url: '/project/schema/:id',
+        url: '/project/schema/:schemaid',
         templateUrl: 'js/project/schema/schema.html',
         controller: 'schemaCtrl',
         ncyBreadcrumb: {
@@ -9,7 +9,10 @@ app.config(function ($stateProvider) {
         },
         resolve: {
             fields: function (fieldFactory, $stateParams) {
-                return fieldFactory.getAllFields($stateParams.id)
+                return fieldFactory.getAllFields($stateParams.schemaid);
+            },
+            currentSchema: function (SchemaFactory, $stateParams){
+                return SchemaFactory.getSchemaById($stateParams.schemaid);
             }
         },
         data: {
@@ -20,10 +23,8 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields) {
-	
-    console.log('These are all the fields for this schema', fields)
-
+app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stateParams, currentSchema) {
+    $scope.currentSchema = currentSchema;
     $scope.testSchema = {
 
         one: {
