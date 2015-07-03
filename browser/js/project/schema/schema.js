@@ -8,11 +8,14 @@ app.config(function ($stateProvider) {
             label: 'Schema page'
         },
         resolve: {
-            fields: function (fieldFactory, $stateParams) {
-                return fieldFactory.getAllFields($stateParams.schemaid);
+            currentSchema: function (SchemaFactory, $stateParams, $state){
+                console.log('schema console log')
+                return SchemaFactory.getSchemaById($stateParams.schemaid).then(function(schema) {
+                    return schema;
+                });
             },
-            currentSchema: function (SchemaFactory, $stateParams){
-                return SchemaFactory.getSchemaById($stateParams.schemaid);
+            fields: function (SchemaFactory, currentSchema) {
+                return SchemaFactory.getFieldsBySchemaId(currentSchema._id);
             }
         },
         data: {
@@ -24,6 +27,7 @@ app.config(function ($stateProvider) {
 });
 
 app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stateParams, currentSchema, fieldFactory) {
+
     /* TODO
         1. create route that returns a flattend array of all the fields 
             in a given schema
@@ -59,23 +63,27 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stat
     console.log("Fields are", $scope.fields)
 
     $scope.setAllFields = function(){
-        console.log("called set all fields");
+        console.log("called sxet all fielçds");
         fieldFactory.getAllFields().then(function(fields){
             $scope.fields = fields;
         });
     };
 
-    $scope.createField = function(schemaId){
-        fieldFactory.createField({}, schemaId).then(function(field){
+    $scope.setFieldsBySchemaId = function(schemaId) {
+        fieldFactory.getAllFieldsById(schemaId).then(function(fields){
+            $scope.fields = fields;
+        });
+    };
+
+    $scope.createField = function(){
+        fieldFactory.createField(currentSchema._id).then(function(field){
             $scope.fields.push(field);
         });
     };
 
     $scope.deleteField = function(field){
-        console.log("delete field called");
         fieldFactory.deleteFieldById(field._id).then(function (response){
-            console.log("in after factory call");
-            $scope.setAllFields();
+            $scope.setFieldsBySchemaId(currentSchema._id);
         });
 
     };
@@ -90,7 +98,7 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stat
         fieldCopy.children = justIds;
         return fieldFactory.editFieldById(id, fieldCopy).then(function (response){
             $scope.saving = false;
-            $scope.setAllFields();
+            $scope.setFieldsBySchemaId(currentSchema._id);
             return;
         });
     };

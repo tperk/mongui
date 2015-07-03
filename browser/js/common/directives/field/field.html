@@ -30,7 +30,7 @@
 					<field-boolean props="field.typeOptions" ng-if="field.fieldType === 'Boolean'"></field-boolean>
 					<field-mixed props="field.typeOptions" ng-if="field.fieldType === 'Mixed'"></field-mixed>
 					<field-objectid props="field.typeOptions" ng-if="field.fieldType === 'Objectid'"></field-objectid>
-					<field-nested subfield="subfield()" children="field.children" props="field.typeOptions" ng-if="field.fieldType === 'Nested'"></field-objectid>
+					<field-nested subfield="subfield()" children="field.children" props="field.typeOptions" ng-if="field.fieldType === 'Nested'"></field-nested>
   				</div>
   				<pre flex>{{field | json}}</pre>
 			</div>

@@ -19,4 +19,14 @@ schema.pre('remove', function (next){
 	next();
 });
 
+schema.static('getFields', function (id) {
+
+	return this.findById(id).populate('fields').exec()
+		.then(function (schema) {
+			console.log('in schema schema', schema)
+			return schema.fields;
+		})
+
+});
+
 mongoose.model('Schema', schema);

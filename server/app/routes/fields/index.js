@@ -29,26 +29,23 @@ router.get('/:id', function (req, res, next){
 
 // get all fields for a specific schema
 router.get('/schema/:id', function (req, res, next) {
-	Schema.findOneById(req.params.id).then(function(schema){
-		if(schema.fields.length === 0){
-			return res.status(200).json(schema);
-		}
-	})
-	.populate('fields')
-	.exec()
-	.then(function (schema) {
+	Schema.findById(req.params.id).populate('fields').exec().then(function(schema){
 		res.status(200).json(schema.fields);
 	})
 	.then(null, next);
 });
 
 //Post new field
-router.post('/', function (req, res, next){
-	Field.create(req.body)
-	.then(function (field) {
-		res.send(field);
-	})
-	.then(null, next);
+router.post('/:id', function (req, res, next){
+	return Promise.all([Field.create({}), Schema.findById(req.params.id).exec()])
+		.spread(function (field, schema){
+			schema.fields.push(field._id);
+			return schema.save();
+		})
+		.then(function (savedSchema) {
+			res.json(savedSchema);
+		})
+		.then(null, next);
 });
 
 // //Post new field

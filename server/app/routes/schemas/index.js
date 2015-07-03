@@ -8,18 +8,20 @@ var Project = mongoose.model('Project')
 
 //Get all schemas in a project
 router.get('/:id', function (req, res, next){
-	// Project.findById(req.params.id)
-	// .populate('schemas')
-	// .exec()
-	// .then(function (project) {
-	// 	res.status(200).json(project.schemas);
-	// })
-	// .then(null, next);
 	Schema.findById(req.params.id).exec()
 	.then(function (schema) {
-		res.json(schema)
+		res.json(schema);
 	})
 	.then(null, next);
+});
+
+////Get all fields in a schema
+router.get('/fields/:id', function (req, res, next) {
+	Schema.getFields(req.params.id)
+		.then(function (fields) {
+			res.json(fields);
+		})
+		.then(null, next);
 });
 
 //Update one schema

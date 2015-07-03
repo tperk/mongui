@@ -19,8 +19,8 @@ app.factory('fieldFactory', function ($http) {
 		// 		return response.data;
 		// 	});
 		// },
-		createField: function(body){
-			return $http.post('/api/fields/', body)
+		createField: function(schemaId){
+			return $http.post('/api/fields/' + schemaId)
 			.then(function (response){
 				return response.data;
 			});
@@ -34,7 +34,6 @@ app.factory('fieldFactory', function ($http) {
 		deleteFieldById: function(fieldId){
 			return $http.delete('/api/fields/' + fieldId)
 			.then(function (response){
-				console.log("response data is ", response.data);
 				return response.data;
 			});
 		},
