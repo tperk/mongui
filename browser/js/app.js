@@ -7,9 +7,9 @@ app.config(function ($urlRouterProvider, $locationProvider, $mdThemingProvider) 
     // If we go to a URL that ui-router doesn't have registered, go to the "/" url.
     $urlRouterProvider.otherwise('/');
     $mdThemingProvider.theme('default')
-        .primaryPalette('brown')
-        .accentPalette('green')
-        .warnPalette('amber')
+        .primaryPalette('green')
+        .accentPalette('yellow')
+        .warnPalette('brown')
         .backgroundPalette('grey');
 });
 
