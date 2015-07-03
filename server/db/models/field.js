@@ -44,7 +44,7 @@ schema.methods.convertName = function() {
 };
 
 schema.pre('save', function (next){
-	this.convertName();
+	//this.convertName();
 	next();
 });
 

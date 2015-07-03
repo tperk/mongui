@@ -19,8 +19,8 @@ app.factory('fieldFactory', function ($http) {
 		// 		return response.data;
 		// 	});
 		// },
-		createField: function(schemaId){
-			return $http.post('/api/fields/' + schemaId)
+		createField: function(schemaId, body){
+			return $http.post('/api/fields/' + schemaId, body)
 			.then(function (response){
 				return response.data;
 			});

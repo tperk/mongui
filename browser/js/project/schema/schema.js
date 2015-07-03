@@ -106,7 +106,7 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stat
     $scope.createSubField = function(parent){
         var copyOfParents = parent.parents.slice();
         copyOfParents.push(parent._id);
-        fieldFactory.createField({parents: copyOfParents}).then(function(child){
+        fieldFactory.createField(currentSchema._id,{parents: copyOfParents}).then(function(child){
             var justIds = _.map(parent.children, function(child){
                 if(typeof child === 'object'){
                     return child._id;

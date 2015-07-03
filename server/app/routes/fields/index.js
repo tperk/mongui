@@ -37,7 +37,9 @@ router.get('/schema/:id', function (req, res, next) {
 
 //Post new field
 router.post('/:id', function (req, res, next){
-	return Promise.all([Field.create({}), Schema.findById(req.params.id).exec()])
+
+
+	return Promise.all([Field.create(req.body), Schema.findById(req.params.id).exec()])
 		.spread(function (field, schema){
 			schema.fields.push(field._id);
 			return schema.save();
