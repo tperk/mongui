@@ -16,6 +16,16 @@ router.get('/:id', function (req, res, next){
 	.then(null, next);
 });
 
+router.get('/pending/:id', function (req, res, next){
+	User.findById(req.params.id)
+	.populate('pendingProjects')
+	.exec()
+	.then(function (user) {
+		res.send(user.pendingProjects);
+	})
+	.then(null, next);
+});
+
 router.post('/:id', function (req, res, next){
 	return Promise.all([Project.create(req.body.params), User.findById(req.params.id).exec()])
 	.spread(function (project, user){
@@ -36,6 +46,29 @@ router.get('/schemas/:id', function (req, res, next) {
 	})
 	.then(null, next)
 
+});
+
+router.put('/pending/:userid/:projectid', function (req, res, next){
+	User.findById(req.params.userid)
+	.exec()
+	.then(function(user){
+		user.pendingProjects.pull(req.params.projectid);
+		user.projects.push(req.params.projectid);
+		user.save();
+		res.status(200).json(user);
+	})
+	.then(null, next);
+});
+
+router.delete('/pending/:userid/:projectid', function (req, res, next){
+	User.findById(req.params.userid)
+	.exec()
+	.then(function(user){
+		user.pendingProjects.pull(req.params.projectid);
+		user.save();
+		res.status(200).json(user);
+	})
+	.then(null, next);
 });
 
 router.delete('/:id', function (req, res, next) {
