@@ -9,7 +9,6 @@ app.config(function ($stateProvider) {
         },
         resolve: {
             currentSchema: function (SchemaFactory, $stateParams, $state){
-                console.log('schema console log')
                 return SchemaFactory.getSchemaById($stateParams.schemaid).then(function(schema) {
                     return schema;
                 });
@@ -27,6 +26,12 @@ app.config(function ($stateProvider) {
 });
 
 app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stateParams, currentSchema, fieldFactory) {
+
+    /*
+    When an object first generates, it autofills with information of the schema, why?
+    When you hit the nested create object button multiple times, it will try to push in the same id over and over 
+    When a schema is deleted, it's children fields remain
+    */
 
     /* TODO
         1. create route that returns a flattend array of all the fields 
@@ -60,28 +65,32 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stat
     $scope.currentSchema = currentSchema;
     $scope.fields = fields;
     $scope.saving = false;
-    console.log("Fields are", $scope.fields)
+    console.log("Fields for this schema are", $scope.fields)
 
     $scope.setAllFields = function(){
-        console.log("called sxet all fielçds");
+        console.log("called set all fields");
         fieldFactory.getAllFields().then(function(fields){
             $scope.fields = fields;
         });
     };
 
     $scope.setFieldsBySchemaId = function(schemaId) {
+        console.log("called set fields by schema id");
         fieldFactory.getAllFieldsById(schemaId).then(function(fields){
             $scope.fields = fields;
         });
     };
 
     $scope.createField = function(){
+        console.log("called create field");
         fieldFactory.createField(currentSchema._id).then(function(field){
             $scope.fields.push(field);
+            $state.reload()
         });
     };
 
     $scope.deleteField = function(field){
+        console.log("called delete field");
         fieldFactory.deleteFieldById(field._id).then(function (response){
             $scope.setFieldsBySchemaId(currentSchema._id);
         });
@@ -89,6 +98,7 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stat
     };
 
     $scope.saveField = function(id, field){
+        console.log("called save field");
         $scope.saving = true;
         var fieldCopy = field;
         var justIds = field.children.map(function(child){
@@ -104,6 +114,7 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stat
     };
 
     $scope.createSubField = function(parent){
+        console.log("called create sub field");
         var copyOfParents = parent.parents.slice();
         copyOfParents.push(parent._id);
         fieldFactory.createField(currentSchema._id,{parents: copyOfParents}).then(function(child){
@@ -122,7 +133,8 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stat
     };
 
     $scope.typeChangeClear = function(field){
-       field.typeOptions = {stringEnums: [], array: false};
+        console.log("called type change clear");
+        field.typeOptions = {stringEnums: [], array: false};
         $scope.saveField(field._id, field).then(function(result){
             if(field.children.length){
                 field.children.forEach(function(child){

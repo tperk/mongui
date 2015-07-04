@@ -58,7 +58,6 @@ app.controller('projectCtrl', function ($scope, schemas, user, $state, SchemaFac
 
 	$scope.goToSchema = function (schema) {
 		// $scope.currentSchema = schema.name;
-		console.log('hitting')
 		$state.go('project.schema', {schemaid: schema._id, schemaname: schema.name});
 	};
 

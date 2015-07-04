@@ -1,4 +1,7 @@
 var mongoose = require('mongoose');
+var Promise = require('bluebird')
+var Schema = mongoose.model('Schema');
+
 
 var schema = new mongoose.Schema({
 	name: {
@@ -25,16 +28,38 @@ var schema = new mongoose.Schema({
 	}
 });
 
+schema.pre('remove', function (next) {
+	var self = this;
+	Schema.find({
+		fields:{
+			$in: [self._id]
+		} 
+	}).exec()
+	.then(function (schemas) {
+		return Promise.map(schemas, function(schema) {
+	        schema.fields.pull(self._id);
+	        return schema.save();
+	    });
+	})
+	.then(null, next);
+	next();
+});
+
 schema.pre('remove', function (next){
 	if(this.children.length > 0){
-		this.populate('children', function(err, parent){
-			for(var i = 0; i < parent.children.length; i++){
-				parent.children[i].remove();
-			}
-		});
+		console.log('children before', this.children)
+		this.recursiveRemove(this.children)
+		console.log('children after', this.children)
 	}
 	next();
 });
+
+schema.methods.recursiveRemove = function (children) {
+	var self = this
+	children.forEach(function (childId) {
+		self.constructor.remove({_id: childId})
+	})
+}
 
 schema.methods.convertName = function() {
 	if(this.name) {

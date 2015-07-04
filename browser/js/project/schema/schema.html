@@ -3,7 +3,10 @@
 		<md-subheader style="height:64px;margin-right:0px;" layout-fill class="md-accent md-hue-2">
 			{{currentSchema.name}}
 		</md-subheader>
-		<field layout-fill
+
+   <md-button layout-fill class="md-raised md-primary" ng-click="createField()">Add Field</md-button>
+
+    <field layout-fill
       ng-repeat="field in fields" 
       field="field" 
       deletebyid="deleteField(field)"
@@ -11,8 +14,7 @@
       saving="saving"
       subfield="createSubField(field)"
       typechangeclear="typeChangeClear(field)">
-      </field>
-       <md-button layout-fill class="md-raised md-primary" ng-click="createField()">Add Field</md-button>
-  		<pre flex layout-fill>{{fields | json}}</pre>
+    </field>
+    <pre flex layout-fill>{{fields | json}}</pre>
 	</md-content>	
 </section>

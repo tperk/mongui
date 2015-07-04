@@ -11,6 +11,7 @@ var schema = new mongoose.Schema({
 schema.pre('remove', function (next){
 	if(this.fields.length > 0){
 		this.populate('fields', function(err, parent){
+			console.log('in schema schema, parent: ', parent)
 			for(var i = 0; i < parent.fields.length; i++){
 				parent.fields[i].remove();
 			}
@@ -23,7 +24,6 @@ schema.static('getFields', function (id) {
 
 	return this.findById(id).populate('fields').exec()
 		.then(function (schema) {
-			console.log('in schema schema', schema)
 			return schema.fields;
 		})
 
