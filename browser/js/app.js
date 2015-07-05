@@ -6,11 +6,21 @@ app.config(function ($urlRouterProvider, $locationProvider, $mdThemingProvider) 
     $locationProvider.html5Mode(true);
     // If we go to a URL that ui-router doesn't have registered, go to the "/" url.
     $urlRouterProvider.otherwise('/');
+    var logoGreen = $mdThemingProvider.extendPalette('green', {
+        '500': '7fff00'
+    })
+    $mdThemingProvider.definePalette('logoGreen', logoGreen);
     $mdThemingProvider.theme('default')
-        .primaryPalette('green')
-        .accentPalette('yellow')
-        .warnPalette('brown')
-        .backgroundPalette('grey');
+        .primaryPalette('blue-grey', {
+            'default': '900'
+        })
+        .accentPalette('logoGreen')
+        .warnPalette('red', {
+            'default':'100'
+        })
+        .backgroundPalette('blue', {
+            'default': '900'
+        })
 });
 
 // This app.run is for controlling access to specific states.

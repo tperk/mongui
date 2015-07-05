@@ -1,6 +1,7 @@
 <md-toolbar layout="row">
     <div class="md-toolbar-tools">
-        <img style="height: 40%;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Leaf_icon_15.svg/470px-Leaf_icon_15.svg.png"/>
+            <img style="height: 40%" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Leaf_icon_15.svg/470px-Leaf_icon_15.svg.png"/>
+
         <md-tabs>
             <md-tab ng-repeat="item in items" ng-show="!item.auth || isLoggedIn()" ui-sref-active="active" ui-sref="{{ item.state }}" label="{{item.label}}">
             </md-tab>
@@ -9,12 +10,12 @@
             <md-icon md-svg-icon="images/menu.svg"></md-icon>
         </md-button>
         <span flex></span>
-        <md-button ng-show="!user" ui-sref="login" class="md-accent login-button md-raised md-hue-1">Login</md-button>
-        <md-button ng-show="!user" ui-sref="register" class="md-accent md-raised md-hue-1 register-button">Sign Up</md-button>
+        <md-button ng-show="!user" ui-sref="login" class="md-accent login-button md-raised">Login</md-button>
+        <md-button ng-show="!user" ui-sref="register" class="md-accent md-raised register-button">Sign Up</md-button>
         <div ng-show="user" class="welcome">
             <span ng-if="user.email">Welcome, {{ user.email }}!</span>
             <span ng-if="!user.email">Welcome, Guest!</span>
-            <md-button class="md-warn md-raised md-hue-1" ng-click="logout()">Logout</md-button>
+            <md-button class="md-warn md-raised" ng-click="logout()">Logout</md-button>
         </div>
     </div>
 </md-toolbar>
