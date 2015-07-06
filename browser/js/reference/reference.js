@@ -94,6 +94,20 @@ app.controller('SeedCollectionCtrl', function ($scope, $state, user, fields, Tem
 		$scope.fieldNames.push(el.name);
 	});
 
+	$scope.exportSeedFile = function () {
+		//$scope.seedFile
+		var a = window.document.createElement('a');
+		a.href = window.URL.createObjectURL(new Blob([$scope.seedFile], {type: 'text/javascript'}));
+		a.download = currentSchema.name + 'SeedFile.js';
+
+		// Append anchor to body.
+		document.body.appendChild(a)
+		a.click();
+
+		// Remove anchor from body
+		document.body.removeChild(a)
+	};
+
 	$scope.changeQuantity = function (quantity) {
 		var diff = quantity - seedFields.length;
 		if(diff > 0){
@@ -183,7 +197,7 @@ app.controller('SeedCollectionCtrl', function ($scope, $state, user, fields, Tem
 		    case 'Objectid':
 		        field.seedOptions = [{
 					category:"objectid",
-					items:[]
+					items:['new id']
 				}];
 		        break;
 	        case 'Nested':
@@ -194,5 +208,4 @@ app.controller('SeedCollectionCtrl', function ($scope, $state, user, fields, Tem
 		        break;
 		};
 	};
-
 });

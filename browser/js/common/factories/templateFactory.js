@@ -1,6 +1,7 @@
 app.factory('TemplateFactory', function ($http){
 	var seedData = [];
 	var seedingInfo , i, prop;	
+	var faker = require('faker');
 	var fakerDataObj = {
         //name
         firstName: faker.name.firstName,
@@ -106,7 +107,6 @@ app.factory('TemplateFactory', function ($http){
     };
     var numberFunc = function (el, field) {
     	prop = field.seedBy[field.seedBy.type].trim();
-		
 		if(prop === 'number'){
 			var max = 1000000;
     		var numberMax = field.typeOptions.numberMax ? field.typeOptions.numberMax: 0;
@@ -129,16 +129,17 @@ app.factory('TemplateFactory', function ($http){
     };
     var booleanFunc = function (el, field) {
     	prop = field.seedBy[field.seedBy.type].trim();
-    	el[field.name] = fakerDataObj[prop]();
+    	if(prop === 'random'){
+    	 	el[field.name] = fakerDataObj.number(1) ? 'true' : 'false';
+    	}else el[field.name] = prop;
     };
     var mixedFunc = function (el, field) {
     	prop = field.seedBy[field.seedBy.type].trim();
     	el[field.name] = fakerDataObj[prop]();
     };
     var objectidFunc = function (el, field) {
-    	prop = field.seedBy[field.seedBy.type].trim();
-    	el[field.name] = fakerDataObj[prop]();
-    };
+		el[field.name] = require('mongoose').Types.ObjectId();
+	};
     var nestedFunc = function (el, field) {
     	prop = field.seedBy[field.seedBy.type].trim();
     	el[field.name] = fakerDataObj[prop]();
@@ -153,15 +154,13 @@ app.factory('TemplateFactory', function ($http){
 		return "\n"+str;
 	};
 
-
-
     var makeTemplate = function(schema, fieldsArr){
     	return "var " + schema.name  + " = " + JSON.stringify(fieldsArr, null, 4) + ";" +
     	indent("var bluebird = require('bluebird');", 0) + 
     	indent("var mongoose = require('mongoose');", 0) + 
     	"\n" +
     	indent("var " + schema.name + "Model = require('')//add path to model here!;", 0) +
-    	indent("mongoose.connect('mongodb://localhost/" + schema.name + ");", 0) +
+    	indent("mongoose.connect('mongodb://localhost/'" + schema.name + ");", 0) +
     	"\n" +
     	indent("var wipeDB = function () {", 0) + 
     	indent("var models = [", 1) + schema.name + "Model];" +

@@ -1,8 +1,11 @@
-<h1>Fields</h1>
+
 <section>
 
+<md-button layout-fill class="md-raised md-primary" ng-click="exportSeedFile()"> Export Seed File </md-button>
+<h1>Fields</h1>
 	<md-content layout="row">
 		<div layout="column" flex="40">
+
 
 			<md-input-container>
 		    	<label> Seed Quantity </label>
@@ -24,11 +27,11 @@
 					</md-select>
 		        </md-input-container>
 
-		        <md-input-container>
+		        <!-- <md-input-container>
 			        <md-select placeholder="Seed With Data From Another Schema" ng-model="field.seedBy.schema" ng-change="changeSeedByType(field.seedBy, field.seedBy.schema, 'schema')">
 						<md-option ng-repeat="schema in schemas | excludeSelf:currentSchema"> {{schema.name}} </md-option>
 					</md-select>
-		        </md-input-container>
+		        </md-input-container> -->
 
 		        <md-input-container>
 			        <label> Seed With Custom Data </label>
