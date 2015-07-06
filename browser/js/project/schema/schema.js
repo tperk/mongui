@@ -10,6 +10,14 @@ app.config(function ($stateProvider) {
         resolve: {
             currentSchema: function (SchemaFactory, $stateParams, $state){
                 return SchemaFactory.getSchemaById($stateParams.schemaid).then(function(schema) {
+                    console.log(schema)
+                    if (!schema) {
+                        console.log($stateParams)
+                        $state.go('project', {
+                            projectid: $stateParams.projectid,
+                            projectname: $stateParams.projectname
+                        })
+                    }
                     return schema;
                 });
             },
@@ -28,8 +36,7 @@ app.config(function ($stateProvider) {
 app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stateParams, currentSchema, fieldFactory) {
 
     /*
-    When an object first generates, it autofills with information of the schema, why?
-    When you hit the nested create object button multiple times, it will try to push in the same id over and over 
+    When nested fields are deleted, the nested objectid remains in the schema fields array
     When a schema is deleted, it's children fields remain
     */
 
@@ -85,7 +92,6 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stat
         console.log("called create field");
         fieldFactory.createField(currentSchema._id).then(function(field){
             $scope.fields.push(field);
-            $state.reload()
         });
     };
 

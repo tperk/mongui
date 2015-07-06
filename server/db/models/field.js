@@ -30,16 +30,24 @@ var schema = new mongoose.Schema({
 
 schema.pre('remove', function (next) {
 	var self = this;
+	console.log(self._id)
+
 	Schema.find({
 		fields:{
 			$in: [self._id]
 		} 
 	}).exec()
 	.then(function (schemas) {
+		// schema.fields.pull(self._id);
+		// return schema.save();
 		return Promise.map(schemas, function(schema) {
+			console.log(schema)
 	        schema.fields.pull(self._id);
+
+	        console.log(schema)
 	        return schema.save();
 	    });
+	    
 	})
 	.then(null, next);
 	next();
@@ -47,19 +55,14 @@ schema.pre('remove', function (next) {
 
 schema.pre('remove', function (next){
 	if(this.children.length > 0){
-		console.log('children before', this.children)
-		this.recursiveRemove(this.children)
-		console.log('children after', this.children)
+		this.populate('children', function(err, parent){
+			for(var i = 0; i < parent.children.length; i++){
+				parent.children[i].remove();
+			}
+		});
 	}
 	next();
 });
-
-schema.methods.recursiveRemove = function (children) {
-	var self = this
-	children.forEach(function (childId) {
-		self.constructor.remove({_id: childId})
-	})
-}
 
 schema.methods.convertName = function() {
 	if(this.name) {
