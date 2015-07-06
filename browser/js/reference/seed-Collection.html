@@ -1,0 +1,45 @@
+<h1>Fields</h1>
+<section>
+
+	<md-content layout="row">
+		<div layout="column" flex="40">
+
+			<md-input-container>
+		    	<label> Seed Quantity </label>
+		    	<input type="number" ng-model="quantity" required>
+		    </md-input-container>
+		    <md-button layout-fill class="md-raised md-primary" ng-click="changeQuantity(quantity)"> Change Quantity </md-button>
+
+			<md-list-item  flex="100" layout-wrap layout-padding ng-repeat="field in fields" ng-init="addSeedOptions(field)">
+				<div flex="25" layout-wrap layout-padding> Name: {{field.name}} </div>
+				<div flex="25" layout-wrap layout-padding> Type: {{field.fieldType}} </div>
+
+				<div flex="25" layout-wrap layout-padding> Seed BY: {{field.seedBy.type}} </div>
+
+				<md-input-container>
+			        <md-select placeholder="Seed With Random Data" ng-model="field.seedBy.random" ng-change="changeSeedByType(field.seedBy, field.seedBy.random, 'random')">
+				  		<md-optgroup ng-repeat="options in field.seedOptions" label="{{options.category}}">
+							<md-option ng-repeat="item in options.items"> {{item}} </md-option>
+						</md-optgroup>
+					</md-select>
+		        </md-input-container>
+
+		        <md-input-container>
+			        <md-select placeholder="Seed With Data From Another Schema" ng-model="field.seedBy.schema" ng-change="changeSeedByType(field.seedBy, field.seedBy.schema, 'schema')">
+						<md-option ng-repeat="schema in schemas | excludeSelf:currentSchema"> {{schema.name}} </md-option>
+					</md-select>
+		        </md-input-container>
+
+		        <md-input-container>
+			        <label> Seed With Custom Data </label>
+			        <input type="text" ng-model="field.seedBy.custom" ng-change="changeSeedByType(field.seedBy, field.seedBy.custom, 'custom')">
+		        </md-input-container>
+		        <md-button layout-fill class="md-raised md-primary" ng-click="seedField(field)"> Seed Field </md-button>
+			</md-list-item>
+		</div>
+
+		<div layout="column" flex="60">
+			<pre>{{seedFile}}</pre>
+		</div>
+	</md-content>
+</section>
