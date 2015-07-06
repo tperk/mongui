@@ -11,10 +11,14 @@ var schema = new mongoose.Schema({
 schema.pre('remove', function (next){
 	if(this.fields.length > 0){
 		this.populate('fields', function(err, parent){
-			console.log('in schema schema, parent: ', parent)
-			for(var i = 0; i < parent.fields.length; i++){
-				parent.fields[i].remove();
-			}
+			//async version
+			Promise.map(parent.fields, function (field) {
+				return field.remove();
+			}).then(next);
+			//sync version
+			// for(var i = 0; i < parent.fields.length; i++){
+			// 	parent.fields[i].remove();
+			// }
 		});
 	}
 	next();
