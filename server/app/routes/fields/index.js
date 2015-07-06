@@ -41,11 +41,13 @@ router.post('/:id', function (req, res, next){
 
 	return Promise.all([Field.create(req.body), Schema.findById(req.params.id).exec()])
 		.spread(function (field, schema){
+			console.log(field._id)
 			schema.fields.push(field._id);
-			return schema.save();
+			schema.save();
+			return field;
 		})
-		.then(function (savedSchema) {
-			res.json(savedSchema);
+		.then(function (savedField) {
+			res.json(savedField);
 		})
 		.then(null, next);
 });
