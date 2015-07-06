@@ -1,21 +1,35 @@
-<md-toolbar layout="row">
-    <div class="md-toolbar-tools">
-            <img style="height: 40%" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Leaf_icon_15.svg/470px-Leaf_icon_15.svg.png"/>
-
-        <md-tabs>
-            <md-tab ng-repeat="item in items" ng-show="!item.auth || isLoggedIn()" ui-sref-active="active" ui-sref="{{ item.state }}" label="{{item.label}}">
-            </md-tab>
-        </md-tabs>
-        <md-button ng-click="toggleSideBar()" class="md-icon-button" aria-label="Side Bar">
-            <md-icon md-svg-icon="images/menu.svg"></md-icon>
-        </md-button>
-        <span flex></span>
-        <md-button ng-show="!user" ui-sref="login" class="md-accent login-button md-raised">Login</md-button>
-        <md-button ng-show="!user" ui-sref="register" class="md-accent md-raised register-button">Sign Up</md-button>
-        <div ng-show="user" class="welcome">
-            <span ng-if="user.email">Welcome, {{ user.email }}!</span>
-            <span ng-if="!user.email">Welcome, Guest!</span>
-            <md-button class="md-warn md-raised" ng-click="logout()">Logout</md-button>
+<md-toolbar layout="row" class="top-toolbar md-toolbar-tools md-whiteframe-z3">
+        <div class="mongui-logo" flex="33" offset="33" layout="row" layout-align="center center">
+            <p>Mongui</p>
         </div>
-    </div>
+        <!--<md-tabs>-->
+            <!--<md-tab ng-repeat="item in items" ng-show="!item.auth || isLoggedIn()" ui-sref-active="active" ui-sref="{{ item.state }}" label="{{item.label}}">-->
+            <!--</md-tab>-->
+        <!--</md-tabs>-->
+        <div class="login" ng-show="!user" flex="33" layout="row" layout-align="end center">
+            <md-fab-speed-dial md-open="false" md-direction="left" class="md-scale">
+                <md-fab-trigger>
+                    <md-icon class="md-warn material-icons md-36">account_circle</md-icon>
+                </md-fab-trigger>
+                <md-fab-actions>
+                    <md-button aria-label="facebook" class="md-icon-button">
+                        <md-icon md-svg-src="images/facebook.svg" class="facebook s18" aria-label="Facebook">
+                    </md-button>
+                    <md-button aria-label="github" class="md-icon-button">
+                        <md-icon md-svg-src="images/github.svg" class="github s18" aria-label="Github">
+                    </md-button>
+                    <md-button aria-label="google" class="md-icon-button">
+                        <md-icon md-svg-src="images/google.svg" class="google s18" aria-label="Google">
+                    </md-button>
+                </md-fab-actions>
+            </md-fab-speed-dial>
+        </div>
+
+        <!--<md-button ng-show="!user" ui-sref="login" class="md-accent login-button md-raised">Login</md-button>-->
+        <!--<md-button ng-show="!user" ui-sref="register" class="md-accent md-raised register-button">Sign Up</md-button>-->
+        <!--<div ng-show="user" class="welcome">-->
+            <!--<span ng-if="user.email">Welcome, {{ user.email }}!</span>-->
+            <!--<span ng-if="!user.email">Welcome, Guest!</span>-->
+            <!--<md-button class="md-warn md-raised" ng-click="logout()">Logout</md-button>-->
+        <!--</div>-->
 </md-toolbar>

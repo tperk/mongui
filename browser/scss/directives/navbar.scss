@@ -1,14 +1,15 @@
 navbar {
-
   display: block;
-  background: #a1a1a1;
-
-  fullstack-logo {
-    padding-top: 10px;
-    margin-right: 20px;
-    width: 30px;
+  .mongui-logo{
+    p {
+      font-family: 'Fascinate', cursive;
+      font-size: 150%;
+      color: #FB4F4F;
+    }
   }
-
+  .top-toolbar {
+    background-color: #202A25;
+  }
   md-tabs{
       .md-active{
         color: #a3e9a4 !important;
@@ -25,19 +26,19 @@ navbar {
     }
   }
 
-  .login-button {
-    span {
-      color: #795548;
-    }
+  .facebook {
+      color: #3B5998;
   }
-  .register-button {
-    span {
-      color: #795548;
-    }
+  .google {
+    color: #D50F25;
   }
-
-  .welcome {
-    color: white;
+  .github {
+    color: #FFF;
   }
+  .material-icons.md-36 {
+     font-size: 36px;
+     margin-bottom: 15px;
+     margin-right: 10px;
+   }
 
 }
