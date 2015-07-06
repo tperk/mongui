@@ -2,7 +2,7 @@
 
     <div flex="30">
         <h2>My Projects</h2>
-        <div ng-repeat="project in projects"  >
+        <div ng-repeat="project in projects">
             <md-button class="md-primary md-raised" ng-click="goToProject(project._id, project.name)">{{project.name}}</md-button>
             <md-button class="md-warn md-raised" ng-click="deleteProject(project._id)">Delete</md-button>
         </div>

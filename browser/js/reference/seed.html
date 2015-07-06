@@ -1,0 +1,8 @@
+<section layout="row">
+    <div flex="30">
+        <h2>My Databases</h2>
+        <div ng-repeat="project in projects">
+            <md-button class="md-primary md-raised" ng-click="goToProject(project._id, project.name)">{{project.name}}</md-button>
+        </div>
+    </div>    
+</section>
