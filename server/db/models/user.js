@@ -4,16 +4,10 @@ var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema({
     firstName: String,
-    lastName:String,
-    email: {
-        type: String
-    },
-    password: {
-        type: String
-    },
-    salt: {
-        type: String
-    },
+    lastName: String,
+    email: String,
+    password: String,
+    salt: String,
     twitter: {
         id: String,
         username: String,
@@ -26,6 +20,7 @@ var schema = new mongoose.Schema({
     google: {
         id: String
     },
+    profilePicture: String,
     projects: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Project'

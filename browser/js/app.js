@@ -6,37 +6,30 @@ app.config(function ($urlRouterProvider, $locationProvider, $mdThemingProvider) 
     $locationProvider.html5Mode(true);
     // If we go to a URL that ui-router doesn't have registered, go to the "/" url.
     $urlRouterProvider.otherwise('/');
-    $mdThemingProvider.definePalette('mongui', {
-        '50': 'fbc93d',
-        '100': '6cc0e5',
-        '200': 'fb4f4f',
-        '300': '202A25',
-        '400': '454851',
-        '500': 'f44336',
-        '600': 'e53935',
-        '700': 'd32f2f',
-        '800': 'c62828',
-        '900': 'b71c1c',
-        'A100': 'ff8a80',
-        'A200': 'ff5252',
-        'A400': 'ff1744',
-        'A700': 'd50000',
-        'contrastDefaultColor': 'light',    // whether, by default, text (contrast)
-                                            // on this palette should be dark or light
-        'contrastDarkColors': ['50', '100', '200']
-    });
+        // Extend the red theme with a few different colors
+        var monguiRedMap = $mdThemingProvider.extendPalette('red', {
+            '500': 'FB4F4F'
+        });
+        var monguiBlueMap = $mdThemingProvider.extendPalette('blue', {
+            '500': '6CC0E5'
+        });
+        var monguiYellowMap = $mdThemingProvider.extendPalette('yellow', {
+            '500': 'FBC93D'
+        });
+        // Register the new color palette map with the name <code>neonRed</code>
+        $mdThemingProvider.definePalette('monguiRed', monguiRedMap);
+        $mdThemingProvider.definePalette('monguiBlue', monguiBlueMap);
+        $mdThemingProvider.definePalette('monguiYellow', monguiYellowMap);
+        // Use that theme for the primary intentions
+        $mdThemingProvider.theme('default')
+            .primaryPalette('neonRed')
+
     $mdThemingProvider.theme('default')
-        .primaryPalette('mongui', {
-            'default': '100'
-        })
-        .accentPalette('mongui', {
-            'default': '200'
-        })
-        .warnPalette('mongui', {
-            'default': '50'
-        })
-        .backgroundPalette('mongui', {
-            'default': '400'
+        .primaryPalette("monguiRed")
+        .accentPalette('monguiBlue')
+        .warnPalette('monguiYellow')
+        .backgroundPalette('grey', {
+            'default': '900'
         })
 });
 
@@ -74,7 +67,7 @@ app.run(function ($rootScope, AuthService, $state) {
             if (user) {
                 $state.go(toState.name, toParams);
             } else {
-                $state.go('login');
+                $state.go('home');
             }
         });
 

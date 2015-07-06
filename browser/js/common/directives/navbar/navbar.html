@@ -6,24 +6,40 @@
             <!--<md-tab ng-repeat="item in items" ng-show="!item.auth || isLoggedIn()" ui-sref-active="active" ui-sref="{{ item.state }}" label="{{item.label}}">-->
             <!--</md-tab>-->
         <!--</md-tabs>-->
-        <div class="login" ng-show="!user" flex="33" layout="row" layout-align="end center">
-            <md-fab-speed-dial md-open="false" md-direction="left" class="md-scale">
-                <md-fab-trigger>
-                    <md-icon class="md-warn material-icons md-36">account_circle</md-icon>
-                </md-fab-trigger>
-                <md-fab-actions>
-                    <md-button aria-label="facebook" class="md-icon-button">
-                        <md-icon md-svg-src="images/facebook.svg" class="facebook s18" aria-label="Facebook">
-                    </md-button>
-                    <md-button aria-label="github" class="md-icon-button">
-                        <md-icon md-svg-src="images/github.svg" class="github s18" aria-label="Github">
-                    </md-button>
-                    <md-button aria-label="google" class="md-icon-button">
-                        <md-icon md-svg-src="images/google.svg" class="google s18" aria-label="Google">
-                    </md-button>
-                </md-fab-actions>
-            </md-fab-speed-dial>
-        </div>
+
+    <!--Login Feature-->
+    <div class="login" ng-show="!user" flex="33" layout="row" layout-align="end center">
+        <md-fab-speed-dial md-open="false" md-direction="left" class="md-scale">
+            <md-fab-trigger>
+                <md-icon class="md-warn material-icons md-36">account_box</md-icon>
+            </md-fab-trigger>
+            <md-fab-actions>
+                <md-button target="_self" href="/auth/facebook" aria-label="facebook" class="md-icon-button">
+                    <md-icon md-svg-src="images/facebook.svg" class="facebook s18" aria-label="Facebook">
+                </md-button>
+                <md-button target="_self" href="/auth/github" aria-label="github" class="md-icon-button">
+                    <md-icon md-svg-src="images/github.svg" class="github s18" aria-label="Github">
+                </md-button>
+                <md-button target="_self" href="/auth/google" aria-label="google" class="md-icon-button">
+                    <md-icon md-svg-src="images/google.svg" class="google s18" aria-label="Google">
+                </md-button>
+            </md-fab-actions>
+        </md-fab-speed-dial>
+    </div>
+    <md-button class="md-icon-button">
+        <md-button class="md-raised">Button</md-button>
+        <md-icon md-svg-src="images/facebook.svg" class="facebook s18" aria-label="Facebook">
+    </md-button>
+
+    <!--User Profile-->
+    <div class="profile" ng-show="user" flex="33" layout="row" layout-align="end center">
+        <md-button ng-click="logout()">
+            <md-tooltip>
+                Logout
+            </md-tooltip>
+            <md-icon aria-label="Logout" class="md-warn material-icons md-36">close</md-icon>
+        </md-button>
+    </div>
 
         <!--<md-button ng-show="!user" ui-sref="login" class="md-accent login-button md-raised">Login</md-button>-->
         <!--<md-button ng-show="!user" ui-sref="register" class="md-accent md-raised register-button">Sign Up</md-button>-->
