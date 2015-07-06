@@ -4,14 +4,9 @@
 		text-align: center;
 	}
   	h5 {
-	  color: lightblue;
+	  color: #393A3B;
+	  margin: 0;
 	}
-	.md-sidenav-left {
-		margin-top: 51px;
-	}
-  #newProjectForm {
-	width: 80%;
-  }
 	md-tabs {
 		.link {
 			color: blue;
@@ -20,4 +15,18 @@
 			color: green;
 		}
 	}
+  md-content {
+	background-color: #fff;
+  }
+  .md-default-theme {
+	background-color: #AEBDCC;
+	padding-top: 0;
+  }
+  md-toolbar {
+	margin-right: 0px;
+	background-color: #FBC93D;
+  }
+  #projectsTitle {
+	margin: 0;
+  }
 }
