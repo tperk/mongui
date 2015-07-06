@@ -35,11 +35,6 @@ app.config(function ($stateProvider) {
 
 app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stateParams, currentSchema, fieldFactory) {
 
-    /*
-    When nested fields are deleted, the nested objectid remains in the schema fields array
-    When a schema is deleted, it's children fields remain
-    */
-
     /* TODO
         1. create route that returns a flattend array of all the fields 
             in a given schema

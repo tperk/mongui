@@ -72,7 +72,10 @@ router.delete('/pending/:userid/:projectid', function (req, res, next){
 });
 
 router.delete('/:id', function (req, res, next) {
-	Project.findByIdAndRemove(req.params.id).exec()
+	Project.findOne({_id: req.params.id}).exec()
+	.then(function (project) {
+		project.remove();
+	})
 	.then(function () {
 		res.status(204).json('Deleted');
 	})

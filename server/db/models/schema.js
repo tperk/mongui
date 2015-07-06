@@ -1,4 +1,6 @@
 var mongoose = require('mongoose');
+var Promise = require('bluebird');
+var Project = mongoose.model('Project');
 
 var schema = new mongoose.Schema({
 	name: String,
@@ -9,19 +11,33 @@ var schema = new mongoose.Schema({
 });
 
 schema.pre('remove', function (next){
-	if(this.fields.length > 0){
-		this.populate('fields', function(err, parent){
-			//async version
-			Promise.map(parent.fields, function (field) {
-				return field.remove();
-			}).then(next);
-			//sync version
-			// for(var i = 0; i < parent.fields.length; i++){
-			// 	parent.fields[i].remove();
-			// }
-		});
-	}
-	next();
+
+	var self = this;
+
+	Project.findOne({
+		schemas:{
+			$in: [self._id]
+		}
+	}).exec()
+	.then(function (project) {
+		project.schemas.pull(self._id)
+		return project.save();
+	}).then(function () {
+		if(self.fields.length > 0){
+			self.populate('fields', function(err, schema){
+				return Promise.map(schema.fields, function (field) {
+					if (!field.parents.length) {
+						return field.remove();	
+					}
+					return 
+
+				}).then(next);
+			});
+		} else {
+			next();
+		}
+	}).then(null, next);
+
 });
 
 schema.static('getFields', function (id) {

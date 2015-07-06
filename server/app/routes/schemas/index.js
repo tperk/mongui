@@ -49,7 +49,10 @@ router.post('/:id', function (req, res, next){
 
 //Delete a schema
 router.delete('/:id', function (req, res, next){
-	Schema.findByIdAndRemove(req.params.id).exec()
+	Schema.findOne({_id: req.params.id}).exec()
+	.then(function (schema) {
+		schema.remove();
+	})
 	.then(function () {
 		res.status(204).json('Deleted');
 	})
