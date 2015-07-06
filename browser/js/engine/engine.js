@@ -33,6 +33,7 @@ app.controller('EngineController', function ($scope, fieldFactory) {
 	};
 
 	$scope.saveField = function(id, field){
+		$scope.codeConverter(field)
 		$scope.saving = true;
 		var fieldCopy = field;
 		var justIds = field.children.map(function(child){
@@ -78,6 +79,21 @@ app.controller('EngineController', function ($scope, fieldFactory) {
 
 	$scope.setAllFields();
 	// fieldFactory.createField({name: "test", required: false});
+
+	$scope.codeConverter = function (field) {
+		var rawCode = ''
+		var rawObject = {
+			key = field.name + ':',
+
+		}
+		for (key in rawObject) {
+			rawCode += key
+		}
+
+		console.log(rawCode)
+		console.log(field)
+
+	}
 
 	
 
