@@ -74,9 +74,13 @@ router.put('/:id', function (req, res, next){
 	.exec()
 	.then(function (field){
 		for (var prop in req.body) {
-			field[prop] = req.body[prop]
+			if (prop !== '_id' && prop !== "__v") {
+				field[prop] = req.body[prop]
+			}
 		}
-		field.save();
+		return field.save();
+	})
+	.then(function (field) {
 		res.status(200).send(field);
 	})
 	.then(null, next);
@@ -84,9 +88,11 @@ router.put('/:id', function (req, res, next){
 
 // delete by field ID 
 router.delete('/:id', function (req, res, next){
-	Field.findOne({_id: req.params.id}).exec().then(function(field){
-		field.remove();
-	}).then(function(){
-		res.send();
-	}).then(null, next);
+	Field.findById(req.params.id).exec()
+		.then(function (field) {
+			return field.nestedRemove();
+		})
+		.then(function () {
+			res.send();
+		}, next);
 });

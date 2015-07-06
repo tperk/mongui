@@ -1,7 +1,7 @@
 <md-content class="md-padding">
 	<md-card>
 			<ol class="breadcrumb" ng-if="field.parents.length">
-				<li ng-repeat="parent in field.parents"><a href="">{{parent}}</a></li>
+				<li ng-repeat="parent in field.parents"><a ng-click="changeView(parent)">{{parent}}</a></li>
 			</ol>
 		<md-card-content>
 			<div layout="row" layout-wrap>

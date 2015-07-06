@@ -10,9 +10,7 @@ app.config(function ($stateProvider) {
         resolve: {
             currentSchema: function (SchemaFactory, $stateParams, $state){
                 return SchemaFactory.getSchemaById($stateParams.schemaid).then(function(schema) {
-                    console.log(schema)
                     if (!schema) {
-                        console.log($stateParams)
                         $state.go('project', {
                             projectid: $stateParams.projectid,
                             projectname: $stateParams.projectname
@@ -63,10 +61,41 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stat
         10. on field-nested directive link buttons / links to call that funciton using ids
     */
 
+    $scope.saving = false;
     $scope.currentSchema = currentSchema;
     $scope.fields = fields;
-    $scope.saving = false;
-    console.log("Fields for this schema are", $scope.fields)
+    $scope.fieldsDictionary = {};
+    $scope.topLevelFields = {};
+    $scope.fields.forEach(function (field){
+        console.log("not even in here i bet");
+        $scope.fieldsDictionary[field._id] = field;
+        if(!field.parents.length){
+            $scope.topLevelFields[field._id] = field;
+        }
+    });
+
+    console.log("top level Fields for this schema are", $scope.topLevelFields);
+
+    $scope.changeNestedView = function (fieldId){
+        console.log("hit inside nested view");
+        var topLevelId = $scope.fieldsDictionary[fieldId].parents[0] || fieldId;
+        $scope.topLevelFields[topLevelId] = $scope.fieldsDictionary[fieldId];
+    };
+
+    $scope.$on('changeNestedView', function (event, data){
+        console.log("heard ya bro!");
+        $scope.changeNestedView(data);
+    });
+
+    $scope.rerenderFields = function (){
+        console.log("RERENDERING")
+        $scope.fields.forEach(function (field){
+            $scope.fieldsDictionary[field._id] = field;
+            if(!field.parents.length && !$scope.topLevelFields[field._id]){
+                $scope.topLevelFields[field._id] = field;
+            }
+        });
+    };
 
     $scope.setAllFields = function(){
         console.log("called set all fields");
@@ -79,6 +108,7 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stat
         console.log("called set fields by schema id");
         fieldFactory.getAllFieldsById(schemaId).then(function(fields){
             $scope.fields = fields;
+            $scope.rerenderFields();
         });
     };
 
@@ -86,6 +116,7 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stat
         console.log("called create field");
         fieldFactory.createField(currentSchema._id).then(function(field){
             $scope.fields.push(field);
+            $scope.rerenderFields();
         });
     };
 
@@ -93,7 +124,9 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stat
         console.log("called delete field");
         fieldFactory.deleteFieldById(field._id).then(function (response){
             $scope.setFieldsBySchemaId(currentSchema._id);
+            $state.reload();
         });
+
 
     };
 

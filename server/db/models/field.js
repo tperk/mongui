@@ -2,7 +2,6 @@ var mongoose = require('mongoose');
 var Promise = require('bluebird');
 var Schema = mongoose.model('Schema');
 
-
 var schema = new mongoose.Schema({
 	name: {
 		type: "String",
@@ -28,44 +27,75 @@ var schema = new mongoose.Schema({
 	}
 });
 
-schema.pre('remove', function (next){
+// schema.pre('remove', function (next){
 
-	var self = this;
+// 	var self = this;
 
-	Schema.findOne({
-		fields:{
-			$in: [self._id]
-		} 
-	}).exec()
-	.then(function (schema) {
+// 	Schema.findOne({
+// 		fields:{
+// 			$in: [self._id]
+// 		} 
+// 	}).exec()
+// 	.then(function (schema) {
+// 		if (schema) {
+// 			debugger;
+// 			schema.fields.pull(self._id);
+// 			return promisifiedSave(schema);
+// 		} else {
+// 			return;
+// 		}
+// 	}).then(function () {
 
-		schema.fields.pull(self._id);
-		return schema.save();
-	    
-	}).then(function () {
+// 		return new Promise(function (resolve, reject) {
 
-		if(self.children.length > 0){
-			self.populate('children', function(err, parent){
-				Promise.map(parent.children, function (child) {
-					return child.remove();
-				}).then(next);
-			});
-		}
+// 			if(self.children.length > 0) {
 
-	}).then(function () {
+// 				self.populate('children', function(err, parent){
+// 					debugger;
+// 					Promise.map(parent.children, function (child) {
+// 						debugger;
+// 						return promisifiedRemove(child);
+// 					}, { concurrency: 1 }).then(resolve);
+// 				});
 
-		if(self.parents.length > 0){
-			self.populate('parents', function (err, child) {
-				Promise.map(child.parents, function (parent) {
-					parent.children.pull(self._id);
-					parent.save();
-				}).then(next);
-			})
-		}
+// 			} else {
+// 				resolve();
+// 			}
 
-	})
-	.then(null, next);
-});
+// 		});
+		
+
+// 	}).then(function () {
+
+// 		return new Promise(function (resolve, reject) {
+
+// 			if(self.parents.length > 0){
+				
+// 				self.populate('parents', function (err, child) {
+				
+// 					Promise.map(child.parents, function (parent) {
+// 						debugger;
+// 						if (parent) {
+// 							parent.children.pull(self._id);
+// 							return promisifiedSave(parent);
+// 						} else {
+// 							return;
+// 						}		
+// 					}).then(resolve);
+
+// 				});
+
+// 			} else {
+
+// 				resolve();
+
+// 			}
+
+// 		});
+
+// 	})
+// 	.then(next, next);
+// });
 
 schema.methods.convertName = function() {
 	if(this.name) {
@@ -74,10 +104,43 @@ schema.methods.convertName = function() {
 	}
 };
 
-schema.pre('save', function (next){
-	//this.convertName();
-	next();
-});
+var removeField = function (id) {
+
+	return mongoose.model('Field').findById(id).exec()
+		.then(function (field) {
+			if (field.children.length > 0) {
+					var removalPromises = field.children.map(removeField);
+					return Promise.all(removalPromises);
+				} else {
+					return;
+				}
+		}).then(function () {
+			return mongoose.model('Field').findByIdAndRemove(id).exec();
+		});
+		
+};
+
+schema.methods.nestedRemove = function () {
+
+	var self = this;
+
+	return new Promise(function (resolve, reject) {
+		if (self.children.length > 0) {
+			var promises = self.children.map(removeField);
+			return Promise.all(promises).then(resolve);
+		} else {
+			resolve();
+		}
+	}).then(function () {
+		return new Promise(function (res, rej) {
+			self.remove(function (e) {
+				if (e) rej(e);
+				res();
+			});	
+		});
+	});
+};
+
 
 mongoose.model('Field', schema);
 

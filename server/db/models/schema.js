@@ -11,7 +11,6 @@ var schema = new mongoose.Schema({
 });
 
 schema.pre('remove', function (next){
-
 	var self = this;
 
 	Project.findOne({
@@ -20,16 +19,24 @@ schema.pre('remove', function (next){
 		}
 	}).exec()
 	.then(function (project) {
-		project.schemas.pull(self._id)
-		return project.save();
+		if (project) {
+			project.schemas.pull(self._id)
+			return project.save();
+		} else {
+			return;
+		}
+		
 	}).then(function () {
 		if(self.fields.length > 0){
 			self.populate('fields', function(err, schema){
 				return Promise.map(schema.fields, function (field) {
 					if (!field.parents.length) {
+						console.log('field', field)
 						return field.remove();	
+					} else {
+						return;
 					}
-					return 
+					
 
 				}).then(next);
 			});

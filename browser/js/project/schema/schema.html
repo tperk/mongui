@@ -7,7 +7,7 @@
    <md-button layout-fill class="md-raised md-primary" ng-click="createField()">Add Field</md-button>
 
     <field layout-fill
-      ng-repeat="field in fields" 
+      ng-repeat="field in topLevelFields" 
       field="field" 
       deletebyid="deleteField(field)"
       savefield="saveField(field._id, field)"
@@ -15,6 +15,6 @@
       subfield="createSubField(field)"
       typechangeclear="typeChangeClear(field)">
     </field>
-    <pre flex layout-fill>{{fields | json}}</pre>
+    <pre flex layout-fill>{{fieldsDictionary | json}}</pre>
 	</md-content>	
 </section>
