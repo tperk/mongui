@@ -14,6 +14,9 @@ app.config(function ($stateProvider) {
         	},
         	schemas: function (SchemaFactory, $stateParams) {
         		return SchemaFactory.getSchemas($stateParams.projectid);
+        	},
+        	members: function (UserFactory, $stateParams) {
+        		return UserFactory.getMembers($stateParams.projectid);
         	}
         },
         data: {
@@ -23,7 +26,7 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('projectCtrl', function ($scope, schemas, user, $state, SchemaFactory, $stateParams, $rootScope) {
+app.controller('projectCtrl', function ($scope, schemas, user, $state, SchemaFactory, $stateParams, $rootScope, UserFactory, members) {
 
 	$rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
 
@@ -46,14 +49,16 @@ app.controller('projectCtrl', function ($scope, schemas, user, $state, SchemaFac
 		SchemaFactory.submitNewSchema(newSchema, $stateParams.projectid).then(function (result) {
 			SchemaFactory.getSchemas($stateParams.projectid).then(function(schemasArr){
 				$scope.schemas = schemasArr;
-			});
+			})
+			.catch(function(e) {console.log(e)});
 		});
 	};
 
 	//The put route exepects the schema _id to be inputted for req.body._id
 	$scope.updateSchema = function (schema, schemaId) {
 		SchemaFactory.updateSchema(schema, schemaId).then(function (response) {
-		});
+		})
+		.catch(function(e) {console.log(e)});
 	};
 
 	$scope.goToSchema = function (schema) {
@@ -67,8 +72,20 @@ app.controller('projectCtrl', function ($scope, schemas, user, $state, SchemaFac
 			SchemaFactory.getSchemas($stateParams.projectid).then(function(schemasArr){
 				$scope.schemas = schemasArr;
 
-			});
+			})
+			.catch(function(e) {console.log(e)});
 		});
-	}
+	};
+
+	$scope.members = members;
+	//console.log('members', members);
+	
+	$scope.addMember = function (email) {
+		UserFactory.addMember($stateParams.projectid, email).then(function(user){
+			//add message here if !user 
+			console.log(user);	
+		})
+		.catch(function(e) {console.log(e)});
+	};
 });
 

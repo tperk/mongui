@@ -1,0 +1,7 @@
+<h1>Collection</h1>
+<section>
+	<md-list-item flex layout-wrap layout-padding ng-repeat="schema in schemas">
+			<md-button class="md-accent md-hue-3" flex="50" ui-sref=".collection({projectid: projectid, schemaid: schema._id})">{{schema.name}}</md-button>
+	</md-list-item>
+ 	<ui-view></ui-view>
+</section>

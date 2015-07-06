@@ -16,6 +16,21 @@ app.factory('ProjectsFactory', function ($http) {
 			return $http.delete('/api/projects/'+id).then(function (response) {
 				return response.data;
 			});
+		},
+		getPendingProjects: function (userId) {
+			return $http.get('/api/projects/pending/'+userId).then(function (response) {
+				return response.data;
+			});
+		},
+		acceptPendingProjects: function (userId, projectId) {
+			return $http.put('/api/projects/pending/'+userId+"/"+projectId).then(function (response) {
+				return response.data;
+			});
+		},
+		removePendingProjects: function (userId, projectId) {
+			return $http.delete('/api/projects/pending/'+userId+"/"+projectId).then(function (response) {
+				return response.data;
+			});
 		}
 	};
 });

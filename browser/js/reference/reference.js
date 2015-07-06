@@ -1,13 +1,198 @@
 app.config(function ($stateProvider) {
-
-    $stateProvider.state('reference', {
-        url: '/reference',
-        templateUrl: 'js/reference/reference.html',
-        controller: 'ReferenceCtrl'
+	$stateProvider.state('seed', {
+        url: '/seed',
+        templateUrl: 'js/reference/seed.html',
+        controller: 'SeedCtrl',
+        resolve: {
+            user: function (AuthService) {
+                return AuthService.getLoggedInUser()
+            },
+            projects: function (ProjectsFactory, user) {
+                return ProjectsFactory.getProjects(user._id);
+            }
+        },
+        data: {
+            authenticate: true
+        }
     });
 
+    $stateProvider.state('database', {
+        url: '/database/:projectid',
+        templateUrl: 'js/reference/seed-Database.html',
+        controller: 'SeedDatabaseCtrl',
+        resolve: {
+            user: function (AuthService) {
+                return AuthService.getLoggedInUser()
+            },
+            schemas: function (SchemaFactory, $stateParams) {
+        		return SchemaFactory.getSchemas($stateParams.projectid);
+        	},
+        },
+        data: {
+            authenticate: true
+        }
+    });
+
+    $stateProvider.state('database.collection', {
+        url: '/collection/:projectid/:schemaid',
+        templateUrl: 'js/reference/seed-Collection.html',
+        controller: 'SeedCollectionCtrl',
+        resolve: {
+            user: function (AuthService) {
+                return AuthService.getLoggedInUser()
+            },
+            currentSchema: function (SchemaFactory, $stateParams, $state){
+                return SchemaFactory.getSchemaById($stateParams.schemaid).then(function(schema) {
+                    return schema;
+                });
+            },
+            fields: function (SchemaFactory, currentSchema) {
+                return SchemaFactory.getFieldsBySchemaId(currentSchema._id);
+            },
+            schemas: function (SchemaFactory, $stateParams) {
+        		return SchemaFactory.getSchemas($stateParams.projectid);
+        	},
+        },
+        data: {
+            authenticate: true
+        }
+    });
 });
 
-app.controller('ReferenceCtrl', function ($scope, $state) {
+app.filter('excludeSelf', function () {
+	return function(fields, schema) {
+		fields.forEach(function(field, index){
+			if(field.name === schema.name){
+				fields.splice(index, 1);
+			}
+		});
+		return fields;
+	};
+});
+
+//input schema output seed.js
+app.controller('SeedCtrl', function ($scope, $state, user, projects) {
+	$scope.projects = projects;
+    $scope.goToProject = function (projectId, projectName) {    	
+        $state.go('database', {projectid: projectId})
+    };
+});
+
+app.controller('SeedDatabaseCtrl', function ($scope, $state, user, schemas, $stateParams) {
+	$scope.schemas = schemas;
+	$scope.projectid = $stateParams.projectid;	
+});
+
+app.controller('SeedCollectionCtrl', function ($scope, $state, user, fields, TemplateFactory, schemas, currentSchema) {
+	$scope.fields = fields;	
+	$scope.schemas = schemas;
+	$scope.fieldNames = [];
+	$scope.seedFile;
+	$scope.currentSchema = currentSchema;
+	var seedFields = [];
+	fields.forEach(function(el){
+		$scope.fieldNames.push(el.name);
+	});
+
+	$scope.changeQuantity = function (quantity) {
+		var diff = quantity - seedFields.length;
+		if(diff > 0){
+			var i;
+			for (i = 0; i < diff; i++){
+				seedFields.push({});
+			}
+		}else if(diff < 0){
+			seedFields = seedFields.slice(0, quantity)
+		}
+		$scope.seedFile = TemplateFactory.createSeedFile(currentSchema, seedFields);
+	};
+	$scope.changeSeedByType = function (seedBy, val, type){
+		seedBy.random = null;
+		seedBy.schema = null;
+		seedBy.custom = null;
+		seedBy[type] = val;
+		seedBy.type = type;
+	};
+
+	$scope.seedField = function (field) {
+		$scope.seedFile = TemplateFactory.createSeedFile(currentSchema, seedFields, field);
+	};
+
+	$scope.addSeedOptions = function (field) {												
+		switch (field.fieldType) {
+		    case 'String':
+		        field.seedOptions = [{
+					category:"name",
+					items:['firstName', 'lastName', 'findName', 'prefix', 'suffix']
+				},{
+					category:"address",
+					items:['zipCode', 'city', 'cityPrefix', 'citySuffix', 'streetName', 'streetAddress', 'streetSuffix', 'secondaryAddress', 'county', 'country', 'state', 'stateAbbr', 'latitude', 'longitude']
+				},{
+					category:"phone",
+					items:['phoneNumber', 'phoneNumberFormat', 'phoneFormats']
+				},{
+					category:"internet",
+					items:['avatar', 'email', 'userName', 'domainName', 'domainSuffix', 'domainWord', 'ip', 'userAgent', 'color', 'password']
+				},{
+					category:"company",
+					items:['suffixes', 'companyName', 'companySuffix', 'catchPhrase', 'bs', 'catchPhraseAdjective', 'catchPhraseDescriptor', 'catchPhraseNoun', 'bsAdjective', 'bsBuzz', 'bsNoun']
+				},{
+					category:"image",
+					items:['image', 'avatarImage', 'imageUrl', 'abstractImage', 'animalsImage', 'businessImage', 'catsImage', 'cityImage', 'foodImage', 'nightlifeImage', 'fashionImage', 'peopleImage', 'natureImage', 'sportsImage', 'technicsImage', 'transportImage']
+				},{
+					category:"lorem",
+					items:['words', 'sentence', 'sentences', 'paragraph', 'paragraphs']
+				},{
+					category:"finance",
+					items:['account', 'accountName', 'mask', 'amount', 'transactionType', 'currencyCode', 'currencyName', 'currencySymbol']
+				},{
+					category:"hacker",
+					items:['abbreviation', 'adjective', 'noun', 'verb', 'ingverb', 'phrase']
+				}];
+		        break;
+		    case 'Number':
+		        field.seedOptions = [{
+					category:"random",
+					items:['number', 'array_element', 'object_element', 'uuid']
+				}];
+		        break;
+		    case 'Date':
+		        field.seedOptions = [{
+					category:"date",
+					items:['past', 'future', 'between', 'recent']
+				}];
+		        break;
+	        case 'Buffer':
+		        field.seedOptions = [{
+					category:"name",
+					items:[]
+				}];
+		        break;
+	        case 'Boolean':
+		        field.seedOptions = [{
+					category:"boolean",
+					items:['random', 'true', 'fasle']
+				}];
+		        break;
+	        case 'Mixed':
+		        field.seedOptions = [{
+					category:"mixed",
+					items:[]
+				}];
+		        break;
+		    case 'Objectid':
+		        field.seedOptions = [{
+					category:"objectid",
+					items:[]
+				}];
+		        break;
+	        case 'Nested':
+		        field.seedOptions = [{
+					category:"nested",
+					items:[]
+				}];
+		        break;
+		};
+	};
 
 });

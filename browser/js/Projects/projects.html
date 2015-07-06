@@ -1,10 +1,17 @@
 <section id="projects" layout="row">
 
     <div flex="30">
-        <h2>Current projects in the database</h2>
-        <div ng-repeat="project in projects"  >
+        <h2>My Projects</h2>
+        <div ng-repeat="project in projects">
             <md-button class="md-primary md-raised" ng-click="goToProject(project._id, project.name)">{{project.name}}</md-button>
             <md-button class="md-warn md-raised" ng-click="deleteProject(project._id)">Delete</md-button>
+        </div>
+
+        <h2>Project Invitations</h2>
+        <div ng-repeat="project in pendingProjects">
+            <p>{{project.name}}</p>
+            <md-button class="md-primary md-raised" ng-click="acceptProject(project)">Accept</md-button>
+            <md-button class="md-warn md-raised" ng-click="rejectProject(project)">Reject</md-button>
         </div>
     </div>
 
