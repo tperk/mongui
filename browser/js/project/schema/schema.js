@@ -61,7 +61,6 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stat
         8. Pass that function to the field and field-nested directives using "&"
         9. on field directive link breadcrumbs to call that function using ids
         10. on field-nested directive link buttons / links to call that funciton using ids
-    
     */
 
     $scope.currentSchema = currentSchema;
