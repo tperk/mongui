@@ -27,7 +27,7 @@ app.config(function ($urlRouterProvider, $locationProvider, $mdThemingProvider) 
     $mdThemingProvider.theme('default')
         .primaryPalette("monguiRed")
         .accentPalette('monguiBlue')
-        .warnPalette('monguiYellow')
+        .warnPalette('monguiRed')
         .backgroundPalette('grey', {
             'default': '900'
         })
