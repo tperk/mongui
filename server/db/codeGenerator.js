@@ -8,15 +8,58 @@ schema.pre('save', function (next) {
 
 })
 
-var numberCode = function (field) {
-	var out = ''
-	out += field.name + ': {'
-	out += 'type: Number'
-	for (var key in field.typeOptions) {
-		out += key + ': ' + field.typeOptions[key]
+var handleValue = function (value) {
+		if (typeof value === 'string') {
+			return  '"' + value + '"'
+		} else if (Array.isArray(value)) {
+			if (!value.length) {
+				return '[]'
+			} else {
+				var out = ''
+				value.forEach(function (subval) {
+					out += handleValue(subval) + ','
+				})
+				out = out.substring(0, out.length - 1)
+				return '[' + out + ']'
+			}
+		} else {
+			//booleans, numbers
+			return value
+		}
 	}
-	out += '}'
-}
+
+	function codeConverter (field) {
+		var out = ''
+		out += field.name + ': ' 
+		if (field.typeOptions.array) {
+			out += '[{'
+		} else {
+			out += '{'
+		}
+		out += 'type: '+ field.fieldType + ', '
+		if (field.required === true) {
+			out += "required: true, "
+		}
+		for (var key in field.typeOptions) {
+			if (key === 'stringEnums' || key === 'array') {
+				if (key === 'stringEnums' && field.typeOptions.stringEnums.length > 0 && field.fieldType === 'String') {
+					out += 'enum:' + handleValue(field.typeOptions[key]) + ', '
+					continue
+				} else {
+					continue
+				}
+			} else {
+				out += key + ': ' + handleValue(field.typeOptions[key]) + ', '
+			}
+		}
+		out = out.substring(0, out.length - 2)
+		if (field.typeOptions.array) {
+			out += '}]'
+		} else {
+			out += '}'
+		}
+		return out
+	}
 
 /*
 david psuedocode
