@@ -1,7 +1,7 @@
 
 <section>
-
-<md-button layout-fill class="md-raised md-primary" ng-click="exportSeedFile()"> Export Seed File </md-button>
+<md-button layout-fill class="md-raised md-primary" ng-click="packageSeedFile()"> Package Seed File </md-button>
+<md-button layout-fill class="md-raised md-primary" ng-click="exportSeedFile()"> Download Seed File </md-button>
 <h1>Fields</h1>
 	<md-content layout="row">
 		<div layout="column" flex="40">
@@ -15,17 +15,36 @@
 
 			<md-list-item  flex="100" layout-wrap layout-padding ng-repeat="field in fields" ng-init="addSeedOptions(field)">
 				<div flex="25" layout-wrap layout-padding> Name: {{field.name}} </div>
-				<div flex="25" layout-wrap layout-padding> Type: {{field.fieldType}} </div>
-
+				<div flex="25" layout-wrap layout-padding ng-if="field.wasMixed"> Type: Mixed </div>
+				<div flex="25" layout-wrap layout-padding ng-if="!field.wasMixed"> Type: {{field.fieldType}} </div>
 				<div flex="25" layout-wrap layout-padding> Seed BY: {{field.seedBy.type}} </div>
 
-				<md-input-container>
+				<md-input-container ng-if="field.fieldType !== 'Buffer'">
 			        <md-select placeholder="Seed With Random Data" ng-model="field.seedBy.random" ng-change="changeSeedByType(field.seedBy, field.seedBy.random, 'random')">
 				  		<md-optgroup ng-repeat="options in field.seedOptions" label="{{options.category}}">
 							<md-option ng-repeat="item in options.items"> {{item}} </md-option>
 						</md-optgroup>
 					</md-select>
 		        </md-input-container>
+
+		        <!-- <md-input-container ng-if="field.fieldType === 'Mixed">
+			        <md-select placeholder="Choose Type" ng-model="field.mixedType" ng-change="changeMixedType(field, field.mixedType)">
+				  		<md-optgroup ng-repeat="options in field.mixedOptions" label="{{options.category}}">
+							<md-option ng-repeat="item in options.items"> {{item}} </md-option>
+						</md-optgroup>
+					</md-select>
+		        </md-input-container> -->
+
+		        <md-input-container ng-if="(field.wasMixed || field.fieldType === 'Mixed')">
+			        <md-select placeholder="Choose Type" ng-model="field.fieldType" ng-change="changeMixedType(field)">
+			        	<!-- <md-option ng-repeat="item in ['String', 'Number', 'Date', 'Buffer', 'Boolean', 'Objectid']"> {{item}} </md-option> -->
+			        	<md-option ng-repeat="item in ['String', 'Number', 'Date', 'Boolean', 'Objectid']"> {{item}} </md-option>
+			        </md-select>
+		        </md-input-container>
+
+
+
+
 
 		        <!-- <md-input-container>
 			        <md-select placeholder="Seed With Data From Another Schema" ng-model="field.seedBy.schema" ng-change="changeSeedByType(field.seedBy, field.seedBy.schema, 'schema')">

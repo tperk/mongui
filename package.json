@@ -51,6 +51,7 @@
     "lodash": "^3.9.3",
     "material-date-picker": "^1.1.6",
     "material-design-iconic-font": "^2.0.2",
+    "mkdirp": "^0.5.1",
     "mocha-mongoose": "^1.0.3",
     "moment": "^2.10.3",
     "mongodb": "^1.4.33",
