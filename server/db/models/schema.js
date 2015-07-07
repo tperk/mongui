@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Promise = require('bluebird');
-var Project = mongoose.model('Project');
+var Project = require('./project.js');
+// var Project = mongoose.model('Project');
 
 var schema = new mongoose.Schema({
 	name: String,
