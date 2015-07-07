@@ -1,20 +1,17 @@
-<section id="project">
-    <div id="navnav" layout="row">
-        <md-sidenav ng-show="showSideBar" layout="column" layout-fill class="md-whiteframe-z3 md-sidenav-left" md-component-id="left" md-is-locked-open="true">
-            <md-toolbar class="md-theme-light">
+<section id="project" layout="row" flex>
+        <md-sidenav ng-show="showSideBar" class="md-whiteframe-z3 md-sidenav-left" md-component-id="left" md-is-locked-open="true">
+            <md-toolbar>
                 <h1 class="md-toolbar-tools" layout-align="center center">{{projectName}}</h1>
             </md-toolbar>
-            <form name="newSchemaForm" layout-padding layout="row" ng-submit="newSchemaForm.$valid && submitSchema(newSchema)">
-                <md-input-container id="newSchemaForm" class="md-accent" flex="75">
+            <form name="newSchemaForm" layout="row" layout-padding layout-align="start center" ng-submit="newSchemaForm.$valid && submitSchema(newSchema)">
+                <md-input-container id="newSchemaForm" class="md-accent" flex="80">
                     <label>New Schema</label>
                     <input type="text" ng-model="newSchema.name" required>
                 </md-input-container>
-                <md-button class="md-accent material-icons md-36" type="submit">add_circle_outline</md-button>
+                <md-button class="md-accent material-icons md-24" type="submit">add_circle_outline</md-button>
             </form>
             <md-divider></md-divider>
             <md-content>
-
-
                 <md-list-item ng-click="goToSchema(schema)" ng-repeat="schema in schemas" layout="row">
                     <div flex="80" layout-align="start center">
                         <h5>{{schema.name}}</h5>
@@ -25,11 +22,9 @@
                     </div>
                     <md-divider></md-divider>
                 </md-list-item>
-
-
             </md-content>
         </md-sidenav>
-    </div>
+
 
 
             <!--<h1 class="md-toolbar-tools">{{projectName}} Members</h1>-->
@@ -52,7 +47,7 @@
 
 
         <!--</div>-->
-        <div flex layout="column">
+        <div layout="row" flex>
             <ui-view></ui-view>
         </div>
 

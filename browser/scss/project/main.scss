@@ -2,10 +2,17 @@
   button{
     text-align: left;
   }
-#navnav {
-  height: 100vh;
-}
+  md-sidenav {
+     height: 100vh;
+    position: relative;
+  }
+  md-content {
+    background-color: transparent;
+  }
   .md-button:not([disabled]):hover {
+    background-color: transparent;
+  }
+  #schemaToolbar {
     background-color: transparent;
   }
 }

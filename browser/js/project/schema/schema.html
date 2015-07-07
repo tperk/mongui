@@ -1,11 +1,11 @@
-<section>
-	<md-content layout="row" layout-wrap>
-		<md-subheader style="height:64px;margin-right:0px;" layout-fill class="md-accent md-hue-2">
-			{{currentSchema.name}}
-		</md-subheader>
+<section layout="row" style="width: 100vw;">
+		<md-toolbar id="schemaSubheader" layout-fill>
+            <h1 class="md-toolbar-tools" layout-align="center center">{{currentSchema.name}}</h1>
+
+		</md-toolbar>
 
    <md-button layout-fill class="md-raised md-primary" ng-click="createField()">Add Field</md-button>
-
+    <md-content>
     <field layout-fill
       ng-repeat="field in fields" 
       field="field" 
@@ -16,5 +16,5 @@
       typechangeclear="typeChangeClear(field)">
     </field>
     <pre flex layout-fill>{{fields | json}}</pre>
-	</md-content>	
+	</md-content>
 </section>
