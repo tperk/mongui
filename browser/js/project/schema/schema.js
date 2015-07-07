@@ -158,9 +158,7 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stat
             if (key === 'stringEnums' || key === 'array') {
                 if (key === 'stringEnums' && field.typeOptions.stringEnums.length > 0 && field.fieldType === 'String') {
                     out += 'enum:' + handleValue(field.typeOptions[key]) + ', '
-                    continue
                 } else {
-                    continue
                 }
             } else {
                 out += key + ': ' + handleValue(field.typeOptions[key]) + ', '
