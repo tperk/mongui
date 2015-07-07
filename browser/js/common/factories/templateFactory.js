@@ -1,6 +1,7 @@
-app.factory('TemplateFactory', function ($http){
+app.factory('TemplateFactory', function (){
 	var seedData = [];
 	var seedingInfo , i, prop;	
+	var faker = require('faker');
 	var fakerDataObj = {
         //name
         firstName: faker.name.firstName,
@@ -106,39 +107,38 @@ app.factory('TemplateFactory', function ($http){
     };
     var numberFunc = function (el, field) {
     	prop = field.seedBy[field.seedBy.type].trim();
-		
 		if(prop === 'number'){
 			var max = 1000000;
     		var numberMax = field.typeOptions.numberMax ? field.typeOptions.numberMax: 0;
     		var numberMin = field.typeOptions.numberMin ? field.typeOptions.numberMax: 0;
     		var diff = field.typeOptions.numberMax - field.typeOptions.numberMin; 
     		if(diff !== 0) max = diff;
-			
-			el[field.name] = field.typeOptions.numberMin + fakerDataObj[prop](max);
+			el[field.name] = numberMin + fakerDataObj[prop](max);
 		}else{
-			el[field.name] = field.typeOptions.numberMin + fakerDataObj[prop]();
+			el[field.name] = fakerDataObj[prop]();
 		}	
     };
     var dateFunc = function (el, field) {
     	prop = field.seedBy[field.seedBy.type].trim();
     	el[field.name] = fakerDataObj[prop]();
     };
-    var bufferFunc = function (el, field) {
-    	prop = field.seedBy[field.seedBy.type].trim();
-    	el[field.name] = fakerDataObj[prop]();
-    };
+    // var bufferFunc = function (el, field) {
+    // 	prop = field.seedBy[field.seedBy.type].trim();
+    // 	el[field.name] = fakerDataObj[prop]();
+    // };
     var booleanFunc = function (el, field) {
     	prop = field.seedBy[field.seedBy.type].trim();
-    	el[field.name] = fakerDataObj[prop]();
+    	if(prop === 'random'){
+    	 	el[field.name] = fakerDataObj.number(1) ? 'true' : 'false';
+    	}else el[field.name] = prop;
     };
-    var mixedFunc = function (el, field) {
-    	prop = field.seedBy[field.seedBy.type].trim();
-    	el[field.name] = fakerDataObj[prop]();
-    };
+    // var mixedFunc = function (el, field) {
+
+    	
+    // };
     var objectidFunc = function (el, field) {
-    	prop = field.seedBy[field.seedBy.type].trim();
-    	el[field.name] = fakerDataObj[prop]();
-    };
+		el[field.name] = require('mongoose').Types.ObjectId();
+	};
     var nestedFunc = function (el, field) {
     	prop = field.seedBy[field.seedBy.type].trim();
     	el[field.name] = fakerDataObj[prop]();
@@ -153,15 +153,13 @@ app.factory('TemplateFactory', function ($http){
 		return "\n"+str;
 	};
 
-
-
     var makeTemplate = function(schema, fieldsArr){
-    	return "var " + schema.name  + " = " + JSON.stringify(fieldsArr, null, 4) + ";" +
+    	return "var " + schema.name  + " = " + JSON.stringify(fieldsArr, null, 4).replace(/\"([^(\")"]+)\":/g,"$1:") + ";" +
     	indent("var bluebird = require('bluebird');", 0) + 
     	indent("var mongoose = require('mongoose');", 0) + 
     	"\n" +
     	indent("var " + schema.name + "Model = require('')//add path to model here!;", 0) +
-    	indent("mongoose.connect('mongodb://localhost/" + schema.name + ");", 0) +
+    	indent("mongoose.connect('mongodb://localhost/'" + schema.name + ");", 0) +
     	"\n" +
     	indent("var wipeDB = function () {", 0) + 
     	indent("var models = [", 1) + schema.name + "Model];" +
@@ -189,22 +187,22 @@ app.factory('TemplateFactory', function ($http){
 		fieldsArr.forEach(function (el){
 			if(field.seedBy.type === 'random'){				
 				switch (field.fieldType) {
-		    	case 'String': stringFunc(el, field)
-		    		break;
-		    	case 'Number': numberFunc(el, field)
-		    		break;
-		    	case 'Date': dateFunc(el, field)
-		    		break;
-		    	case 'Buffer': bufferFunc(el, field)
-		    		break;
-		    	case 'Boolean': booleanFunc(el, field)
-		    		break;
-		    	case 'Mixed': mixedFunc(el, field)
-		    		break;
-		    	case 'Objectid': objectidFunc(el, field)
-		    		break;
-		    	case 'Nested': nestedFunc(el, field)
-		    		break;
+			    	case 'String': stringFunc(el, field)
+			    		break;
+			    	case 'Number': numberFunc(el, field)
+			    		break;
+			    	case 'Date': dateFunc(el, field)
+			    		break;
+			    	// case 'Buffer': bufferFunc(el, field)
+			    	// 	break;
+			    	case 'Boolean': booleanFunc(el, field)
+			    		break;
+			    	case 'Mixed': mixedFunc(el, field)
+			    		break;
+			    	case 'Objectid': objectidFunc(el, field)
+			    		break;
+			    	case 'Nested': nestedFunc(el, field)
+			    		break;
 		    	}
 			}
 			// else if(field.seedBy.type === 'schema'){
