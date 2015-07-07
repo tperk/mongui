@@ -1,10 +1,10 @@
-<section id="project" layout="row" flex>
-        <md-sidenav ng-show="showSideBar" class="md-whiteframe-z3 md-sidenav-left" md-component-id="left" md-is-locked-open="true">
+<section id="project" layout="row">
+        <md-sidenav class="md-whiteframe-z3 md-sidenav-left" md-component-id="left" md-is-locked-open="true">
             <md-toolbar>
-                <h1 class="md-toolbar-tools" layout-align="center center">{{projectName}}</h1>
+                <h1 class="md-toolbar-tools">{{projectName}}</h1>
             </md-toolbar>
             <form name="newSchemaForm" layout="row" layout-padding layout-align="start center" ng-submit="newSchemaForm.$valid && submitSchema(newSchema)">
-                <md-input-container id="newSchemaForm" class="md-accent" flex="80">
+                <md-input-container id="newSchemaForm" class="md-accent" flex="75">
                     <label>New Schema</label>
                     <input type="text" ng-model="newSchema.name" required>
                 </md-input-container>
@@ -13,7 +13,7 @@
             <md-divider></md-divider>
             <md-content>
                 <md-list-item ng-click="goToSchema(schema)" ng-repeat="schema in schemas" layout="row">
-                    <div flex="80" layout-align="start center">
+                    <div flex="75" layout-align="start center">
                         <h5>{{schema.name}}</h5>
                     </div>
                     <div flex layout-align="center center">
@@ -47,7 +47,7 @@
 
 
         <!--</div>-->
-        <div layout="row" flex>
+        <div layout="row" layout-fill>
             <ui-view></ui-view>
         </div>
 

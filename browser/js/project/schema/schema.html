@@ -1,14 +1,22 @@
-<section layout="row" style="width: 100vw;">
-		<md-toolbar id="schemaSubheader" layout-fill>
-            <h1 class="md-toolbar-tools" layout-align="center center">{{currentSchema.name}}</h1>
-
+<section layout="column">
+		<md-toolbar id="schemaSubheader" class="md-whiteframe-z3" layout="row" layout-align="center center">
+            <span flex="50"><h1 class="md-toolbar-tools">{{currentSchema.name}}</h1></span>
+            <span id="schemaNavButtons" layout="row" layout-align="end center" flex>
+                <!--<md-button aria-label="Delete Schema" class="md-warn material-icons md-24" ng-click="(deleteSchema(schema._id))">remove_circle</md-button>-->
+                <md-button aria-label="Add Field">
+                    <md-icon class="material-icons md-24">note_add</md-icon>
+                    <md-tooltip>Add Field</md-tooltip>
+                </md-button>
+                <md-button aria-label="Show Schema Code">
+                    <md-icon class="material-icons md-24">code</md-icon>
+                    <md-tooltip>Show Schema Code</md-tooltip>
+                </md-button>
+            </span>
 		</md-toolbar>
-
-   <md-button layout-fill class="md-raised md-primary" ng-click="createField()">Add Field</md-button>
     <md-content>
     <field layout-fill
-      ng-repeat="field in fields" 
-      field="field" 
+      ng-repeat="field in fields"
+      field="field"
       deletebyid="deleteField(field)"
       savefield="saveField(field._id, field)"
       saving="saving"
@@ -17,4 +25,5 @@
     </field>
     <pre flex layout-fill>{{fields | json}}</pre>
 	</md-content>
+
 </section>
