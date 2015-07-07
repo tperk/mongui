@@ -16,10 +16,10 @@
 
 
                 <md-list-item ng-click="goToSchema(schema)" ng-repeat="schema in schemas" layout="row">
-                    <div flex="90" layout="row" layout-align="start center">
+                    <div flex="80" layout-align="start center">
                         <h5>{{schema.name}}</h5>
                     </div>
-                    <div flex="10" layout="row" layout-align="center end">
+                    <div flex layout-align="center center">
                         <md-button aria-label="Delete Schema" class="md-warn material-icons md-24" ng-click="(deleteSchema(schema._id))">remove_circle</md-button>
                         <md-tooltip>Remove</md-tooltip>
                     </div>
