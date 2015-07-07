@@ -19,6 +19,9 @@ navbar {
         color: white;
       }
   }
+  .md-button:not([disabled]):hover {
+    background-color: transparent;
+  }
 
   a {
     color: white;

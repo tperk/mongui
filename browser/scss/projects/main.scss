@@ -18,15 +18,16 @@
   md-content {
 	background-color: #fff;
   }
+  .md-button:not([disabled]):hover {
+	background-color: transparent;
+  }
   .md-default-theme {
-	background-color: #AEBDCC;
+	background-color: #9cff7d;
 	padding-top: 0;
   }
   md-toolbar {
 	margin-right: 0px;
 	background-color: #FBC93D;
   }
-  #projectsTitle {
-	margin: 0;
-  }
+
 }
