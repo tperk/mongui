@@ -1,4 +1,7 @@
 var mongoose = require('mongoose');
+var Promise = require('bluebird');
+var Schema = mongoose.model('Schema');
+
 
 var schema = new mongoose.Schema({
 	name: {
@@ -26,14 +29,42 @@ var schema = new mongoose.Schema({
 });
 
 schema.pre('remove', function (next){
-	if(this.children.length > 0){
-		this.populate('children', function(err, parent){
-			for(var i = 0; i < parent.children.length; i++){
-				parent.children[i].remove();
-			}
-		});
-	}
-	next();
+
+	var self = this;
+
+	Schema.findOne({
+		fields:{
+			$in: [self._id]
+		} 
+	}).exec()
+	.then(function (schema) {
+
+		schema.fields.pull(self._id);
+		return schema.save();
+	    
+	}).then(function () {
+
+		if(self.children.length > 0){
+			self.populate('children', function(err, parent){
+				Promise.map(parent.children, function (child) {
+					return child.remove();
+				}).then(next);
+			});
+		}
+
+	}).then(function () {
+
+		if(self.parents.length > 0){
+			self.populate('parents', function (err, child) {
+				Promise.map(child.parents, function (parent) {
+					parent.children.pull(self._id);
+					parent.save();
+				}).then(next);
+			})
+		}
+
+	})
+	.then(null, next);
 });
 
 schema.methods.convertName = function() {
@@ -49,3 +80,5 @@ schema.pre('save', function (next){
 });
 
 mongoose.model('Field', schema);
+
+

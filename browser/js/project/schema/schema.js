@@ -9,8 +9,15 @@ app.config(function ($stateProvider) {
         },
         resolve: {
             currentSchema: function (SchemaFactory, $stateParams, $state){
-                console.log('schema console log')
                 return SchemaFactory.getSchemaById($stateParams.schemaid).then(function(schema) {
+                    console.log(schema)
+                    if (!schema) {
+                        console.log($stateParams)
+                        $state.go('project', {
+                            projectid: $stateParams.projectid,
+                            projectname: $stateParams.projectname
+                        })
+                    }
                     return schema;
                 });
             },
@@ -54,34 +61,36 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stat
         8. Pass that function to the field and field-nested directives using "&"
         9. on field directive link breadcrumbs to call that function using ids
         10. on field-nested directive link buttons / links to call that funciton using ids
-    
     */
 
     $scope.currentSchema = currentSchema;
     $scope.fields = fields;
     $scope.saving = false;
-    console.log("Fields are", $scope.fields)
+    console.log("Fields for this schema are", $scope.fields)
 
     $scope.setAllFields = function(){
-        console.log("called sxet all fielçds");
+        console.log("called set all fields");
         fieldFactory.getAllFields().then(function(fields){
             $scope.fields = fields;
         });
     };
 
     $scope.setFieldsBySchemaId = function(schemaId) {
+        console.log("called set fields by schema id");
         fieldFactory.getAllFieldsById(schemaId).then(function(fields){
             $scope.fields = fields;
         });
     };
 
     $scope.createField = function(){
+        console.log("called create field");
         fieldFactory.createField(currentSchema._id).then(function(field){
             $scope.fields.push(field);
         });
     };
 
     $scope.deleteField = function(field){
+        console.log("called delete field");
         fieldFactory.deleteFieldById(field._id).then(function (response){
             $scope.setFieldsBySchemaId(currentSchema._id);
         });
@@ -89,6 +98,7 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stat
     };
 
     $scope.saveField = function(id, field){
+        console.log("called save field");
         $scope.saving = true;
         var fieldCopy = field;
         var justIds = field.children.map(function(child){
@@ -104,6 +114,7 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stat
     };
 
     $scope.createSubField = function(parent){
+        console.log("called create sub field");
         var copyOfParents = parent.parents.slice();
         copyOfParents.push(parent._id);
         fieldFactory.createField(currentSchema._id,{parents: copyOfParents}).then(function(child){
@@ -122,7 +133,8 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stat
     };
 
     $scope.typeChangeClear = function(field){
-       field.typeOptions = {stringEnums: [], array: false};
+        console.log("called type change clear");
+        field.typeOptions = {stringEnums: [], array: false};
         $scope.saveField(field._id, field).then(function(result){
             if(field.children.length){
                 field.children.forEach(function(child){

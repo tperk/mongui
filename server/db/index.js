@@ -13,8 +13,8 @@ var db = mongoose.connect(DATABASE_URI).connection;
 // anywhere the User model needs to be used.
 require('./models/user');
 require('./models/project');
-require('./models/field');
 require('./models/schema');
+require('./models/field');
 
 
 var startDbPromise = new Q(function (resolve, reject) {

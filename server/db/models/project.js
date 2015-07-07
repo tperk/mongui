@@ -1,4 +1,6 @@
 var mongoose = require('mongoose');
+var Promise = require('bluebird');
+var User = mongoose.model('User');
 
 var schema = new mongoose.Schema({
 	name: String,
@@ -9,14 +11,46 @@ var schema = new mongoose.Schema({
 });
 
 schema.pre('remove', function (next){
-	if(this.schemas.length > 0){
-		this.populate('schemas', function(err, parent){
-			for(var i = 0; i < parent.schemas.length; i++){
-				parent.schemas[i].remove();
+
+	var self = this;
+
+	User.find({
+		projects:{
+			$in: [self._id]
+		}
+	}).exec()
+	.then(function (users) {
+		return Promise.map(users, function (user) {
+			user.projects.pull(self._id)
+			return user.save();
+		})
+	})
+	.then(function () {
+		User.find({
+			pendingProjects:{
+				$in: [self._id]
 			}
-		});
-	}
-	next();
+		}).exec()
+		.then(function (users) {
+			return Promise.map(users, function (user) {
+				user.pendingProjects.pull(self._id)
+				return user.save();
+			})
+		})
+		return 
+	})
+	.then(function () {
+		if(self.schemas.length > 0){
+			self.populate('schemas', function(err, project){
+				return Promise.map(project.schemas, function (schema) {
+						return schema.remove();	
+				}).then(next);
+			});
+		} else {
+			next();
+		}
+	}).then(null, next);
+
 });
 
 schema.static('getSchemas', function (id) {
