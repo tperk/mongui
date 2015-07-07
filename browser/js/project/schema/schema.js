@@ -10,7 +10,6 @@ app.config(function ($stateProvider) {
         resolve: {
             currentSchema: function (SchemaFactory, $stateParams, $state){
                 return SchemaFactory.getSchemaById($stateParams.schemaid).then(function(schema) {
-                    console.log(schema)
                     if (!schema) {
                         console.log($stateParams)
                         $state.go('project', {
@@ -23,6 +22,9 @@ app.config(function ($stateProvider) {
             },
             fields: function (SchemaFactory, currentSchema) {
                 return SchemaFactory.getFieldsBySchemaId(currentSchema._id);
+            },
+            schemas: function (SchemaFactory, $stateParams) {
+                return SchemaFactory.getSchemas($stateParams.projectid);
             }
         },
         data: {
@@ -33,36 +35,9 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stateParams, currentSchema, fieldFactory) {
+app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stateParams, currentSchema, schemas, fieldFactory) {
 
-    /* TODO
-        1. create route that returns a flattend array of all the fields 
-            in a given schema
-        2. create an object on scope out of that array where 
-            {
-                field1_id: {field1},
-                field2_id: {field2}...etc.
-            }
-        3. create an object on scope 
-            $scope: topLevelFields = 
-            {
-                directive1: {object1},
-                directive2: {object2}
-            }
-            each key (directive#) will correspond to a top level field on the schema
-            the possible values will consist of any nested field 
-            (you could get a list of top level fields by get all fields for schema without
-            populating the children)
-        4. update field directive so it ng-repeats="topLevelField in $scope.topLevelFields"
-        5. Hopefully when we change the value of directive1 it should rerender
-            the information displayed in that field directive
-        6. on createSubField(), append a button / link to field-nested directive
-        7. write function(field_id) on this controller to switch values of topLevelFields
-        8. Pass that function to the field and field-nested directives using "&"
-        9. on field directive link breadcrumbs to call that function using ids
-        10. on field-nested directive link buttons / links to call that funciton using ids
-    */
-
+    $scope.schemas = schemas
     $scope.currentSchema = currentSchema;
     $scope.fields = fields;
     $scope.saving = false;
@@ -98,9 +73,11 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stat
     };
 
     $scope.saveField = function(id, field){
+        console.log(codeConverter(field))
         console.log("called save field");
         $scope.saving = true;
         var fieldCopy = field;
+        fieldCopy.generatedCode = codeConverter(field)
         var justIds = field.children.map(function(child){
             if(typeof child === 'object'){return child._id;} 
             else {return child;}
@@ -144,30 +121,55 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stat
         });
     };
 
-    //schema expects an object, path expects a simple path in the form 'key1.key2'
-    // var schemaParser = function (schema, path) {
-    //     var parsed = [];
-    //     var finalObj = schema;
-    //     function keyCounter (obj) {
-    //         var count = 0;
-    //         Object.keys(obj).forEach(function (key) {
-    //             count += 1;
-    //         });
-    //         return (count > 0 );
-    //     }
-    //     path.split('.').forEach(function (link) {
-    //         parsed.push({name: link, child: false});
-    //         finalObj = finalObj[link];
-    //     });
-    //     if (keyCounter(finalObj)) {
-    //         Object.keys(finalObj).forEach(function (key) {
-    //             if (typeof(finalObj[key]) === 'object') {
-    //                 parsed.push({name: key, child: true});
-    //             }
-    //         });
-    //     }
-    //     return parsed;
-    // };
+    var handleValue = function (value) {
+        if (typeof value === 'string') {
+            return  '"' + value + '"'
+        } else if (Array.isArray(value)) {
+            if (!value.length) {
+                return '[]'
+            } else {
+                var out = ''
+                value.forEach(function (subval) {
+                    out += handleValue(subval) + ','
+                })
+                out = out.substring(0, out.length - 1)
+                return '[' + out + ']'
+            }
+        } else {
+            //booleans, numbers
+            return value
+        }
+    }
 
-    // $scope.objectPath = schemaParser($scope.testSchema, $scope.currentPath);
+    function codeConverter (field) {
+        // Number
+        var out = ''
+        out += field.name + ': ' 
+        if (field.typeOptions.array) {
+            out += '[{'
+        } else {
+            out += '{'
+        }
+        out += 'type: '+ field.fieldType + ', '
+        if (field.required === true) {
+            out += "required: true, "
+        }
+        for (var key in field.typeOptions) {
+            if (key === 'stringEnums' || key === 'array') {
+                if (key === 'stringEnums' && field.typeOptions.stringEnums.length > 0 && field.fieldType === 'String') {
+                    out += 'enum:' + handleValue(field.typeOptions[key]) + ', '
+                } else {
+                }
+            } else {
+                out += key + ': ' + handleValue(field.typeOptions[key]) + ', '
+            }
+        }
+        out = out.substring(0, out.length - 2)
+        if (field.typeOptions.array) {
+            out += '}]'
+        } else {
+            out += '}'
+        }
+        return out
+    }
 });
