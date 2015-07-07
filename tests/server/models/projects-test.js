@@ -4,7 +4,7 @@ var clearDB = require('mocha-mongoose')(dbURI);
 var expect = require('chai').expect;
 var mongoose = require('mongoose');
 
-require('../../../server/db/models/project');
+require('/server/db/models/project');
 
 var Project = mongoose.model('Project');
 

@@ -83,7 +83,7 @@ app.controller('SeedDatabaseCtrl', function ($scope, $state, user, schemas, $sta
 	$scope.projectid = $stateParams.projectid;	
 });
 
-app.controller('SeedCollectionCtrl', function ($scope, $state, user, fields, TemplateFactory, schemas, currentSchema) {
+app.controller('SeedCollectionCtrl', function ($scope, $state, user, fields, TemplateFactory, schemas, currentSchema, PackageFactory, $stateParams) {
 	$scope.fields = fields;	
 	$scope.schemas = schemas;
 	$scope.fieldNames = [];
@@ -93,6 +93,32 @@ app.controller('SeedCollectionCtrl', function ($scope, $state, user, fields, Tem
 	fields.forEach(function(el){
 		$scope.fieldNames.push(el.name);
 	});
+
+	$scope.changeMixedType = function (field) {
+		field.wasMixed = true;
+		field.fieldType = field.fieldType.trim();
+		$scope.addSeedOptions(field);
+	};
+
+	$scope.packageSeedFile = function () {
+		PackageFactory.addFileToProjectDir($scope.seedFile, currentSchema.name, $stateParams.projectid).then(function(message){
+			console.log('message', message);//display message
+		}).catch(function(e) {console.log(e)});
+	};
+
+	$scope.exportSeedFile = function () {
+		//$scope.seedFile
+		var a = window.document.createElement('a');
+		a.href = window.URL.createObjectURL(new Blob([$scope.seedFile], {type: 'text/javascript'}));
+		a.download = currentSchema.name + 'SeedFile.js';
+
+		// Append anchor to body.
+		document.body.appendChild(a)
+		a.click();
+
+		// Remove anchor from body
+		document.body.removeChild(a)
+	};
 
 	$scope.changeQuantity = function (quantity) {
 		var diff = quantity - seedFields.length;
@@ -118,7 +144,7 @@ app.controller('SeedCollectionCtrl', function ($scope, $state, user, fields, Tem
 		$scope.seedFile = TemplateFactory.createSeedFile(currentSchema, seedFields, field);
 	};
 
-	$scope.addSeedOptions = function (field) {												
+	$scope.addSeedOptions = function (field) {
 		switch (field.fieldType) {
 		    case 'String':
 		        field.seedOptions = [{
@@ -141,7 +167,7 @@ app.controller('SeedCollectionCtrl', function ($scope, $state, user, fields, Tem
 					items:['image', 'avatarImage', 'imageUrl', 'abstractImage', 'animalsImage', 'businessImage', 'catsImage', 'cityImage', 'foodImage', 'nightlifeImage', 'fashionImage', 'peopleImage', 'natureImage', 'sportsImage', 'technicsImage', 'transportImage']
 				},{
 					category:"lorem",
-					items:['words', 'sentence', 'sentences', 'paragraph', 'paragraphs']
+					items:['words', 'sentence', 'sentences', 'paragraph', 'paragraphs', 'array_element']
 				},{
 					category:"finance",
 					items:['account', 'accountName', 'mask', 'amount', 'transactionType', 'currencyCode', 'currencyName', 'currencySymbol']
@@ -153,21 +179,21 @@ app.controller('SeedCollectionCtrl', function ($scope, $state, user, fields, Tem
 		    case 'Number':
 		        field.seedOptions = [{
 					category:"random",
-					items:['number', 'array_element', 'object_element', 'uuid']
+					items:['number']
 				}];
 		        break;
 		    case 'Date':
 		        field.seedOptions = [{
 					category:"date",
-					items:['past', 'future', 'between', 'recent']
+					items:['past', 'future', 'recent']
 				}];
 		        break;
-	        case 'Buffer':
-		        field.seedOptions = [{
-					category:"name",
-					items:[]
-				}];
-		        break;
+	   //      case 'Buffer':
+		  //       field.seedOptions = [{
+				// 	category:"buffer",
+				// 	items:[]
+				// }];
+		  //       break;
 	        case 'Boolean':
 		        field.seedOptions = [{
 					category:"boolean",
@@ -175,15 +201,15 @@ app.controller('SeedCollectionCtrl', function ($scope, $state, user, fields, Tem
 				}];
 		        break;
 	        case 'Mixed':
-		        field.seedOptions = [{
-					category:"mixed",
+	        	field.seedOptions = [{
+			        category:"mixed",
 					items:[]
 				}];
 		        break;
 		    case 'Objectid':
 		        field.seedOptions = [{
 					category:"objectid",
-					items:[]
+					items:['new id']
 				}];
 		        break;
 	        case 'Nested':
@@ -194,5 +220,4 @@ app.controller('SeedCollectionCtrl', function ($scope, $state, user, fields, Tem
 		        break;
 		};
 	};
-
 });
