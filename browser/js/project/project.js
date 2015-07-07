@@ -28,11 +28,6 @@ app.config(function ($stateProvider) {
 
 app.controller('projectCtrl', function ($scope, schemas, user, $state, SchemaFactory, $stateParams, $rootScope, UserFactory, members) {
 
-	$rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-
-
-	});
-
 	//SIDEBAR FUNCTIONALITY 
 	$scope.showSideBar = true;
 	var toggleSideBar = function(){

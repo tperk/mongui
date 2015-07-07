@@ -2,11 +2,14 @@ app.directive('fieldObjectid', function ($state) {
 	return {
         restrict: 'E',
         scope: {
-            props: '='
+            props: '=',
+            schemas: "=",
+            currentschema: "="
         },
         templateUrl: 'js/common/directives/field-directives/field-objectid/field-objectid.html',
-        link: function (scope) {
-
+        link: function (scope, attrs) {
         }
    };
+
+
 });
