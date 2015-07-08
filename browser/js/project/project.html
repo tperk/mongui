@@ -29,12 +29,14 @@
                 </md-list>
             </md-content>
         </md-sidenav>
+        <div layout="row" layout-fill>
+            <ui-view></ui-view>
+        </div>
+</section>
 
 
 
             <!--<h1 class="md-toolbar-tools">{{projectName}} Members</h1>-->
-
-
             <!--<md-input-container>-->
                 <!--<label>Add New Members By Email</label>-->
                 <!--<input type="text" ng-model="newMemberEmail" required>-->
@@ -48,12 +50,4 @@
                     <!--</md-list-item>-->
                 <!--</md-list>-->
             <!--</md-content>-->
-
-
-
         <!--</div>-->
-        <div layout="row" layout-fill>
-            <ui-view></ui-view>
-        </div>
-
-</section>
