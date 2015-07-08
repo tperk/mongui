@@ -1,6 +1,7 @@
 <section id="project" layout="row">
         <md-sidenav class="md-whiteframe-z3 md-sidenav-left" md-component-id="left" md-is-locked-open="true">
             <md-toolbar>
+                <md-button aria-label="Delete Schema" class="md-warn material-icons md-24" ng-click="(deleteSchema(schema._id))">remove_circle</md-button>
                 <h1 class="md-toolbar-tools">{{projectName}}</h1>
             </md-toolbar>
             <form name="newSchemaForm" layout="row" layout-padding layout-align="start center" ng-submit="newSchemaForm.$valid && submitSchema(newSchema)">
@@ -12,6 +13,7 @@
             </form>
             <md-divider></md-divider>
             <md-content>
+                <md-list>
                 <md-list-item ng-click="goToSchema(schema)" ng-repeat="schema in schemas" layout="row">
                     <div flex="75" layout-align="start center">
                         <h5>{{schema.name}}</h5>
@@ -22,6 +24,7 @@
                     </div>
                     <md-divider></md-divider>
                 </md-list-item>
+                </md-list>
             </md-content>
         </md-sidenav>
 
