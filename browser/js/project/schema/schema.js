@@ -44,17 +44,37 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fi
     $scope.fieldsChanged = {};
     $scope.saving = false;
     $scope.exportCode = currentSchema.exportSchema;
-
-    $scope.updateFieldsChanged = function()
-    $scope.fields.forEach(function(field){
-        $scope.fieldsChanged[field._id] = false;
-    });
+    
+    $scope.updateFieldsChanged = function (){
+        $scope.fieldsChanged = {};
+        $scope.fields.forEach(function(field){
+            $scope.fieldsChanged[field._id] = false;
+        });
+    };
+    $scope.updateFieldsChanged();
 
     $scope.$on('fieldChanged', function(event, fieldId){
-        $scope.fieldChanged[fieldId] = true;
+        $scope.fieldsChanged[fieldId] = true;
     });
-    
 
+    $scope.saveUpdatedFields = function(){
+        var fieldsToUpdate = [];
+        for(var id in $scope.fieldsChanged){
+            if ($scope.fieldsChanged[id]) fieldsToUpdate.push(id);
+        }
+        fieldsToUpdate.forEach(function(fieldId){
+            var theField = $scope.fields.filter(function(field){
+                if(field._id === fieldId) return true;
+                else return false;
+            });
+            $scope.saveField(theField[0]._id, theField[0]);
+        });
+        $scope.updateFieldsChanged();
+    };
+
+
+    
+    // not in use
     $scope.setAllFields = function(){
         console.log("called set all fields");
         fieldFactory.getAllFields().then(function(fields){
@@ -66,6 +86,7 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fi
         console.log("called set fields by schema id");
         fieldFactory.getAllFieldsById(schemaId).then(function(fields){
             $scope.fields = fields;
+            $scope.updateFieldsChanged();
         });
     };
 
@@ -74,6 +95,7 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fi
         fieldFactory.createField(currentSchema._id, {typeOptions: {stringEnums: [], array: false}})
         .then(function(field){
             $scope.fields.push(field);
+            $scope.updateFieldsChanged();
         });
     };
 
@@ -81,6 +103,7 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fi
         console.log("called delete field");
         fieldFactory.deleteFieldById(field._id).then(function (response){
             $scope.setFieldsBySchemaId(currentSchema._id);
+            $scope.updateFieldsChanged();
         });
 
     };
@@ -125,7 +148,7 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fi
             }
         });
     };
-
+    // not in use
     $scope.createSubField = function(parent){
         console.log("called create sub field");
         var copyOfParents = parent.parents.slice();

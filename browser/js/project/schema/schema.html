@@ -14,14 +14,13 @@
                     <md-icon class="material-icons md-24">code</md-icon>
                     <md-tooltip>Show Schema Code</md-tooltip>
                 </md-button>
-                <md-button ng-click="alert('Saved! (well, not yet)')" aria-label="Show Schema Code">
+                <md-button ng-click="saveUpdatedFields()" aria-label="Save Updated Fields">
                     <md-icon class="material-icons md-24">save</md-icon>
                     <md-tooltip>Save</md-tooltip>
                 </md-button>
             </span>
 		</md-toolbar>
     <md-content>
-    <pre>{{fieldsChanged | json}}</pre>
     <div>
     <field layout-fill
       ng-repeat="field in fields"
@@ -45,7 +44,6 @@
 
         </md-actions>
     </md-dialog>
-    <!--<pre flex layout-fill>{{fields | json}}</pre>-->
 
 
 
