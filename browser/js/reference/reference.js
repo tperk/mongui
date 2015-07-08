@@ -83,11 +83,11 @@ app.controller('SeedDatabaseCtrl', function ($scope, $state, user, schemas, $sta
 	$scope.projectid = $stateParams.projectid;	
 });
 
-app.controller('SeedCollectionCtrl', function ($scope, $state, user, fields, TemplateFactory, schemas, currentSchema, PackageFactory, $stateParams) {
+app.controller('SeedCollectionCtrl', function ($scope, $state, user, fields, TemplateFactory, schemas, currentSchema, SchemaFactory, PackageFactory, $stateParams) {
 	$scope.fields = fields;	
 	$scope.schemas = schemas;
 	$scope.fieldNames = [];
-	$scope.seedFile;
+	$scope.seedFile = null;
 	$scope.currentSchema = currentSchema;
 	var seedFields = [];
 	fields.forEach(function(el){
@@ -100,8 +100,15 @@ app.controller('SeedCollectionCtrl', function ($scope, $state, user, fields, Tem
 		$scope.addSeedOptions(field);
 	};
 
-	$scope.packageSeedFile = function () {
-		PackageFactory.addFileToProjectDir($scope.seedFile, currentSchema.name, $stateParams.projectid).then(function(message){
+	$scope.addSeedFileToSchema = function () {
+		//add generated code to schema field first
+		SchemaFactory.updateSchema(currentSchema, $stateParams.projectid).then(function(message){
+			console.log('message', message);//display message
+		}).catch(function(e) {console.log(e)});
+	};
+
+	$scope.packageProject = function () {
+		PackageFactory.packageProject($stateParams.projectid).then(function(message){
 			console.log('message', message);//display message
 		}).catch(function(e) {console.log(e)});
 	};

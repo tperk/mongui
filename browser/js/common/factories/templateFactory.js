@@ -197,8 +197,8 @@ app.factory('TemplateFactory', function (){
 			    	// 	break;
 			    	case 'Boolean': booleanFunc(el, field)
 			    		break;
-			    	case 'Mixed': mixedFunc(el, field)
-			    		break;
+			    	// case 'Mixed': mixedFunc(el, field)
+			    	// 	break;
 			    	case 'Objectid': objectidFunc(el, field)
 			    		break;
 			    	case 'Nested': nestedFunc(el, field)

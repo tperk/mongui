@@ -1,18 +1,18 @@
 app.factory('PackageFactory', function ($http){
-	
-	var addFileToProjectDir = function(file, schemaName, projectId){
-		var obj = {
-			projectId: projectId,
-			schemaName: schemaName,
-			file: file
-		};
-		
-		return $http.post('/api/package/seed', obj).then(function (response){
+	var packageProject = function(projectId){
+		return $http.get('/api/package/' + projectId).then(function (response){
+		 	return response.data;
+		});
+	};
+
+	var exportProject = function(projectId){
+		return $http.get('/api/package/zip/' + projectId).then(function (response){
 		 	return response.data;
 		});
 	};
 
 	return {
-		addFileToProjectDir: addFileToProjectDir
+		packageProject: packageProject,
+		exportProject: exportProject
 	};
 });
