@@ -5,6 +5,10 @@
 .material-icons {
   display: block !important;
 }
+md-dialog {
+  background-color: rgb(50, 51, 52);
+}
+
 
 @mixin clearfix {
   &:after {
