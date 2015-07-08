@@ -1,5 +1,7 @@
-app.factory('fieldFactory', function ($http) {
+app.factory('fieldFactory', function ($http, TemplateFactory) {
 	
+    var indent = TemplateFactory.indent
+
 	var handleValue = function (value) {
         if (typeof value === 'string') {
             return  '"' + value + '"'
@@ -21,43 +23,43 @@ app.factory('fieldFactory', function ($http) {
     }
 
     function codeConverter (field) {
-        // Number
         var out = ''
-        out += field.name + ': ' 
+        out += field.name + ': '
         if (field.typeOptions.array) {
             out += '[{'
         } else {
             out += '{'
         }
-        out += 'type: '+ field.fieldType + ', '
+        out += indent('type: '+ field.fieldType + ', ', 1)
         if (field.required === true) {
-            out += "required: true, "
+            out += indent("required: true, ", 1)
         }
         for (var key in field.typeOptions) {
             if (key === 'stringEnums' || key === 'array') {
                 if (key === 'stringEnums' && field.typeOptions.stringEnums.length > 0 && field.fieldType === 'String') {
-                    out += 'enum:' + handleValue(field.typeOptions[key]) + ', '
+                    out += indent('enum:' + handleValue(field.typeOptions[key]) + ', ', 1)
                 } else {
                 }
             } else {
-                out += key + ': ' + handleValue(field.typeOptions[key]) + ', '
+                out += indent(key + ': ' + handleValue(field.typeOptions[key]) + ', ', 1)
             }
         }
         out = out.substring(0, out.length - 2)
         if (field.typeOptions.array) {
-            out += '}]'
+            out += '\n' + '}]'
         } else {
-            out += '}'
+            out += '\n' + '}'
         }
         return out
     }
 
-    function generateExportSchema () {
-        var fieldCodes = []
-        $scope.fields.forEach(function (field) {
-            fieldCodes.push(field)
+    function generateExportSchema (fields) {
+        var out = ''
+        fields.forEach(function (field) {
+            out += field.generatedCode + ',' + '\n'
         })
-        
+        out = out.substring(0, out.length - 2)
+        return out
     }
 
 
