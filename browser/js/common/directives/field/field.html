@@ -29,10 +29,10 @@
 					<field-buffer props="field.typeOptions" ng-if="field.fieldType  === 'Buffer'"></field-buffer>
 					<field-boolean props="field.typeOptions" ng-if="field.fieldType === 'Boolean'"></field-boolean>
 					<field-mixed props="field.typeOptions" ng-if="field.fieldType === 'Mixed'"></field-mixed>
-					<field-objectid props="field.typeOptions" ng-if="field.fieldType === 'Objectid'"></field-objectid>
+					<field-objectid currentschema="currentschema" schemas="schemas" props="field.typeOptions" ng-if="field.fieldType === 'Objectid'"></field-objectid>
 					<field-nested subfield="subfield()" children="field.children" props="field.typeOptions" ng-if="field.fieldType === 'Nested'"></field-nested>
   				</div>
-  				<pre flex>{{field | json}}</pre>
+  				<pre flex>{{field.generatedCode}}</pre>
 			</div>
 		</md-card-content>
 	</md-card>

@@ -7,12 +7,13 @@ app.directive('field', function ($state, $rootScope) {
             savefield: "&",
             saving: "=",
             subfield: '&',
-            typechangeclear: '&'
+            typechangeclear: '&',
+            schemas: "=",
+            currentschema: "="
         },
         templateUrl: 'js/common/directives/field/field.html',
         link: function (scope) {
             scope.types = ["String", "Number", "Date", "Buffer", "Boolean", "Mixed", "Objectid", "Nested"];
-
         }
    };
 });
