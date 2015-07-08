@@ -31,7 +31,7 @@ app.config(function ($urlRouterProvider, $locationProvider, $mdThemingProvider) 
         })
         .warnPalette('monguiRed')
         .backgroundPalette('grey', {
-            'default': '900'
+            'default': '50'
         })
 });
 

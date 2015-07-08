@@ -8,7 +8,12 @@
 md-dialog {
   background-color: rgb(50, 51, 52);
 }
-
+md-card {
+  background-color: transparent;
+}
+md-content {
+  background-color: transparent;
+}
 
 @mixin clearfix {
   &:after {
