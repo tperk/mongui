@@ -45,14 +45,15 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stat
     $scope.saving = false;
     $scope.exportCode = currentSchema.exportSchema;
 
-    $scope.updateFieldsChanged = function()
-    $scope.fields.forEach(function(field){
-        $scope.fieldsChanged[field._id] = false;
-    });
+    console.log('exportCode', fieldFactory.generateExportSchema($scope.fields))
+    // $scope.updateFieldsChanged = function()
+    // $scope.fields.forEach(function(field){
+    //     $scope.fieldsChanged[field._id] = false;
+    // });
 
-    $scope.$on('fieldChanged', function(event, fieldId){
-        $scope.fieldChanged[fieldId] = true;
-    });
+    // $scope.$on('fieldChanged', function(event, fieldId){
+    //     $scope.fieldChanged[fieldId] = true;
+    // });
     
 
     $scope.setAllFields = function(){
@@ -86,6 +87,7 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stat
     };
 
     $scope.saveField = function(id, field){
+        
         $scope.saving = true;
         var fieldCopy = field;
         fieldCopy.generatedCode = fieldFactory.codeConverter(field);
