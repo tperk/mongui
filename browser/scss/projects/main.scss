@@ -3,8 +3,9 @@
 		margin-top: 40px;
 		text-align: center;
 	}
-	.md-sidenav-left {
-		margin-top: 51px;
+  	h5 {
+	  color: #393A3B;
+	  margin: 0;
 	}
 	md-tabs {
 		.link {
@@ -14,4 +15,19 @@
 			color: green;
 		}
 	}
+  md-content {
+	background-color: #fff;
+  }
+  .md-button:not([disabled]):hover {
+	background-color: transparent;
+  }
+  .md-default-theme {
+	background-color: #9cff7d;
+	padding-top: 0;
+  }
+  md-toolbar {
+	margin-right: 0px;
+	background-color: #FBC93D;
+  }
+
 }

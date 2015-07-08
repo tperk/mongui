@@ -6,11 +6,33 @@ app.config(function ($urlRouterProvider, $locationProvider, $mdThemingProvider) 
     $locationProvider.html5Mode(true);
     // If we go to a URL that ui-router doesn't have registered, go to the "/" url.
     $urlRouterProvider.otherwise('/');
+        // Extend the red theme with a few different colors
+        var monguiRedMap = $mdThemingProvider.extendPalette('red', {
+            '500': 'FB4F4F'
+        });
+        var monguiBlueMap = $mdThemingProvider.extendPalette('blue', {
+            '500': '6CC0E5'
+        });
+        var monguiYellowMap = $mdThemingProvider.extendPalette('yellow', {
+            '500': 'FBC93D'
+        });
+        // Register the new color palette map with the name <code>neonRed</code>
+        $mdThemingProvider.definePalette('monguiRed', monguiRedMap);
+        $mdThemingProvider.definePalette('monguiBlue', monguiBlueMap);
+        $mdThemingProvider.definePalette('monguiYellow', monguiYellowMap);
+        // Use that theme for the primary intentions
+        $mdThemingProvider.theme('default')
+            .primaryPalette('neonRed')
+
     $mdThemingProvider.theme('default')
-        .primaryPalette('brown')
-        .accentPalette('green')
-        .warnPalette('amber')
-        .backgroundPalette('grey');
+        .primaryPalette("monguiYellow")
+        .accentPalette('green', {
+            'default': '300'
+        })
+        .warnPalette('monguiRed')
+        .backgroundPalette('grey', {
+            'default': '900'
+        })
 });
 
 // This app.run is for controlling access to specific states.
@@ -24,6 +46,16 @@ app.run(function ($rootScope, AuthService, $state) {
     // $stateChangeStart is an event fired
     // whenever the process of changing a state begins.
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+
+        console.log('to state ', toState)
+        if(toState.name === 'home'){
+            AuthService.getLoggedInUser().then(function (user) {
+                if (user) {
+                    console.log('hit')
+                    $state.go('projects');
+                }
+            });
+        }
 
         if (!destinationStateRequiresAuth(toState)) {
             // The destination state does not require authentication
@@ -47,7 +79,7 @@ app.run(function ($rootScope, AuthService, $state) {
             if (user) {
                 $state.go(toState.name, toParams);
             } else {
-                $state.go('login');
+                $state.go('home');
             }
         });
 

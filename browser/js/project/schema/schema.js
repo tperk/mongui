@@ -35,6 +35,7 @@ app.config(function ($stateProvider) {
 
 });
 
+
 app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stateParams, currentSchema, schemas, fieldFactory) {
 
     $scope.schemas = schemas
@@ -89,6 +90,32 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stat
             $scope.saving = false;
             $scope.setFieldsBySchemaId(currentSchema._id);
             return;
+        });
+    };
+
+    $scope.openCodeDialog = function() {
+        console.log('hitting code dialog')
+        $mdDialog.show({
+            clickOutsideToClose: true,
+            scope: $scope, //use parent scope in template
+            preserveScope: true,
+            template:
+                '<md-dialog>' +
+                    '  <md-dialog-content>'+
+                '       Here is your code, yo. {{fields | json}}' +
+                '  </md-dialog-content>' +
+                '  <div class="md-actions">' +
+                '    <md-button ng-click="closeDialog()" class="md-primary">' +
+                '      Close Dialog' +
+                '    </md-button>' +
+                '  </div>' +
+                '</md-dialog>',
+            controller: function DialogController($scope, $mdDialog) {
+                $scope.closeDialog = function() {
+                    $mdDialog.hide();
+                }
+
+            }
         });
     };
 
