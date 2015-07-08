@@ -41,6 +41,8 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stat
     $scope.currentSchema = currentSchema;
     $scope.fields = fields;
     $scope.saving = false;
+    $scope.exportCode = currentSchema.exportSchema
+
     console.log("Fields for this schema are", $scope.fields)
 
     $scope.setAllFields = function(){
@@ -171,5 +173,13 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stat
             out += '}'
         }
         return out
+    }
+
+    function generateExportSchema () {
+        var fieldCodes = []
+        $scope.fields.forEach(function (field) {
+            fieldCodes.push(field)
+        })
+        
     }
 });
