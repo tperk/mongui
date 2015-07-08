@@ -1,6 +1,13 @@
-app.factory('fieldFactory', function ($http, TemplateFactory) {
+app.factory('fieldFactory', function ($http) {
 	
-    var indent = TemplateFactory.indent
+    var indent = function (str, numOfIndents) {
+        var indentString = "";
+        for(var i=0; i<numOfIndents; i++){
+            indentString = "    " + indentString;
+        }
+        str = indentString + str;
+        return "\n"+str;
+    };
 
 	var handleValue = function (value) {
         if (typeof value === 'string') {
