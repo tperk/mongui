@@ -9,7 +9,9 @@
                calendar-header="header"
                date="date"
                date-format="DD-MM-YYYY"
-               ng-model="props.dateExpire">
+               ng-model="props.dateExpire"
+               ng-click='fieldchange()'
+               ng-keypress='fieldchange()'>
             </mb-datepicker>
     </md-input-container>
     <md-input-container>
@@ -21,7 +23,9 @@
                calendar-header="header"
                date="date"
                date-format="DD-MM-YYYY"
-               ng-model="props.dateMax">
+               ng-model="props.dateMax"
+               ng-click='fieldchange()'
+               ng-keypress='fieldchange()'>
             </mb-datepicker>
     </md-input-container>
     <md-input-container>
@@ -33,12 +37,13 @@
                calendar-header="header"
                date="date"
                date-format="DD-MM-YYYY"
-               ng-model="props.dateMin">
+               ng-model="props.dateMin"
+               ng-click='fieldchange()'
+               ng-keypress='fieldchange()'>
             </mb-datepicker>
     </md-input-container>
-    <md-switch class="md-primary" ng-model="props.array">
+    <md-switch class="md-primary" ng-model="props.array" ng-change="fieldchange()">
       Array: {{props.array}}
     </md-switch>
-
 
 </div>

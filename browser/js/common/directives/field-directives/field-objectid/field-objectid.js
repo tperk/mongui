@@ -4,7 +4,8 @@ app.directive('fieldObjectid', function ($state) {
         scope: {
             props: '=',
             schemas: "=",
-            currentschema: "="
+            currentschema: "=",
+            fieldchange: '&' 
         },
         templateUrl: 'js/common/directives/field-directives/field-objectid/field-objectid.html',
         link: function (scope, attrs) {
