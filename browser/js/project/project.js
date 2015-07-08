@@ -71,6 +71,10 @@ app.controller('projectCtrl', function ($scope, schemas, user, $state, SchemaFac
 			.catch(function(e) {console.log(e)});
 		});
 	};
+	$scope.backToProjects = function () {
+		console.log('hitting back t o projects')
+			$state.go('home');
+	};
 
 	$scope.members = members;
 	//console.log('members', members);
