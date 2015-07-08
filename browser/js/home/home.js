@@ -6,6 +6,6 @@ app.config(function ($stateProvider) {
     });
 });
 
-app.controller('homeCtrl', function ($scope) {
+app.controller('homeCtrl', function ($scope, $state, AuthService) {
 
 });
