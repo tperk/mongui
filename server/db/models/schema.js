@@ -8,6 +8,10 @@ var schema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Field'
 	}],
+	functions: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Function'
+	}],
 	exportSchema: String,
 	exportSeed: String
 });

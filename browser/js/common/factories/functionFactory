@@ -71,42 +71,42 @@ app.factory('fieldFactory', function ($http) {
 
 
 	return {
-		getAllFields: function(){
-			return $http.get('/api/fields/')
+		getAllFunctions: function(){
+			return $http.get('/api/functions/')
 			.then(function (response){
 				return response.data;
 			});
 		},
-		getFieldById: function(fieldId){
-			return $http.get('/api/fields/' + fieldId)
-			.then(function (response){
-				return response.data;
+		getAllFunctionsById: function (schemaId) {
+			return $http.get('/api/functions/schema/' + schemaId)
+			.then(function (functions) {
+				return functions.data;
 			});
 		},
-		createField: function(schemaId, body){
-			return $http.post('/api/fields/' + schemaId, body)
-			.then(function (response){
-				return response.data;
-			});
-		},
-		editFieldById: function(fieldId, updatedField){
-			return $http.put('/api/fields/' + fieldId, updatedField)
-			.then(function (response){
-				return response.data;
-			});
-		},
-		deleteFieldById: function(fieldId){
-			return $http.delete('/api/fields/' + fieldId)
-			.then(function (response){
-				return response.data;
-			});
-		},
-		getAllFieldsById: function (schemaId) {
-			return $http.get('/api/fields/schema/' + schemaId)
-			.then(function (fields) {
-				return fields.data;
-			});
-		},
+        getFunctionById: function(funcitonId){
+            return $http.get('/api/functions/' + functionId)
+            .then(function (response){
+                return response.data;
+            });
+        },
+        createFunction: function(schemaId, body){
+            return $http.post('/api/functions/' + schemaId, body)
+            .then(function (response){
+                return response.data;
+            });
+        },
+        editFunctionById: function(functionId, updatedFunction){
+            return $http.put('/api/functions/' + functionId, updatedFunction)
+            .then(function (response){
+                return response.data;
+            });
+        },
+        deleteFunctionById: function(functionId){
+            return $http.delete('/api/functions/' + functionId)
+            .then(function (response){
+                return response.data;
+            });
+        },
 		codeConverter: codeConverter,
 		generateExportSchema: generateExportSchema
 	};
