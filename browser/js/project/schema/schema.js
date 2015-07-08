@@ -11,11 +11,11 @@ app.config(function ($stateProvider) {
             currentSchema: function (SchemaFactory, $stateParams, $state){
                 return SchemaFactory.getSchemaById($stateParams.schemaid).then(function(schema) {
                     if (!schema) {
-                        console.log($stateParams)
+                        console.log($stateParams);
                         $state.go('project', {
                             projectid: $stateParams.projectid,
                             projectname: $stateParams.projectname
-                        })
+                        });
                     }
                     return schema;
                 });
@@ -38,13 +38,22 @@ app.config(function ($stateProvider) {
 
 app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stateParams, currentSchema, schemas, fieldFactory) {
 
-    $scope.schemas = schemas
+    $scope.schemas = schemas;
     $scope.currentSchema = currentSchema;
     $scope.fields = fields;
+    $scope.fieldsChanged = {};
     $scope.saving = false;
-    $scope.exportCode = currentSchema.exportSchema
+    $scope.exportCode = currentSchema.exportSchema;
 
-    console.log("Fields for this schema are", $scope.fields)
+    $scope.updateFieldsChanged = function()
+    $scope.fields.forEach(function(field){
+        $scope.fieldsChanged[field._id] = false;
+    });
+
+    $scope.$on('fieldChanged', function(event, fieldId){
+        $scope.fieldChanged[fieldId] = true;
+    });
+    
 
     $scope.setAllFields = function(){
         console.log("called set all fields");
@@ -62,7 +71,8 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stat
 
     $scope.createField = function(){
         console.log("called create field");
-        fieldFactory.createField(currentSchema._id).then(function(field){
+        fieldFactory.createField(currentSchema._id, {typeOptions: {stringEnums: [], array: false}})
+        .then(function(field){
             $scope.fields.push(field);
         });
     };
@@ -76,11 +86,9 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stat
     };
 
     $scope.saveField = function(id, field){
-        console.log(codeConverter(field))
-        console.log("called save field");
         $scope.saving = true;
         var fieldCopy = field;
-        fieldCopy.generatedCode = codeConverter(field)
+        fieldCopy.generatedCode = fieldFactory.codeConverter(field);
         var justIds = field.children.map(function(child){
             if(typeof child === 'object'){return child._id;} 
             else {return child;}
@@ -88,7 +96,6 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stat
         fieldCopy.children = justIds;
         return fieldFactory.editFieldById(id, fieldCopy).then(function (response){
             $scope.saving = false;
-            $scope.setFieldsBySchemaId(currentSchema._id);
             return;
         });
     };
@@ -113,7 +120,7 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stat
             controller: function DialogController($scope, $mdDialog) {
                 $scope.closeDialog = function() {
                     $mdDialog.hide();
-                }
+                };
 
             }
         });
@@ -150,63 +157,5 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stat
         });
     };
 
-    var handleValue = function (value) {
-        if (typeof value === 'string') {
-            return  '"' + value + '"'
-        } else if (Array.isArray(value)) {
-            if (!value.length) {
-                return '[]'
-            } else {
-                var out = ''
-                value.forEach(function (subval) {
-                    out += handleValue(subval) + ','
-                })
-                out = out.substring(0, out.length - 1)
-                return '[' + out + ']'
-            }
-        } else {
-            //booleans, numbers
-            return value
-        }
-    }
-
-    function codeConverter (field) {
-        // Number
-        var out = ''
-        out += field.name + ': ' 
-        if (field.typeOptions.array) {
-            out += '[{'
-        } else {
-            out += '{'
-        }
-        out += 'type: '+ field.fieldType + ', '
-        if (field.required === true) {
-            out += "required: true, "
-        }
-        for (var key in field.typeOptions) {
-            if (key === 'stringEnums' || key === 'array') {
-                if (key === 'stringEnums' && field.typeOptions.stringEnums.length > 0 && field.fieldType === 'String') {
-                    out += 'enum:' + handleValue(field.typeOptions[key]) + ', '
-                } else {
-                }
-            } else {
-                out += key + ': ' + handleValue(field.typeOptions[key]) + ', '
-            }
-        }
-        out = out.substring(0, out.length - 2)
-        if (field.typeOptions.array) {
-            out += '}]'
-        } else {
-            out += '}'
-        }
-        return out
-    }
-
-    function generateExportSchema () {
-        var fieldCodes = []
-        $scope.fields.forEach(function (field) {
-            fieldCodes.push(field)
-        })
-        
-    }
+    
 });
