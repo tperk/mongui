@@ -1,8 +1,10 @@
 <section id="project" layout="row">
         <md-sidenav class="md-whiteframe-z3 md-sidenav-left" md-component-id="left" md-is-locked-open="true">
             <md-toolbar>
-                <md-button aria-label="Delete Schema" class="md-warn material-icons md-24" ng-click="(deleteSchema(schema._id))">remove_circle</md-button>
-                <h1 class="md-toolbar-tools">{{projectName}}</h1>
+                <div layout="row">
+                <md-button aria-label="Back to Projects" flex="10" layout-align="start center" class="material-icons backToProjects md-24" ng-click="backToProjects()">arrow_back</md-button>
+                <h1 id="sidenavProjectName" class="md-toolbar-tools" flex>{{projectName}}</h1>
+                </div>
             </md-toolbar>
             <form name="newSchemaForm" layout="row" layout-padding layout-align="start center" ng-submit="newSchemaForm.$valid && submitSchema(newSchema)">
                 <md-input-container id="newSchemaForm" class="md-accent" flex="75">
