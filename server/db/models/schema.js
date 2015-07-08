@@ -7,7 +7,9 @@ var schema = new mongoose.Schema({
 	fields: [{
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Field'
-	}]
+	}],
+	exportSchema: String,
+	exportSeed: String
 });
 
 schema.pre('remove', function (next){

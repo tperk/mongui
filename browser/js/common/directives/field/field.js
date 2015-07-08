@@ -13,7 +13,11 @@ app.directive('field', function ($state, $rootScope) {
         },
         templateUrl: 'js/common/directives/field/field.html',
         link: function (scope) {
-            scope.types = ["String", "Number", "Date", "Buffer", "Boolean", "Mixed", "Objectid", "Nested"];
+            scope.types = ["String", "Number", "Date", "Buffer", "Boolean", "Mixed", "Objectid"];
+            scope.fieldChange = function(){
+                scope.$emit('fieldChanged', scope.field._id);
+            };
         }
    };
 });
+

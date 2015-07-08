@@ -2,36 +2,38 @@
 <div layout="row" layout-wrap layout-fill layout-padding>
 	<md-input-container>
 		<label>Min Length</label>
-		<input type="number" ng-model="props.stringMin">
+		<input type="number" ng-model="props.stringMin" ng-change='fieldchange()'>
 	</md-input-container>
 	<md-input-container>
 		<label>Max Length</label>
-		<input type="number" ng-model="props.stringMax">
+		<input type="number" ng-model="props.stringMax" ng-change='fieldchange()'>
 	</md-input-container>
-	<md-radio-group ng-model="props.stringCaseGroup">
+	<md-radio-group ng-model="props.stringCaseGroup" ng-change='fieldchange()'>
 		<md-radio-button value="nocase">No Case Setter</md-radio-button>
 		<md-radio-button value="lowercase">Lowercase Setter</md-radio-button>
 		<md-radio-button value="uppercase">Uppercase Setter</md-radio-button>
 	</md-radio-group>
-	<md-switch ng-model="props.stringTrim">
+	<md-switch ng-model="props.stringTrim" ng-change='fieldchange()'>
 		Trim Setter
 	</md-switch>
 	<md-input-container>
 		<label>Regular Expression Match</label>
-		<input ng-model="props.stringRegEx">
+		<input ng-model="props.stringRegEx" ng-change='fieldchange()'>
 	</md-input-container>
 	<md-input-container>
 		<label>RegEx Custom Error Message</label>
-		<input ng-model="props.stringRegExCustomErrorMessage">
+		<input ng-model="props.stringRegExCustomErrorMessage" ng-change='fieldchange()'>
 	</md-input-container>
 	<md-chips
 		flex="100" 
 		ng-model="props.stringEnums"
 		placeholder="+Enum"
 		secondary-placeholder="Enter an Enum"
+		ng-click='fieldchange()'
+		ng-keypress='fieldchange()'
 		>
 	</md-chips>
-    <md-switch class="md-primary" ng-model="props.array">
+    <md-switch class="md-primary" ng-model="props.array" ng-change='fieldchange()'>
       Array: {{props.array}}
     </md-switch>
 </div>
