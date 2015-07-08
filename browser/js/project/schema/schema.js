@@ -38,7 +38,6 @@ app.config(function ($stateProvider) {
 
 app.controller('schemaCtrl', function ($scope, $mdSidenav, $state, fields, $stateParams, currentSchema, schemas, fieldFactory) {
 
-
     $scope.schemas = schemas
     $scope.currentSchema = currentSchema;
     $scope.fields = fields;
