@@ -18,9 +18,9 @@
 							{{type}}
 						</md-option>
 					</md-select>
-					<md-button class="md-accent md-hue-3" ng-click="savefield()" ng-hide="saving">Save Field</md-button>
-					<md-progress-circular md-mode="indeterminate" ng-show="saving"></md-progress-circular>
-					<md-button class="md-warn" ng-click="deletebyid()">Delete Field</md-button>
+					<!--<md-button class="md-accent md-hue-3" ng-click="savefield()" ng-hide="saving">Save Field</md-button>-->
+					<!--<md-progress-circular md-mode="indeterminate" ng-show="saving"></md-progress-circular>-->
+					<!--<md-button class="md-warn" ng-click="deletebyid()">Delete Field</md-button>-->
 				</div>
 				<div layout="row" class="field-options md-padding" flex="66">
 					<field-number props="field.typeOptions" ng-if="field.fieldType === 'Number'"></field-number>
@@ -33,6 +33,12 @@
 					<field-nested subfield="subfield()" children="field.children" props="field.typeOptions" ng-if="field.fieldType === 'Nested'"></field-nested>
   				</div>
   				<pre flex>{{field.generatedCode}}</pre>
+				<div layout="row" layout-align="end center">
+					<md-button id="deleteField" aria-label="Delete Field" ng-click="deletebyid()">
+						<md-icon class="material-icons md-24 md-warn">delete</md-icon>
+						<md-tooltip>Delete</md-tooltip>
+					</md-button>
+				</div>
 			</div>
 		</md-card-content>
 	</md-card>
