@@ -2,6 +2,14 @@
   box-sizing: border-box;
 }
 
+.material-icons {
+  display: block !important;
+}
+md-dialog {
+  background-color: rgb(50, 51, 52);
+}
+
+
 @mixin clearfix {
   &:after {
     content: "";
@@ -9,6 +17,10 @@
     clear: both;
   }
 }
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
 
 @import 'directives/main';
 @import 'home/main';

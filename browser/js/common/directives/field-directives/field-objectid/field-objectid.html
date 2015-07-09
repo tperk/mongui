@@ -6,4 +6,10 @@
     <md-switch class="md-primary" ng-model="props.array">
       Array: {{props.array}}
     </md-switch>
+
+    <md-input-container>
+        <md-select placeholder="Ref" ng-model="props.ref">
+			<md-option ng-repeat="schema in schemas | excludeSelf:currentschema">{{schema.name}}</md-option>
+		</md-select>
+    </md-input-container>
 </div>

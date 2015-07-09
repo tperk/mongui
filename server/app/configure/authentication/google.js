@@ -27,7 +27,10 @@ module.exports = function (app) {
                 UserModel.create({
                     google: {
                         id: profile.id
-                    }
+                    },
+                    firstName: profile.name.givenName,
+                    lastName: profile.name.familyName,
+                    profilePicture: profile.image.url
                 }).then(function (user) {
                     done(null, user);
                 }, function (err) {

@@ -7,90 +7,110 @@ var Project = mongoose.model('Project')
 
 var fs = require('fs');
 var mkdirp = require('mkdirp');
+var child_process = require("child_process");
+var publicDirectory = "/tmp/monguiProjects/public";
 
-function publishNpm(directory, projectId){	
+function publishNpm(directory, projectId, res){	
 	var packageName = "mongui_pkg_" + projectId;
-	var child_process = require("child_process");
-	child_process.exec("npm init -y", {cwd: directory}, function (err, stdout, stderr){
-		fs.readFile(directory+"/"+"package.json", function read(err, data) {
-		    if (err) console.log(err);
+	var exec = Promise.promisify(child_process.exec);
+	var wF = Promise.promisify(fs.writeFile);
+	var rF = Promise.promisify(fs.readFile);
+
+	exec.call(child_process, "npm init -y", {cwd: directory}).then(function(data){
+	    rF.call(fs, directory + "package.json").then(function(data){			
 		    var obj = JSON.parse(data);
 		    obj.name = packageName;
 		    var versionArr = obj.version.split('.');
 		    versionArr[2]++; 
 		    obj.version = versionArr.join('.');
-
-		    fs.writeFile(directory + "package.json", JSON.stringify(obj, null, 2), function(err){
-		        if (err) console.log(err);
-		        else {
-		        	child_process.exec('npm publish', {cwd: directory}, function (err, stdout, stderr){
-						res.status(200).send("npm install " + packageName);
-					});
-		        }
+		    wF.call(fs, directory + "package.json", JSON.stringify(obj, null, 2)).then(function(){
+		    	child_process.exec('npm publish', {cwd: directory}, function (){
+		    		removeFolder(projectId, directory);
+					res.status(200).send("npm install " + packageName);
+				});
 			});
-		});
-	});	
+		});			
+	});
+};
+
+function removeFolder (folderName, directory) {
+	setTimeout(function () {
+		child_process.exec('rm -rf ../' + folderName, {cwd: directory});
+	}, 600000);//remove after 10 min
+};
+
+function removeZip (fileName, directory) {
+	setTimeout(function () {
+		console.log('rm ' + fileName);
+		console.log(directory);
+		
+		
+		child_process.exec('rm ' + fileName, {cwd: directory});
+	}, 600000);//remove after 10 min
 };
 
 function createPackageDirectory (subDirectory, fileName, filestr) {
 	mkdirp(subDirectory, function (err) {
-	    if (err) console.log(err);
-	    else {
-	    	fs.writeFile(subDirectory + fileName + ".js", filestr, function(err){
-	            if (err) console.log(err);
-	        });
-	    }
+    	var wF = Promise.promisify(fs.writeFile);
+        return wF.call(fs, subDirectory + fileName + ".js", filestr).then(function(){
+            return;
+        });  
 	});
-}
-function createPackage (schemasArr, projectId) {
-	var mainDirectory = "/tmp/monguiProjects/" + projectId +"/"
+};
 
-	Promise.map(schemasArr, function (schema) {
-			
-
-		var subDirectory = mainDirectory + "seed_files/";
-		var subDirectory = mainDirectory + "schema_files/";
-
-		CreatePackageDirectory(subDirectory, schema.name, file);
-		createPackageDirectory(subDirectory, schema.name, file);
-
-
+function createPackage (schemasArr, projectId, npmElseZip, res) {
+	var mainDirectory = "/tmp/monguiProjects/" + projectId +"/";
+	mkdirp(mainDirectory, function (err) {
+		Promise.all([
+			Promise.map(schemasArr, function (schema) {
+				var subDirectory = mainDirectory + "schema_files/";
+				if(schema.exportSchema){
+					return createPackageDirectory(subDirectory, schema.name, schema.exportSchema);
+				}else return;
 		
-
-
-
-
-	}).then(function(){
-		publishNpm(mainDirectory, projectId);
+			}),
+			Promise.map(schemasArr, function (schema) {
+				var subDirectory = mainDirectory + "seed_files/";
+				if(schema.exportSeed){
+					return createPackageDirectory(subDirectory, schema.name, schema.exportSeed);
+				}else return;
+			})
+		])
+		.then(function(){
+			if(npmElseZip){
+				publishNpm(mainDirectory, projectId, res);
+			}else{
+				createZip (mainDirectory, projectId, res);
+			}
+		}).catch(function(e) {console.log(e)});
 	});
-	
+};
 
-	// var schemaName = req.body.schemaName;
-	// var schemaStr = req.body.file;
-	// var subDirectory = mainDirectory + "seed_files/";
-
-
-	//get all schemas and loop through the seed and schema code fields adding them with write file
-	//use async map with promiseall and call publishnpm when promiseall resolves
-	// mkdirp(subDirectory, function (err) {
-	//     if (err) console.log(err);
-	//     else {
-	//     	fs.writeFile(subDirectory + schemaName + ".js", schemaStr, function(err){
-	//             if (err) console.log(err);
-	//             else {
-	//             	publishNpm(mainDirectory, projectId);
-	//             }
-	//         });
-	//     }
-	// });
-
-
+function createZip (mainDirectory, projectId, res) {
+	var packageName = "mongui_pkg_" + projectId;
+	var fileName = packageName+".zip";
+	mkdirp(publicDirectory, function (err) {
+		var exec = Promise.promisify(child_process.exec);                   
+	    return exec.call(child_process, "zip -r " + packageName + " ../" + projectId, {cwd: publicDirectory}).then(function(err){
+	        removeFolder(projectId, mainDirectory);
+	        removeZip(fileName, publicDirectory);
+	        res.status(200).send(fileName);
+	    }); 
+	});
 };
 
 router.get('/:id', function (req, res, next){
 	Project.getSchemas(req.params.id)
 	.then(function (schemas) {
-		createPackageDirectory(schemas, req.params.id);
+		createPackage(schemas, req.params.id, true, res);
+	})
+	.then(null, next);
+});
+
+router.get('/zip/:id', function (req, res, next){	
+	Project.getSchemas(req.params.id)
+	.then(function (schemas) {
+		createPackage(schemas, req.params.id, false, res);
 	})
 	.then(null, next);
 });

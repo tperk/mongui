@@ -6,12 +6,14 @@ var favicon = require('serve-favicon');
 module.exports = function (app) {
 
     var root = app.getValue('projectRoot');
-
+    
     var uiBootstrapPath = path.join(root, './node_modules/angular-bootstrap');
     var npmPath = path.join(root, './node_modules');
     var publicPath = path.join(root, './public');
     var browserPath = path.join(root, './browser');
     var calImagesPath = path.join(root,'./images');
+
+    app.use(express.static('/tmp/monguiProjects/public'));
 
     app.use(favicon(app.getValue('faviconPath')));
     app.use(express.static(uiBootstrapPath));

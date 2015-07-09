@@ -17,7 +17,7 @@ var jshint = require('gulp-jshint');
 var mocha = require('gulp-mocha');
 var karma = require('karma').server;
 
-//var browserify = require('browserify');
+var browserify = require('browserify');
 
 // Development tasks
 // --------------------------------------------------------------
@@ -88,13 +88,14 @@ gulp.task('seedDB', function () {
 
 });
 
+//"build": "browserify public/main.js -o public/bundle.js",
+//"watch": "watchify public/main.js -o public/bundle.js"
 // gulp.task('buildBundle', function () {
 //     return gulp.src('./public/main.js')
 //         .pipe(plumber())
 //         .pipe(browserify())
 //         .pipe(rename('bundle.js'))
 //         .pipe(gulp.dest('./public'))
-//         //"browserify public/main.js -o public/bundle.js"
 // });
 
 // --------------------------------------------------------------

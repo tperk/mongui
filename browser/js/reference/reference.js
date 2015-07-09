@@ -100,11 +100,27 @@ app.controller('SeedCollectionCtrl', function ($scope, $state, user, fields, Tem
 		$scope.addSeedOptions(field);
 	};
 
+	$scope.exportPackageToZip = function () {
+		PackageFactory.exportProject($stateParams.projectid).then(function(fileName){
+			var a = window.document.createElement('a');
+			a.href = fileName;
+			a.target = "_self";
+			a.download = fileName;
+			document.body.appendChild(a);
+			a.click();
+			document.body.removeChild(a);
+		});
+	};
 	$scope.addSeedFileToSchema = function () {
+		console.log($scope.seedFile);
+		console.log(currentSchema);
+		
+		
 		//add generated code to schema field first
-		SchemaFactory.updateSchema(currentSchema, $stateParams.projectid).then(function(message){
-			console.log('message', message);//display message
-		}).catch(function(e) {console.log(e)});
+
+		// SchemaFactory.updateSchema(currentSchema, $stateParams.projectid).then(function(message){
+		// 	console.log('message', message);//display message
+		// }).catch(function(e) {console.log(e)});
 	};
 
 	$scope.packageProject = function () {

@@ -6,7 +6,7 @@ module.exports = router;
 var Schema = mongoose.model('Schema');
 var Project = mongoose.model('Project')
 
-//Get all schemas in a project
+//
 router.get('/:id', function (req, res, next){
 	Schema.findById(req.params.id).exec()
 	.then(function (schema) {

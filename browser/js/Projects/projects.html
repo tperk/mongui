@@ -1,30 +1,47 @@
-<section id="projects" layout="row">
-
-    <div flex="30">
-        <h2>My Projects</h2>
-        <div ng-repeat="project in projects">
-            <md-button class="md-primary md-raised" ng-click="goToProject(project._id, project.name)">{{project.name}}</md-button>
-            <md-button class="md-warn md-raised" ng-click="deleteProject(project._id)">Delete</md-button>
+<div layout="column">
+    <div class="projectsList">
+        <md-toolbar md-scroll-shrink>
+            <div class="md-toolbar-tools" layout-align="center center">
+                <h3>Projects</h3>
+            </div>
+        </md-toolbar>
+        <div class="newProject md-whiteframe-z1">
+            <form name="newProjectForm" ng-submit="newProjectForm.$valid && submitProject(newProject)" layout="row">
+                <md-input-container id="newProjectForm" class="md-accent" flex="75" offset="5">
+                    <label>New Project</label>
+                    <input type="text" ng-model="newProject.name" required md-maxlength="50">
+                </md-input-container>
+                    <md-button class="md-accent material-icons md-36" type="submit">add_circle_outline</md-button>
+            </form>
+            <md-divider></md-divider>
         </div>
-
-        <h2>Project Invitations</h2>
-        <div ng-repeat="project in pendingProjects">
-            <p>{{project.name}}</p>
-            <md-button class="md-primary md-raised" ng-click="acceptProject(project)">Accept</md-button>
-            <md-button class="md-warn md-raised" ng-click="rejectProject(project)">Reject</md-button>
-        </div>
+            <md-list-item ng-click="goToProject(project._id, project.name)" ng-repeat="project in projects" layout="row">
+                <div flex="85" layout="row" layout-align="start center">
+                    <h5>{{project.name}}</h5>
+                </div>
+                <div flex layout="row" layout-align="end center">
+                    <md-button aria-label="Npm Install">
+                        <md-icon class="material-icons md-24">file_download</md-icon>
+                        <md-tooltip>Show Schema Code</md-tooltip>
+                    </md-button>
+                    <md-button aria-label="Add Collaborator" flex>
+                        <md-icon class="material-icons md-24">person_add</md-icon>
+                        <md-tooltip>Add Collaborator</md-tooltip>
+                    </md-button>
+                    <md-button aria-label="Delete Project" flex ng-click="deleteProject(project._id)">
+                        <md-icon class="material-icons md-24 md-warn">delete</md-icon>
+                        <md-tooltip>Delete</md-tooltip>
+                    </md-button>
+                </div>
+                <md-divider></md-divider>
+            </md-list-item>
     </div>
+</div>
 
-    <div flex="70" >
-        <h1>Projects</h1>
-        <form name="newProjectForm" ng-submit="newProjectForm.$valid && submitProject(newProject)" >
-            <md-input-container>
-                <label>Project Name</label>
-                <input type="text" ng-model="newProject.name" required>
-            </md-input-container>
-            <md-button class="md-primary md-raised" type="submit">New Project</md-button>
-        </form>
-    </div>
-    
-    
-</section>
+            <!--<h2>Project Invitations</h2>-->
+            <!--<div ng-repeat="project in pendingProjects">-->
+                <!--<p>{{project.name}}</p>-->
+                <!--<md-button class="md-primary md-raised" ng-click="acceptProject(project)">Accept</md-button>-->
+                <!--<md-button class="md-warn md-raised" ng-click="rejectProject(project)">Reject</md-button>-->
+            <!--</div>-->
+        <!--</div>-->

@@ -2,7 +2,15 @@
 <div layout="row" layout-wrap layout-fill layout-padding>
     <md-input-container>
         <label>Expires</label>
-        <input ng-model="props.dateExpire">
+            <mb-datepicker element-id='expireDate'
+               input-class="testClass"
+               input-name="testName"
+               arrows="arrows"
+               calendar-header="header"
+               date="date"
+               date-format="DD-MM-YYYY"
+               ng-model="props.dateExpire">
+            </mb-datepicker>
     </md-input-container>
     <md-input-container>
         <label>Max Date Validator</label>
