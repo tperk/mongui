@@ -10,7 +10,7 @@ var schema = new mongoose.Schema({
 	}],
 	functions: [{
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Function'
+		ref: 'Func'
 	}],
 	exportSchema: String,
 	exportSeed: String
@@ -53,7 +53,18 @@ schema.static('getFields', function (id) {
 		.then(function (schema) {
 			return schema.fields;
 		});
-
 });
 
+schema.static('getFunctions', function (id) {
+	return this.findById(id).populate('functions').exec()
+		.then(function (schema) {
+			return schema.functions;
+		});
+});
+
+
 mongoose.model('Schema', schema);
+
+
+
+

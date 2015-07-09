@@ -63,6 +63,12 @@ app.factory('SchemaFactory', function ($http){
 					return fields.data;
 				});
 		},
+		getFunctionsBySchemaId: function (id) {
+			return $http.get('/api/schemas/functions/'+id)
+				.then(function (functions) {
+					return functions.data;
+				});
+		},
 		submitNewSchema: function (newSchema, id) {
 			return $http.post('/api/schemas/'+id, newSchema).then(function (result) {
 				return result.data;

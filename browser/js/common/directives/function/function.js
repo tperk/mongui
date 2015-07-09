@@ -2,7 +2,8 @@ app.directive('function', function ($state, $rootScope) {
 	return {
         restrict: 'E',
         scope: {
-            function: "=",
+            func: "=",
+            fields: "=",
             deletebyid: "&",
             savefunction: "&",
             saving: "=",
@@ -11,10 +12,10 @@ app.directive('function', function ($state, $rootScope) {
             currentschema: "="
         },
         templateUrl: 'js/common/directives/function/function.html',
-        link: function (scope) {
+        link: function (scope, attrs) {
             scope.types = ["Getter/Setter", "Hook", "Method", "Static", "Virtual"];
             scope.functionChange = function(){
-                scope.$emit('functionChanged', scope.function._id);
+                scope.$emit('functionsChanged', scope.func._id);
             };
         }
    };

@@ -3,7 +3,8 @@ app.directive('functionVirtual', function ($state) {
         restrict: 'E',
         scope: {
             props: '=',
-            functionchange: '&'
+            functionchange: '&',
+            fields: '='
         },
         templateUrl: 'js/common/directives/function-directives/function-virtual/function-virtual.html',
         link: function (scope) {

@@ -5,9 +5,6 @@ var schema = new mongoose.Schema({
 	name: {
 		type: "String",
 	},
-	required: {
-		type: "Boolean",
-	},
 	functionType: {
 		type: "String",
 		enum: ['Getset', 'Hook', 'Method', 'Static', 'Virtual'],

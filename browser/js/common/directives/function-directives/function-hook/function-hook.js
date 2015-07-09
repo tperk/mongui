@@ -7,6 +7,7 @@ app.directive('functionHook', function ($state) {
         },
         templateUrl: 'js/common/directives/function-directives/function-hook/function-hook.html',
         link: function (scope) {
+            scope.events = ['Init','Validate','Save','Remove']
 
         }
    };

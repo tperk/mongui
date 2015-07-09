@@ -1,4 +1,29 @@
 <h1>Hook</h1>
 <div layout="row" layout-wrap layout-fill layout-padding>
-	
+	<div flex="35">
+		<md-switch ng-model="props.flow" ng-true-value="'Serial'" ng-false-value="'Parallel'" ng-change="functionchange()">
+			Flow: {{props.flow}}
+		</md-switch>	
+		<md-switch ng-model="props.completion" ng-true-value="'pre'" ng-false-value="'post'" ng-change="functionchange()">
+			Completion: {{props.completion}}
+		</md-switch>
+		<md-select placeholder="Event" ng-model="props.event" ng-change='functionchange()'>
+			<md-option ng-repeat="event in events">{{event}}</md-option>
+		</md-select>
+	</div>
+	<div flex>
+		<md-input-container flex>
+	        <label>Function</label>
+	        <textarea ng-model="props.func" ng-change='functionchange()'></textarea>
+	    </md-input-container>
+	    <md-chips
+		flex="100" 
+		ng-model="props.parameters"
+		placeholder="Parameters"
+		secondary-placeholder="Enter Parameters"
+		ng-click='functionchange()'
+		ng-keypress='functionchange()'
+		>
+		</md-chips>
+	</div>
 </div>
