@@ -22,6 +22,10 @@ navbar {
   .md-button:not([disabled]):hover {
     background-color: transparent;
   }
+  .mongui-logo {
+    outline: none;
+    border: 0;
+  }
 
   a {
     color: white;

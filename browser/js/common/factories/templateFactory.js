@@ -216,6 +216,7 @@ app.factory('TemplateFactory', function (){
 	};
 
 	return {
-		createSeedFile: createSeedFile
+		createSeedFile: createSeedFile,
+        indent: indent
 	};
 });

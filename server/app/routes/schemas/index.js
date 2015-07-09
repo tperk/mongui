@@ -26,10 +26,14 @@ router.get('/fields/:id', function (req, res, next) {
 
 //Update one schema
 router.put('/:id', function (req, res, next) {
-	Schema.findOneAndUpdate({_id: req.params._id}, req.body)
+	Schema.findOne({_id: req.params.id})
 	.exec()
-	.then(function() {
-		res.send("Updated");
+	.then(function (schema) {
+		for (var prop in req.body) {
+			schema[prop] = req.body[prop]
+		}
+		schema.save();
+		res.send(schema.exportSchema);
 	})
 	.then(null, next);
 });
@@ -51,7 +55,7 @@ router.post('/:id', function (req, res, next){
 router.delete('/:id', function (req, res, next){
 	Schema.findOne({_id: req.params.id}).exec()
 	.then(function (schema) {
-		schema.remove();
+		schema.cascadingRemoval();
 	})
 	.then(function () {
 		res.status(204).json('Deleted');

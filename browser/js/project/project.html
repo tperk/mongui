@@ -1,7 +1,10 @@
 <section id="project" layout="row">
         <md-sidenav class="md-whiteframe-z3 md-sidenav-left" md-component-id="left" md-is-locked-open="true">
             <md-toolbar>
-                <h1 class="md-toolbar-tools">{{projectName}}</h1>
+                <div layout="row">
+                <md-button aria-label="Back to Projects" flex="10" layout-align="start center" class="material-icons backToProjects md-24" ng-click="backToProjects()">arrow_back</md-button>
+                <h1 id="sidenavProjectName" class="md-toolbar-tools" flex>{{projectName}}</h1>
+                </div>
             </md-toolbar>
             <form name="newSchemaForm" layout="row" layout-padding layout-align="start center" ng-submit="newSchemaForm.$valid && submitSchema(newSchema)">
                 <md-input-container id="newSchemaForm" class="md-accent" flex="75">
@@ -12,6 +15,7 @@
             </form>
             <md-divider></md-divider>
             <md-content>
+                <md-list>
                 <md-list-item ng-click="goToSchema(schema)" ng-repeat="schema in schemas" layout="row">
                     <div flex="75" layout-align="start center">
                         <h5>{{schema.name}}</h5>
@@ -22,14 +26,17 @@
                     </div>
                     <md-divider></md-divider>
                 </md-list-item>
+                </md-list>
             </md-content>
         </md-sidenav>
+        <div layout="row" layout-fill>
+            <ui-view></ui-view>
+        </div>
+</section>
 
 
 
             <!--<h1 class="md-toolbar-tools">{{projectName}} Members</h1>-->
-
-
             <!--<md-input-container>-->
                 <!--<label>Add New Members By Email</label>-->
                 <!--<input type="text" ng-model="newMemberEmail" required>-->
@@ -43,12 +50,4 @@
                     <!--</md-list-item>-->
                 <!--</md-list>-->
             <!--</md-content>-->
-
-
-
         <!--</div>-->
-        <div layout="row" layout-fill>
-            <ui-view></ui-view>
-        </div>
-
-</section>

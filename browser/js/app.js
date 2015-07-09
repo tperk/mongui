@@ -31,7 +31,7 @@ app.config(function ($urlRouterProvider, $locationProvider, $mdThemingProvider) 
         })
         .warnPalette('monguiRed')
         .backgroundPalette('grey', {
-            'default': '900'
+            'default': '50'
         })
 });
 
@@ -47,11 +47,9 @@ app.run(function ($rootScope, AuthService, $state) {
     // whenever the process of changing a state begins.
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
 
-        console.log('to state ', toState)
         if(toState.name === 'home'){
             AuthService.getLoggedInUser().then(function (user) {
                 if (user) {
-                    console.log('hit')
                     $state.go('projects');
                 }
             });

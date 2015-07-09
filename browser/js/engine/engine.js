@@ -14,7 +14,7 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('EngineController', function ($scope, fieldFactory, schemas) {
+app.controller('EngineController', function ($scope, fieldFactory, schemas, TemplateFactory) {
     $scope.schemas = schemas
     console.log(" this is ", $scope.schemas)
 
@@ -88,6 +88,8 @@ app.controller('EngineController', function ($scope, fieldFactory, schemas) {
     $scope.setAllFields();
     // fieldFactory.createField({name: "test", required: false});
 
+    var indent = TemplateFactory.indent
+
 	var handleValue = function (value) {
 		if (typeof value === 'string') {
 			return  '"' + value + '"'
@@ -111,9 +113,9 @@ app.controller('EngineController', function ($scope, fieldFactory, schemas) {
 	function codeConverter (field) {
 		// Number
 		var out = ''
-		out += field.name + ': ' 
+		out += field.name + ': ' + '\n'
 		if (field.typeOptions.array) {
-			out += '[{'
+			out += '\n' + '[{' 
 		} else {
 			out += '{'
 		}
@@ -125,9 +127,7 @@ app.controller('EngineController', function ($scope, fieldFactory, schemas) {
 			if (key === 'stringEnums' || key === 'array') {
 				if (key === 'stringEnums' && field.typeOptions.stringEnums.length > 0 && field.fieldType === 'String') {
 					out += 'enum:' + handleValue(field.typeOptions[key]) + ', '
-					continue
 				} else {
-					continue
 				}
 			} else {
 				out += key + ': ' + handleValue(field.typeOptions[key]) + ', '
