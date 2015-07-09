@@ -11,40 +11,6 @@ var schema = new mongoose.Schema({
 	}]
 });
 
-// schema.pre('remove', function (next){
-
-// 	var self = this;
-
-// 	User.find({
-// 		projects:{
-// 			$in: [self._id]
-// 		}
-// 	}).exec()
-// 	.then(function (users) {
-// 		return Promise.map(users, function (user) {
-// 			user.projects.pull(self._id);
-// 			return user.save();
-// 		});
-// 	})
-// 	.then(function () {
-// 		return User.find({
-// 			pendingProjects:{
-// 				$in: [self._id]
-// 			}
-// 		}).exec();
-// 	})
-// 	.then(function (users) {
-// 		return Promise.map(users, function (user) {
-// 			user.pendingProjects.pull(self._id);
-// 			return user.save().exec();
-// 		});
-// 	})
-// 	.then(function () {
-// 		return mongoose.model('Schema').remove({_id: {$in: self.schemas}}).exec();
-// 	}).then(function(){next()}, next);
-	
-// });
-
 schema.methods.cascadingRemoval = function (){
 	var self = this;
 	User.find({
@@ -80,7 +46,6 @@ schema.methods.cascadingRemoval = function (){
 		schemas.forEach(function(schema){
 			promiseFactories.push(function(){return schema.cascadingRemoval()});
 		});
-		// console.log("PROMISE FACTORIES ARE ", promiseFactories);
 		var executeSequentially = function(promiseFactories){
 			var result = Promise.resolve();
 			promiseFactories.forEach(function(promiseFactory){
