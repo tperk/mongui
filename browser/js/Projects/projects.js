@@ -24,7 +24,7 @@ app.config(function ($stateProvider) {
     });
 });
 
-app.controller('projectsCtrl', function ($scope, ProjectsFactory, projects, user, $state, pendingProjects) {
+app.controller('projectsCtrl', function ($scope, $mdSidenav, ProjectsFactory, projects, user, $state, pendingProjects) {
 
     $scope.projects = projects;
     $scope.pendingProjects = pendingProjects;
@@ -64,4 +64,15 @@ app.controller('projectsCtrl', function ($scope, ProjectsFactory, projects, user
         })
         .catch(function(e) {console.log(e)});
     };
+
+    $scope.toggleCollaboratorSidenav = function() {
+        $mdSidenav('right').toggle();
+    };
+    //$scope.addMember = function (email) {
+    //    UserFactory.addMember($stateParams.projectid, email).then(function(user){
+    //        //add message here if !user
+    //        console.log(user);
+    //    })
+    //        .catch(function(e) {console.log(e)});
+    //};
 });

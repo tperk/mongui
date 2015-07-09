@@ -76,15 +76,15 @@ app.controller('projectCtrl', function ($scope, schemas, user, $state, SchemaFac
 			$state.go('home');
 	};
 
-	$scope.members = members;
-	//console.log('members', members);
+	//$scope.members = members;
+	////console.log('members', members);
 	
-	$scope.addMember = function (email) {
-		UserFactory.addMember($stateParams.projectid, email).then(function(user){
-			//add message here if !user 
-			console.log(user);	
-		})
-		.catch(function(e) {console.log(e)});
-	};
+	//$scope.addMember = function (email) {
+	//	UserFactory.addMember($stateParams.projectid, email).then(function(user){
+	//		//add message here if !user
+	//		console.log(user);
+	//	})
+	//	.catch(function(e) {console.log(e)});
+	//};
 });
 
