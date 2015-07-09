@@ -47,7 +47,7 @@ schema.methods.cascadingRemoval = function (){
 			promiseFactories.push(function(){return schema.cascadingRemoval()});
 		});
 		var executeSequentially = function(promiseFactories){
-			var result = Promise.resolve();
+			var result = Promise.resolve(); 
 			promiseFactories.forEach(function(promiseFactory){
 				result = result.then(promiseFactory);
 			});

@@ -1,91 +1,64 @@
 <section layout="column" class="projectsList">
-    <md-toolbar md-scroll-shrink>
-        <div class="md-toolbar-tools" layout-align="center center">
-            <h3>Projects</h3>
-        </div>
-    </md-toolbar>
-    <div class="newProject md-whiteframe-z1">
-        <form name="newProjectForm" ng-submit="newProjectForm.$valid && submitProject(newProject)" layout="row">
-            <md-input-container id="newProjectForm" class="md-accent" flex="75" offset="5">
-                <label>New Project</label>
-                <input type="text" ng-model="newProject.name" required md-maxlength="50">
-            </md-input-container>
-                <md-button class="md-accent material-icons md-36" type="submit">add_circle_outline</md-button>
-        </form>
-        <md-divider></md-divider>
-    </div>
-    <md-list>
-        <md-list-item ng-click="console.log('Beep Boop Beep Boop')" ng-repeat="project in projects" layout="row">
-            <div ng-click="goToProject(project._id, project.name)" flex="75" layout="row" layout-align="center center">
-                <h5>{{project.name}}</h5>
-            </div>
-            <div id="projectButtons" flex layout="row" layout-align="end center">
-                <md-button aria-label="Npm Install">
-                    <md-icon class="material-icons md-24">file_download</md-icon>
-                    <md-tooltip>Show Schema Code</md-tooltip>
-                </md-button>
-                <md-button aria-label="Add Collaborator" flex ng-click="toggleCollaboratorSidenav()">
-                    <md-icon class="material-icons md-24">person_add</md-icon>
-                    <md-tooltip>Add Collaborator</md-tooltip>
-                </md-button>
-                <md-button aria-label="Delete Project" flex ng-click="deleteProject(project._id)">
-                    <md-icon class="material-icons md-24 md-warn">delete</md-icon>
-                    <md-tooltip>Delete</md-tooltip>
-                </md-button>
-            </div>
-            <md-divider></md-divider>
-        </md-list-item>
-    </md-list>
-    <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right">
-        <md-toolbar class="md-theme-light">
-            <h1 class="md-toolbar-tools">Sidenav Right</h1>
-        </md-toolbar>
-        <md-content layout-padding>
-            <form>
-                <md-input-container>
-                    <label for="testInput">New Member</label>
-                    <input type="text" id="testInput"
-                           ng-model="data" md-sidenav-focus>
-                </md-input-container>
-            </form>
-<<<<<<< HEAD
-            <md-divider></md-divider>
-        </div>
-            <md-list-item ng-repeat="project in projects" layout="row">
-                <md-button flex layout="row" ng-click="goToProject(project._id, project.name)"  layout-align="start center">
-                    <h5>{{project.name}}</h5>
-                </md-button>
-                <div id="projectButtons" flex layout="row" layout-align="end center">
-                    <md-button aria-label="Npm Install">
-                        <md-icon class="material-icons md-24">file_download</md-icon>
-                        <md-tooltip>Show Schema Code</md-tooltip>
-                    </md-button>
-                    <md-button aria-label="Add Collaborator" flex>
-                        <md-icon class="material-icons md-24">person_add</md-icon>
-                        <md-tooltip>Add Collaborator</md-tooltip>
-                    </md-button>
-                    <md-button aria-label="Delete Project" flex ng-click="deleteProject(project._id)">
-                        <md-icon class="material-icons md-24 md-warn">delete</md-icon>
-                        <md-tooltip>Delete</md-tooltip>
-                    </md-button>
-                </div>
-                <md-divider></md-divider>
-            </md-list-item>
-    </div>
-</div>
-=======
-            <md-button ng-click="toggleCollaboratorSidenav()" class="md-primary">
-                Close Sidenav Right
-            </md-button>
-        </md-content>
-    </md-sidenav>
+   <md-toolbar md-scroll-shrink>
+       <div class="md-toolbar-tools" layout-align="center center">
+           <h3>Projects</h3>
+       </div>
+   </md-toolbar>
+   <div class="newProject md-whiteframe-z1">
+       <form name="newProjectForm" ng-submit="newProjectForm.$valid && submitProject(newProject)" layout="row">
+           <md-input-container id="newProjectForm" class="md-accent" flex="75" offset="5">
+               <label>New Project</label>
+               <input type="text" ng-model="newProject.name" required md-maxlength="50">
+           </md-input-container>
+               <md-button class="md-accent material-icons md-36" type="submit">add_circle_outline</md-button>
+       </form>
+       <md-divider></md-divider>
+   </div>
+   <md-list>
+       <md-list-item ng-click="console.log('Beep Boop Beep Boop')" ng-repeat="project in projects" layout="row">
+           <div ng-click="goToProject(project._id, project.name)" flex="75" layout="row" layout-align="center center">
+               <h5>{{project.name}}</h5>
+           </div>
+           <div id="projectButtons" flex layout="row" layout-align="end center">
+               <md-button aria-label="Npm Install">
+                   <md-icon class="material-icons md-24">file_download</md-icon>
+                   <md-tooltip>Show Schema Code</md-tooltip>
+               </md-button>
+               <md-button aria-label="Add Collaborator" flex ng-click="toggleCollaboratorSidenav()">
+                   <md-icon class="material-icons md-24">person_add</md-icon>
+                   <md-tooltip>Add Collaborator</md-tooltip>
+               </md-button>
+               <md-button aria-label="Delete Project" flex ng-click="deleteProject(project._id)">
+                   <md-icon class="material-icons md-24 md-warn">delete</md-icon>
+                   <md-tooltip>Delete</md-tooltip>
+               </md-button>
+           </div>
+           <md-divider></md-divider>
+       </md-list-item>
+   </md-list>
+   <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right">
+       <md-toolbar class="md-theme-light">
+           <h1 class="md-toolbar-tools">Sidenav Right</h1>
+       </md-toolbar>
+       <md-content layout-padding>
+           <form>
+               <md-input-container>
+                   <label for="testInput">New Member</label>
+                   <input type="text" id="testInput"
+                          ng-model="data" md-sidenav-focus>
+               </md-input-container>
+           </form>
+           <md-button ng-click="toggleCollaboratorSidenav()" class="md-primary">
+               Close Sidenav Right
+           </md-button>
+       </md-content>
+   </md-sidenav>
 </section>
->>>>>>> master
 
-            <!--<h2>Project Invitations</h2>-->
-            <!--<div ng-repeat="project in pendingProjects">-->
-                <!--<p>{{project.name}}</p>-->
-                <!--<md-button class="md-primary md-raised" ng-click="acceptProject(project)">Accept</md-button>-->
-                <!--<md-button class="md-warn md-raised" ng-click="rejectProject(project)">Reject</md-button>-->
-            <!--</div>-->
-        <!--</div>-->
+           <!--<h2>Project Invitations</h2>-->
+           <!--<div ng-repeat="project in pendingProjects">-->
+               <!--<p>{{project.name}}</p>-->
+               <!--<md-button class="md-primary md-raised" ng-click="acceptProject(project)">Accept</md-button>-->
+               <!--<md-button class="md-warn md-raised" ng-click="rejectProject(project)">Reject</md-button>-->
+           <!--</div>-->
+       <!--</div>-->
