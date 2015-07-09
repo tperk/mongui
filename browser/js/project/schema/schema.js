@@ -71,8 +71,6 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fi
         });
         $scope.updateFieldsChanged();
     };
-
-
     
     // not in use
     $scope.setAllFields = function(){
