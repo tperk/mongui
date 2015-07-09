@@ -63,28 +63,29 @@ app.controller('projectCtrl', function ($scope, schemas, user, $state, SchemaFac
 
 	$scope.deleteSchema = function (schemaId) {
 		SchemaFactory.deleteSchema(schemaId).then(function (response){
-			$state.reload();
-			SchemaFactory.getSchemas($stateParams.projectid).then(function(schemasArr){
-				$scope.schemas = schemasArr;
+			// $state.reload();
+			// return SchemaFactory.getSchemas($stateParams.projectid).then(function(schemasArr){
+			// // 	$scope.schemas = schemasArr;
 
-			})
-			.catch(function(e) {console.log(e)});
+			// })
+			// .catch(function(e) {console.log(e)});
+			console.log('response is ', response)
 		});
 	};
 	$scope.backToProjects = function () {
-		console.log('hitting back t o projects')
+		// console.log('hitting back t o projects')
 			$state.go('home');
 	};
 
-	$scope.members = members;
-	//console.log('members', members);
+	//$scope.members = members;
+	////console.log('members', members);
 	
-	$scope.addMember = function (email) {
-		UserFactory.addMember($stateParams.projectid, email).then(function(user){
-			//add message here if !user 
-			console.log(user);	
-		})
-		.catch(function(e) {console.log(e)});
-	};
+	//$scope.addMember = function (email) {
+	//	UserFactory.addMember($stateParams.projectid, email).then(function(user){
+	//		//add message here if !user
+	//		console.log(user);
+	//	})
+	//	.catch(function(e) {console.log(e)});
+	//};
 });
 

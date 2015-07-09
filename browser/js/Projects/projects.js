@@ -24,7 +24,7 @@ app.config(function ($stateProvider) {
     });
 });
 
-app.controller('projectsCtrl', function ($scope, ProjectsFactory, projects, user, $state, pendingProjects) {
+app.controller('projectsCtrl', function ($scope, $mdSidenav, ProjectsFactory, projects, user, $state, pendingProjects) {
 
     $scope.projects = projects;
     $scope.pendingProjects = pendingProjects;
@@ -42,9 +42,11 @@ app.controller('projectsCtrl', function ($scope, ProjectsFactory, projects, user
 
     $scope.goToProject = function (projectId, projectName) {
         $state.go('project', {projectname: projectName, projectid: projectId})
+        console.log("GOING TO ");
     };
 
     $scope.deleteProject = function (projectId) {
+        console.log("Deleting")
         ProjectsFactory.deleteProject(projectId).then(function (result) {
             $state.reload();
         })
@@ -64,4 +66,15 @@ app.controller('projectsCtrl', function ($scope, ProjectsFactory, projects, user
         })
         .catch(function(e) {console.log(e)});
     };
+
+    $scope.toggleCollaboratorSidenav = function() {
+        $mdSidenav('right').toggle();
+    };
+    //$scope.addMember = function (email) {
+    //    UserFactory.addMember($stateParams.projectid, email).then(function(user){
+    //        //add message here if !user
+    //        console.log(user);
+    //    })
+    //        .catch(function(e) {console.log(e)});
+    //};
 });
