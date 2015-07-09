@@ -3,25 +3,25 @@ var router = require('express').Router();
 var Promise = require('bluebird');
 module.exports = router;
 
-var Function = mongoose.model('Function');
+var Func = mongoose.model('Func');
 var Schema = mongoose.model('Schema');
 
 //get all functions
 router.get('/', function (req, res, next){
-	Function.find({})
+	Func.find({})
 	.exec()
-	.then(function (functions) {
-		res.json(functions);
+	.then(function (funcs) {
+		res.json(funcs);
 	})
 	.then(null, next);
 });
 
 //get one function
 router.get('/:id', function (req, res, next){
-	Function.findOne({_id: req.params.id})
+	Func.findOne({_id: req.params.id})
 	.exec()
-	.then(function (function) {
-		res.json(function);
+	.then(function (func) {
+		res.json(func);
 	})
 	.then(null, next);
 });
@@ -38,14 +38,14 @@ router.get('/schema/:id', function (req, res, next) {
 router.post('/:id', function (req, res, next){
 
 
-	return Promise.all([Function.create(req.body), Schema.findById(req.params.id).exec()])
-		.spread(function (function, schema){
-			schema.functions.push(function._id);
+	return Promise.all([Func.create(req.body), Schema.findById(req.params.id).exec()])
+		.spread(function (func, schema){
+			schema.functions.push(func._id);
 			schema.save();
-			return function;
+			return func;
 		})
-		.then(function (savedFunction) {
-			res.json(savedFunction);
+		.then(function (savedFunc) {
+			res.json(savedFunc);
 		})
 		.then(null, next);
 });
@@ -53,22 +53,22 @@ router.post('/:id', function (req, res, next){
 // put by function ID
 router.put('/:id', function (req, res, next){
 	//using save instead of update to pre hook
-	Function.findById({_id: req.params.id})
+	Func.findById({_id: req.params.id})
 	.exec()
-	.then(function (function){
+	.then(function (func){
 		for (var prop in req.body) {
-			function[prop] = req.body[prop]
+			func[prop] = req.body[prop]
 		}
-		function.save();
-		res.status(200).send(function);
+		func.save();
+		res.status(200).send(func);
 	})
 	.then(null, next);
 });
 
 // delete by field ID 
 router.delete('/:id', function (req, res, next){
-	Function.findOne({_id: req.params.id}).exec().then(function(function){
-		function.remove();
+	Func.findOne({_id: req.params.id}).exec().then(function(func){
+		func.remove();
 	}).then(function(){
 		res.send();
 	}).then(null, next);

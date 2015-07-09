@@ -18,4 +18,4 @@ var schema = new mongoose.Schema({
 	}
 });
 
-mongoose.model('Function', schema);
+mongoose.model('Func', schema);
