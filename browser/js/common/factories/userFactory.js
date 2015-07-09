@@ -11,9 +11,15 @@ app.factory('UserFactory', function($http) {
             });
         },
         getMembers: function(projectid){        	
-        	return $http.get('/api/users/' + projectid).then(function(response) {
+        	return $http.get('/api/users/projectmembers/' + projectid).then(function(response) {
+                return response.data;
+            });
+        },
+        getUserDictionary: function(){
+            return $http.get('/api/users/dictionary').then(function(response){
                 return response.data;
             });
         }
+
     };
 });
