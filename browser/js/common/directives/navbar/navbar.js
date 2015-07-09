@@ -31,6 +31,10 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) 
                 });
             };
 
+            scope.goHome = function() {
+                $state.go('home');
+            };
+
             var removeUser = function () {
                 scope.user = null;
             };

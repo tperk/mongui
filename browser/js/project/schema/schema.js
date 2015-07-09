@@ -36,14 +36,14 @@ app.config(function ($stateProvider) {
 });
 
 
-app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fields, $stateParams, currentSchema, schemas, fieldFactory) {
+app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fields, $stateParams, currentSchema, schemas, fieldFactory, SchemaFactory, $q) {
 
     $scope.schemas = schemas;
     $scope.currentSchema = currentSchema;
     $scope.fields = fields;
     $scope.fieldsChanged = {};
     $scope.saving = false;
-    $scope.exportCode = currentSchema.exportSchema;
+    $scope.exportSchema = currentSchema.exportSchema;
     
     $scope.updateFieldsChanged = function (){
         $scope.fieldsChanged = {};
@@ -58,20 +58,46 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fi
     });
 
     $scope.saveUpdatedFields = function(){
-        var fieldsToUpdate = [];
-        for(var id in $scope.fieldsChanged){
-            if ($scope.fieldsChanged[id]) fieldsToUpdate.push(id);
+
+        var fieldsPromises = function () {
+            return $q(function (resolve, reject) {
+                var fieldsToUpdate = [];
+                for(var id in $scope.fieldsChanged){
+                    if ($scope.fieldsChanged[id]) fieldsToUpdate.push(id);
+                }
+
+                var promises = []
+
+                fieldsToUpdate.forEach(function(fieldId){
+                    var theField = $scope.fields.filter(function(field){
+                        if(field._id === fieldId) return true;
+                        else return false;
+                    });
+                    promises.push($scope.saveField(theField[0]._id, theField[0]));
+                });
+                console.log(promises)
+                $q.all(promises)
+                resolve();
+            })
         }
-        fieldsToUpdate.forEach(function(fieldId){
-            var theField = $scope.fields.filter(function(field){
-                if(field._id === fieldId) return true;
-                else return false;
-            });
-            $scope.saveField(theField[0]._id, theField[0]);
-        });
-        $scope.updateFieldsChanged();
-    };
-    
+
+        fieldsPromises().then(function () {
+            console.log('after')
+            $scope.updateFieldsChanged();
+
+            var schema = {
+                exportSchema: fieldFactory.generateExportSchema($scope.fields)
+            }
+
+            SchemaFactory.updateSchema(schema, $stateParams.schemaid)
+            .then(function (exportSchema) {
+                $scope.exportSchema = exportSchema
+            })
+            .catch(function(e) {console.log(e)});
+        })
+    }
+
+
     // not in use
     $scope.setAllFields = function(){
         console.log("called set all fields");
@@ -107,6 +133,7 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fi
     };
 
     $scope.saveField = function(id, field){
+        
         $scope.saving = true;
         var fieldCopy = field;
         fieldCopy.generatedCode = fieldFactory.codeConverter(field);
@@ -130,7 +157,7 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fi
             template:
                 '<md-dialog>' +
                     '  <md-dialog-content>'+
-                '       Here is your code, yo. {{fields | json}}' +
+                '       {{exportSchema}}' +
                 '  </md-dialog-content>' +
                 '  <div class="md-actions">' +
                 '    <md-button ng-click="closeDialog()" class="md-primary">' +

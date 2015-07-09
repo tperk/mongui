@@ -26,10 +26,14 @@ router.get('/fields/:id', function (req, res, next) {
 
 //Update one schema
 router.put('/:id', function (req, res, next) {
-	Schema.findOneAndUpdate({_id: req.params._id}, req.body)
+	Schema.findOne({_id: req.params.id})
 	.exec()
-	.then(function() {
-		res.send("Updated");
+	.then(function (schema) {
+		for (var prop in req.body) {
+			schema[prop] = req.body[prop]
+		}
+		schema.save();
+		res.send(schema.exportSchema);
 	})
 	.then(null, next);
 });
