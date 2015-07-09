@@ -6,8 +6,7 @@ module.exports = router;
 var User = mongoose.model('User');
 var Project = mongoose.model('Project');
 
-//Get all schemas in a project
-router.get('/:id', function (req, res, next){
+router.get('/projectmembers/:id', function (req, res, next){
 	User.find({ projects:  { "$in" : [req.params.id]} })
 	.exec()
 	.then(function (members) {
@@ -30,3 +29,16 @@ router.post('/:id', function (req, res, next){
 	})
 	.then(null, next);
 });
+
+router.get('/dictionary', function (req, res, next){
+	User.find({}).exec()
+	.then(function(allUsers){
+		var dictionary = {};
+		allUsers.forEach(function(user){
+			dictionary[user.email] = user._id;
+		});
+		res.json(dictionary);
+	})
+	.then(null, next);
+});
+
