@@ -1,4 +1,4 @@
-<section id="project" layout="row">
+<section id="project" flex layout="row">
         <md-sidenav class="md-whiteframe-z3 md-sidenav-left" md-component-id="left" md-is-locked-open="true">
             <md-toolbar>
                 <div layout="row">
@@ -29,8 +29,9 @@
                 </md-list>
             </md-content>
         </md-sidenav>
-        <div layout="row" layout-fill>
-            <ui-view></ui-view>
+        <div flex layout="column">
+            <div ui-view flex layout="column">
+            </div>
         </div>
 </section>
 

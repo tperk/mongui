@@ -1,7 +1,4 @@
-<section layout="column">
-        <md-sidenav md-component-id="right" class="md-sidenav-right">
-            <p>testing</p>
-        </md-sidenav>
+<section flex layout="column">
 		<md-toolbar id="schemaSubheader" class="md-whiteframe-z3 md-primary hue-1" layout="row" layout-align="center center">
             <span flex="50"><h1 class="md-toolbar-tools">{{currentSchema.name}}</h1></span>
             <span id="schemaNavButtons" layout="row" layout-align="end center" flex>
@@ -20,31 +17,28 @@
                 </md-button>
             </span>
 		</md-toolbar>
-    <md-content>
-    <div>
-    <field layout-fill
-      ng-repeat="field in fields"
-      field="field"
-      deletebyid="deleteField(field)"
-      savefield="saveField(field._id, field)"
-      saving="saving"
-      subfield="createSubField(field)"
-      typechangeclear="typeChangeClear(field)"
-      schemas="schemas"
-      currentschema="currentSchema">
-    </field>
+    <div flex layout="column">
+        <md-content>  
+          <field
+            ng-repeat="field in fields"
+            field="field"
+            deletebyid="deleteField(field)"
+            savefield="saveField(field._id, field)"
+            saving="saving"
+            subfield="createSubField(field)"
+            typechangeclear="typeChangeClear(field)"
+            schemas="schemas"
+            currentschema="currentSchema">
+          </field>
+        </md-content>
     </div>
-    </md-content>
 
-    <md-dialog>
+<!--     <md-dialog>
         <md-dialog-content>
 
         </md-dialog-content>
         <md-actions>
 
         </md-actions>
-    </md-dialog>
-
-
-
+    </md-dialog> -->
 </section>
