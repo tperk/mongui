@@ -1,0 +1,15 @@
+<h1>Getter/Setter</h1>
+<div layout="row" layout-wrap layout-fill layout-padding>
+	<div flex="35">
+		<md-switch ng-model="props.type" ng-true-value="'get'" ng-false-value="'set'" ng-change="functionchange()">
+			Type: {{props.type}}
+		</md-switch>	
+		<md-select placeholder="Field" ng-model="props.field" ng-change='functionchange()'>
+			<md-option ng-repeat="field in fields">{{field.name}}</md-option>
+		</md-select>
+	</div>
+		<md-input-container flex>
+	        <label>Function</label>
+	        <textarea ng-model="props.func" ng-change='functionchange()'></textarea>
+	    </md-input-container>
+</div>

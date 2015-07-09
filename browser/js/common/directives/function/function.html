@@ -1,0 +1,58 @@
+<md-content class="md-padding">
+	<md-card>
+		<md-card-content>
+			<div layout="row" layout-wrap>
+				<div class="function-name md-padding" flex="33" layout-wrap layout-fill layout-padding>
+					<h3>Function</h3>
+					<md-input-container>
+						<label>Function Name </label>
+						<input ng-model="func.name" ng-change="functionChange()">
+					</md-input-container>
+					<md-select placeholder="Type" ng-model="func.functionType" ng-change="typechangeclear();functionChange();">
+						<md-option class="md-success" ng-repeat="type in types" value="{{type}}">
+							{{type}}
+						</md-option>
+					</md-select>
+				</div>
+				<div layout="row" class="function-options md-padding" flex="66">
+
+					<function-getset
+					props="func.typeOptions" 
+					fields="fields"
+					ng-if="func.functionType === 'Getter/Setter'"
+					functionchange="functionChange()">
+					</function-getset>
+					<function-hook 
+					props="func.typeOptions" 
+					ng-if="func.functionType === 'Hook'"
+					functionchange="functionChange()">
+					</function-hook>
+					<function-method 
+					props="func.typeOptions" 
+					ng-if="func.functionType === 'Method'"
+					functionchange="functionChange()">
+					</function-method>
+					<function-static 
+					props="func.typeOptions" 
+					ng-if="func.functionType  === 'Static'"
+					functionchange="functionChange()">
+					</function-static>
+					<function-virtual 
+					fields="fields"
+					props="func.typeOptions" 
+					ng-if="func.functionType === 'Virtual'"
+					functionchange="functionChange()">
+					</function-virtual>
+					
+  				</div>
+  				<pre flex>{{func.generatedCode}}</pre>
+				<div layout="row" layout-align="end center">
+					<md-button id="deleteFunction" aria-label="Delete Function" ng-click="deletebyid()">
+						<md-icon class="material-icons md-24 md-warn">delete</md-icon>
+						<md-tooltip>Delete</md-tooltip>
+					</md-button>
+				</div>
+			</div>
+		</md-card-content>
+	</md-card>
+<md-content>
