@@ -48,8 +48,7 @@ app.controller('projectsCtrl', function ($scope, $mdSidenav, ProjectsFactory, pr
     $scope.deleteProject = function (projectId) {
         console.log("Deleting")
         ProjectsFactory.deleteProject(projectId).then(function (result) {
-            // $state.reload();
-            console.log('result is ', result);
+            $state.reload();
         })
         .catch(function(e) {console.log(e)});
     };
