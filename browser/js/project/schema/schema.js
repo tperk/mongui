@@ -97,6 +97,7 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fi
         })
     }
 
+
     // not in use
     $scope.setAllFields = function(){
         console.log("called set all fields");

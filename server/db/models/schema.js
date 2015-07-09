@@ -12,42 +12,43 @@ var schema = new mongoose.Schema({
 	exportSeed: String
 });
 
-schema.pre('remove', function (next){
-
+schema.methods.cascadingRemoval = function(){
 	var self = this;
+	//update project
+	return new Promise(function (resolve, reject){
+		resolve(
+			Project.findOne({
+			schemas:{
+				$in: [self._id]
+			}
+			}).exec()
+			.then(function (project) {
+				project.schemas.pull(self._id);
+				return new Promise(function(resolve, reject){
+					resolve(project.save());
+				});
+			})
+			//cascading removal of child fields
+			.then(function (savedProject) {
+				return mongoose.model('Field').remove({_id: {$in: self.fields}}).exec();
+			})
+			.then(function(){
+				return mongoose.model('Schema').remove({_id: self._id}).exec();
+			})
+			.then(function(){
+				return;
+			})
+			
+		); 
+	});
 
-	Project.findOne({
-		schemas:{
-			$in: [self._id]
-		}
-	}).exec()
-	.then(function (project) {
-		project.schemas.pull(self._id)
-		return project.save();
-	}).then(function () {
-		if(self.fields.length > 0){
-			self.populate('fields', function(err, schema){
-				return Promise.map(schema.fields, function (field) {
-					if (!field.parents.length) {
-						return field.remove();	
-					}
-					return 
-
-				}).then(next);
-			});
-		} else {
-			next();
-		}
-	}).then(null, next);
-
-});
+};
 
 schema.static('getFields', function (id) {
-
 	return this.findById(id).populate('fields').exec()
 		.then(function (schema) {
 			return schema.fields;
-		})
+		});
 
 });
 

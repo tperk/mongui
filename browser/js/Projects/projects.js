@@ -42,11 +42,14 @@ app.controller('projectsCtrl', function ($scope, $mdSidenav, ProjectsFactory, pr
 
     $scope.goToProject = function (projectId, projectName) {
         $state.go('project', {projectname: projectName, projectid: projectId})
+        console.log("GOING TO ");
     };
 
     $scope.deleteProject = function (projectId) {
+        console.log("Deleting")
         ProjectsFactory.deleteProject(projectId).then(function (result) {
-            $state.reload();
+            // $state.reload();
+            console.log('result is ', result);
         })
         .catch(function(e) {console.log(e)});
     };

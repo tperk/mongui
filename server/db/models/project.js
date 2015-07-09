@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Promise = require('bluebird');
 var User = mongoose.model('User');
+mongoose = Promise.promisifyAll(mongoose);
 
 var schema = new mongoose.Schema({
 	name: String,
@@ -10,10 +11,8 @@ var schema = new mongoose.Schema({
 	}]
 });
 
-schema.pre('remove', function (next){
-
+schema.methods.cascadingRemoval = function (){
 	var self = this;
-
 	User.find({
 		projects:{
 			$in: [self._id]
@@ -21,44 +20,53 @@ schema.pre('remove', function (next){
 	}).exec()
 	.then(function (users) {
 		return Promise.map(users, function (user) {
-			user.projects.pull(self._id)
+			user.projects.pull(self._id);
 			return user.save();
-		})
+		});
 	})
 	.then(function () {
-		User.find({
+		return User.find({
 			pendingProjects:{
 				$in: [self._id]
 			}
-		}).exec()
-		.then(function (users) {
-			return Promise.map(users, function (user) {
-				user.pendingProjects.pull(self._id)
-				return user.save();
-			})
-		})
-		return 
+		}).exec();
+	})
+	.then(function (users) {
+		return Promise.map(users, function (user) {
+			user.pendingProjects.pull(self._id);
+			return user.save().exec();
+		});
 	})
 	.then(function () {
-		if(self.schemas.length > 0){
-			self.populate('schemas', function(err, project){
-				return Promise.map(project.schemas, function (schema) {
-						return schema.remove();	
-				}).then(next);
+		return Promise.resolve( mongoose.model('Schema').find({_id: {$in: self.schemas}}).exec());
+	})
+	.then(function(schemas){
+		console.log("SCHEMA", schema);
+		var promiseFactories = [];
+		schemas.forEach(function(schema){
+			promiseFactories.push(function(){return schema.cascadingRemoval()});
+		});
+		var executeSequentially = function(promiseFactories){
+			var result = Promise.resolve();
+			promiseFactories.forEach(function(promiseFactory){
+				result = result.then(promiseFactory);
 			});
-		} else {
-			next();
-		}
-	}).then(null, next);
-
-});
+			return result;
+		};
+		return executeSequentially(promiseFactories);
+	})
+	.then(function (idk){
+		console.log("all is done ", idk);
+		return mongoose.model('Project').remove({_id: self._id}).exec();
+	});
+};
 
 schema.static('getSchemas', function (id) {
 
 	return this.findById(id).populate('schemas').exec()
 	.then(function (project) {
-		return project.schemas
-	})
+		return project.schemas;
+	});
 	
 });
 
