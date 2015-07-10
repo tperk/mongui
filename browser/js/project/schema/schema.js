@@ -204,7 +204,6 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fi
         });
     };
 
-    
     // not in use
     $scope.createSubField = function(parent){
         console.log("called create sub field");

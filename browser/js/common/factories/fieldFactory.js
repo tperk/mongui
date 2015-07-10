@@ -60,6 +60,7 @@ app.factory('fieldFactory', function ($http) {
         return out
     }
 
+
 	return {
 		getAllFields: function(){
 			return $http.get('/api/fields/')

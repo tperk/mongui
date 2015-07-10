@@ -144,7 +144,7 @@ app.factory('TemplateFactory', function (){
     	el[field.name] = fakerDataObj[prop]();
     };
 
-    function indent(str, numOfIndents) {
+    function indent (str, numOfIndents) {
     	var indentString = "";
     	for(var i=0; i<numOfIndents; i++){
     		indentString = "    " + indentString;
@@ -153,32 +153,46 @@ app.factory('TemplateFactory', function (){
 		return "\n"+str;
 	};
 
+    var objectTemplate = function (arrArg){
+        var str = "";
+        var hasProps ;
+        arrArg.forEach(function(obj){
+            hasProps = false;
+            str += indent("{", 2);
+            for (prop in obj) {
+                hasProps = true;
+                if(typeof obj[prop] === "string"){//probably need to do more checking ex. date
+                    str += indent(prop+": " + "'" + obj[prop] + "'" + ",", 3);
+                }else{
+                    str += indent(prop+": " + obj[prop] + ",", 3);
+                }
+            }
+            if(hasProps) {
+                str = str.slice(0,-1);
+            }
+                str += indent("},", 2);
+             
+        }); 
+        str = str.slice(0,-1); 
+        str += indent("];",1);
+        return str;
+    };
+
+    var firstLetterUpperCase = function(str){
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
     var makeTemplate = function(schema, fieldsArr){
-    	return "var " + schema.name  + " = " + JSON.stringify(fieldsArr, null, 4).replace(/\"([^(\")"]+)\":/g,"$1:") + ";" +
-    	indent("var bluebird = require('bluebird');", 0) + 
-    	indent("var mongoose = require('mongoose');", 0) + 
-    	"\n" +
-    	indent("var " + schema.name + "Model = require('')//add path to model here!;", 0) +
-    	indent("mongoose.connect('mongodb://localhost/'" + schema.name + ");", 0) +
-    	"\n" +
-    	indent("var wipeDB = function () {", 0) + 
-    	indent("var models = [", 1) + schema.name + "Model];" +
-    	indent("models.forEach(function (model) {", 1) + 
-    	indent("model.find({}).remove(function () {});", 2) + 
-    	indent("});", 1) +
-    	indent("return bluebird.resolve();", 1) + 
-		indent("};", 0) +
-    	"\n" +
-    	indent("var seed = function () {", 0) +
-    	indent(schema.name + "Model.create(" + schema.name + ", function (err) {", 1) +
-    	indent("if (err) { console.error(err);};", 2) + 
-    	indent("process.kill(0);", 2) + 
-    	indent("});", 1) + 
-    	indent("};", 0) + 
-		"\n" +
-		indent("mongoose.connection.once('open', function () {", 0) + 
-		indent("wipeDB().then(seed);", 1) + 
-		indent("});", 0);
+    	return indent("var mongoose = require('mongoose');", 0) +
+        indent("require('../../schema_files/schemas/" + schema.name + "'" + ");", 0) +
+        indent("var " + firstLetterUpperCase(schema.name) + " = mongoose.model('" + firstLetterUpperCase(schema.name) + "');", 0) +
+        indent("var q = require('q');", 0) +
+        indent("var seed = function () {", 0) +
+        indent("var data" + " = [", 1) + 
+        objectTemplate(fieldsArr) +    	
+        indent("return q.invoke(" + firstLetterUpperCase(schema.name) + ", 'create', data);", 1) +
+        indent("};", 0)+
+        indent("module.exports = seed;", 0);
     };
 
 	var createSeedFile = function (currentSchema, fieldsArr, field){	
@@ -197,8 +211,8 @@ app.factory('TemplateFactory', function (){
 			    	// 	break;
 			    	case 'Boolean': booleanFunc(el, field)
 			    		break;
-			    	case 'Mixed': mixedFunc(el, field)
-			    		break;
+			    	// case 'Mixed': mixedFunc(el, field)
+			    	// 	break;
 			    	case 'Objectid': objectidFunc(el, field)
 			    		break;
 			    	case 'Nested': nestedFunc(el, field)
@@ -215,8 +229,59 @@ app.factory('TemplateFactory', function (){
 		return makeTemplate(currentSchema, fieldsArr);
 	};
 
+    var requireTemplate = function (schemas) {
+        var str = "";
+        schemas.forEach(function(schema){
+            str += indent("var " + schema.name + " = require('./files/"+schema.name+"');", 0);
+        });
+        return str;
+    };
+
+    var schemaArrTemplate = function (schemas) {
+        var str = "\nvar schemaArr = [";
+        schemas.forEach(function(schema){
+            str += schema.name + ", ";
+        });
+        str = str.slice(0,-2);
+        str += "];"
+        return str;
+    }
+
+    var createSeedIndexJS = function(projectName, schemas){
+        var projectName = projectName;
+        var schemaNamesArr = schemas;
+
+        var str = "var Q = require('q');" +
+        indent("var path = require('path');", 0) +
+        indent("var DATABASE_URI = 'mongodb://localhost:27017/" + projectName + "';", 0) +
+        indent("var mongoose = require('mongoose');", 0) +
+        indent("var db = mongoose.connect(DATABASE_URI).connection;", 0) +
+        "\n" +
+        indent("var startDbPromise = new Q(function (resolve, reject) {", 0) +
+        indent("db.on('open', resolve);", 1) +
+        indent("db.on('error', reject);", 1) +
+        indent("});", 0) +
+        "\n" +
+        requireTemplate(schemaNamesArr) +
+        "\n" +
+        schemaArrTemplate(schemaNamesArr) +
+        "\n" +
+        indent("startDbPromise.then(function (resolve, reject) {", 0) +
+        indent("var promiseArr = [];", 1) +
+        indent("schemaArr.forEach(function(func){", 1) +
+        indent("promiseArr.push(func());", 2) +
+        indent("});", 1) +
+        indent("Q.all(promiseArr)", 1) +
+        indent(".then(function(){", 1) +
+        indent(" process.kill(0);", 2) +
+        indent("});", 1) +
+        indent("});", 0)
+        return str;
+    };
+
 	return {
 		createSeedFile: createSeedFile,
-        indent: indent
+        indent: indent,
+        createSeedIndexJS: createSeedIndexJS
 	};
 });

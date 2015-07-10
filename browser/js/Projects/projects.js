@@ -27,6 +27,7 @@ app.config(function ($stateProvider) {
     });
 });
 
+
 app.controller('projectsCtrl', function ($scope, $mdSidenav, ProjectsFactory, projects, user, $state, pendingProjects, UserFactory, userDictionary) {
     $scope.sideNavProjectName = "";
     $scope.sideNavCollaborators = [];
@@ -46,9 +47,11 @@ app.controller('projectsCtrl', function ($scope, $mdSidenav, ProjectsFactory, pr
 
     $scope.goToProject = function (projectId, projectName) {
         $state.go('project', {projectname: projectName, projectid: projectId})
+        console.log("GOING TO ");
     };
 
     $scope.deleteProject = function (projectId) {
+        console.log("Deleting")
         ProjectsFactory.deleteProject(projectId).then(function (result) {
             $state.reload();
         })

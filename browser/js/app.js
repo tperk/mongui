@@ -32,9 +32,7 @@ app.config(function ($urlRouterProvider, $locationProvider, $mdThemingProvider) 
         })
         .accentPalette('green')
         .warnPalette('orange');
-        // .backgroundPalette('grey', {
-        //     'default': '50'
-        // })
+
 });
 
 // This app.run is for controlling access to specific states.
