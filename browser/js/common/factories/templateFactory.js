@@ -184,7 +184,7 @@ app.factory('TemplateFactory', function (){
 
     var makeTemplate = function(schema, fieldsArr){
     	return indent("var mongoose = require('mongoose');", 0) +
-        indent("require('../../schema/" + schema.name + ");", 0) +
+        indent("require('../../schema_files/schemas/" + schema.name + "'" + ");", 0) +
         indent("var " + firstLetterUpperCase(schema.name) + " = mongoose.model('" + firstLetterUpperCase(schema.name) + "');", 0) +
         indent("var q = require('q');", 0) +
         indent("var seed = function () {", 0) +
@@ -232,7 +232,7 @@ app.factory('TemplateFactory', function (){
     var requireTemplate = function (schemas) {
         var str = "";
         schemas.forEach(function(schema){
-            str += indent("var user = require('./files/"+schema+"');", 0);
+            str += indent("var " + schema.name + " = require('./files/"+schema.name+"');", 0);
         });
         return str;
     };
@@ -242,6 +242,8 @@ app.factory('TemplateFactory', function (){
         schemas.forEach(function(schema){
             str += schema.name + ", ";
         });
+        str = str.slice(0,-2);
+        str += "];"
         return str;
     }
 
