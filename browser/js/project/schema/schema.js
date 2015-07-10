@@ -28,6 +28,9 @@ app.config(function ($stateProvider) {
             },
             schemas: function (SchemaFactory, $stateParams) {
                 return SchemaFactory.getSchemas($stateParams.projectid);
+            },
+            currentProject: function (ProjectsFactory, $stateParams) {
+                return ProjectsFactory.getProject($stateParams.projectid);
             }
         },
         data: {
@@ -39,7 +42,7 @@ app.config(function ($stateProvider) {
 });
 
 
-app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fields, functions, $stateParams, currentSchema, schemas, fieldFactory, SchemaFactory, functionFactory, $q) {
+app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fields, functions, $stateParams, currentSchema, schemas, fieldFactory, SchemaFactory, TemplateFactory, functionFactory, $q, currentProject, ProjectsFactory) {
 
     $scope.schemas = schemas;
     $scope.currentSchema = currentSchema;
@@ -99,18 +102,31 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fi
     $scope.generateExportSchemaAndUpdate = function (fields, functions) {
         var exportSchema = '';
 
-        fields.forEach(function (field) {
-            exportSchema += field.generatedCode + ',' + '\n';
-        });
-        exportSchema = exportSchema.substring(0, exportSchema.length - 2);
+        exportSchema += 'var mongoose = require("mongoose");' + '\n'
 
-        if (functions) {
-            exportSchema += '\n';
-        }
+        exportSchema += 'var schema = new mongoose.Schema({'
+
+        fields.forEach(function (field) {
+            var arr = field.generatedCode.split('\n')
+            for (var i = 0; i < arr.length; i++) {
+                if (i === 0 || i === arr.length - 1) {
+                    exportSchema += TemplateFactory.indent(arr[i], 1)
+                } else {
+                    exportSchema += TemplateFactory.indent(arr[i], 1)
+                }
+            }
+            exportSchema += ','
+        })
+
+        exportSchema = exportSchema.substring(0, exportSchema.length - 1)
+
+        exportSchema += '\n' + '});' + '\n' + '\n'
 
         functions.forEach(function (func) {
             exportSchema += func.generatedCode + '\n';
         });
+
+        exportSchema += '\n' + 'mongoose.model("' + TemplateFactory.firstLetterUpperCase(currentSchema.name) + '", schema);'
 
         var schema = {
             exportSchema: exportSchema
@@ -119,6 +135,10 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fi
         SchemaFactory.updateSchema(schema, $stateParams.schemaid)
         .then(function (exportSchema) {
             $scope.exportSchema = exportSchema;
+            currentProject.schemaIndexJS = TemplateFactory.createSchemaIndexJS($stateParams.projectname, schemas);
+            ProjectsFactory.updateProject($stateParams.projectid, currentProject).then(function(message){
+                console.log(message);//display message
+            }).catch(function(e) {console.log(e)});
         })
         .catch(function(e) {console.log(e);});
     };
