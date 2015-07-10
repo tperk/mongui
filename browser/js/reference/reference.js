@@ -114,6 +114,10 @@ app.controller('SeedCollectionCtrl', function ($scope, $state, user, fields, Tem
 			document.body.removeChild(a);
 		});
 	};
+	$scope.backToProject = function() {
+		console.log("CLicked")
+		$state.go('project', {projectid: currentProject._id, projectname: currentProject.name})
+	}
 	$scope.addSeedFileToSchema = function () {
 		currentSchema.exportSeed = $scope.seedFile;
 		SchemaFactory.updateSchema(currentSchema, currentSchema._id).then(function(message){
