@@ -1,3 +1,4 @@
+
 app.config(function ($stateProvider) {
 
     $stateProvider.state('projects', {
@@ -26,8 +27,8 @@ app.config(function ($stateProvider) {
         }
     });
 });
-
-app.controller('projectsCtrl', function ($scope, $mdSidenav, ProjectsFactory, projects, user, $state, pendingProjects, UserFactory, userDictionary) {
+app.controller('projectsCtrl', function ($timeout, $q, $log, $scope, $mdSidenav, ProjectsFactory, projects, user, $state, pendingProjects, UserFactory, userDictionary) {
+    var self = this;
     $scope.sideNavProjectName = "";
     $scope.sideNavCollaborators = [];
     $scope.projects = projects;
@@ -71,17 +72,25 @@ app.controller('projectsCtrl', function ($scope, $mdSidenav, ProjectsFactory, pr
 
     $scope.toggleCollaboratorSidenav = function(project) {
         $scope.sideNavProjectName = project.name;
-        $mdSidenav('right').toggle();
+        $scope.sideNavProjectId = project._id;
         UserFactory.getMembers(project._id).then(function(collaborators){
             console.log("collaborators ", collaborators);
+            console.log('dictionary ', $scope.userDictionary);
             $scope.sideNavCollaborators = collaborators;
         });
+        $mdSidenav('right').toggle();
     };
-    //$scope.addMember = function (email) {
-    //    UserFactory.addMember($stateParams.projectid, email).then(function(user){
-    //        //add message here if !user
-    //        console.log(user);
-    //    })
-    //        .catch(function(e) {console.log(e)});
-    //};
+
+    $scope.addMember = function (projectId, email) {
+        UserFactory.addMember(projectId, email).then(function(user){
+            //add message here if !user
+            UserFactory.getMembers(projectId).then(function(collaborators){
+                console.log("collaborators ", collaborators);
+                console.log('dictionary ', $scope.userDictionary);
+                $scope.sideNavCollaborators = collaborators;
+            });
+            console.log("returned user!", user);
+        })
+            .catch(function(e) {console.log(e)});
+    };
 });

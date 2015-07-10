@@ -15,6 +15,7 @@
            </md-button>
        </form>
    </div>
+
    <!-- <md-list> -->
    <div id="project-list" layout="column" flex>
     <md-content>
@@ -44,17 +45,11 @@
            <h1 class="md-toolbar-tools">{{sideNavProjectName}}</h1>
        </md-toolbar>
        <md-content layout-padding>
-           <form>
-                <md-autocomplete
-                    md-items="user in userDictionary" 
-                    md-item-text="userDictionary[user]" 
-                    md-search-text="searchText" 
-                    md-selected-item="userDictionary"
-                    placeholder="Enter Users Email"
-                    md-min-length="0"
-                    >
-                    <span md-highlight-text="searchText">{{user.email}}</span>
-                </md-autocomplete>
+           <form name="newCollaborator" ng-submit="addMember(sideNavProjectId, newCollaborator.email)">
+               <md-input-container>
+                   <label>New Collaborator</label>
+                   <input type="text" ng-model="newCollaborator.email" required>
+               </md-input-container>
            </form>
            <md-list>
                 <md-list-item ng-repeat="collaborator in sideNavCollaborators">{{collaborator.email}}

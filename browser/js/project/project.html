@@ -1,5 +1,5 @@
 <section id="project" layout="row">
-        <md-sidenav class="md-whiteframe-z3 md-sidenav-left" md-component-id="left" md-is-locked-open="true">
+        <md-sidenav class="md-whiteframe-z3 md-sidenav-left" flex md-component-id="left" md-is-locked-open="true">
             <md-toolbar>
                 <div layout="row">
                 <md-button aria-label="Back to Projects" flex="10" layout-align="start center" class="material-icons backToProjects md-24" ng-click="backToProjects()">arrow_back</md-button>
@@ -29,11 +29,20 @@
                 </md-list>
             </md-content>
         </md-sidenav>
-        <div layout="row" layout-fill>
+        <md-content layout="row" flex>
             <ui-view></ui-view>
-        </div>
+        </md-content>
 </section>
 
+
+
+
+
+
+
+<md-autocomplete md-selected-item="selectedItem" md-search-text="searchText" md-items="item in userDictionary" md-item-text="item.display">
+    <span md-highlight-text="searchText">{{item.display}}</span>
+</md-autocomplete>
 
 
             <!--<h1 class="md-toolbar-tools">{{projectName}} Members</h1>-->
