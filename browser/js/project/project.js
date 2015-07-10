@@ -67,11 +67,12 @@ app.controller('projectCtrl', function ($scope, schemas, user, $state, SchemaFac
 
 	$scope.deleteSchema = function (schemaId) {
 		SchemaFactory.deleteSchema(schemaId).then(function (response){
+
 			return SchemaFactory.getSchemas($stateParams.projectid).then(function(schemasArr){
 				$scope.schemas = schemasArr;
-
 			})
 			.catch(function(e) {console.log(e);});
+
 		});
 	};
 	$scope.backToProjects = function () {
