@@ -61,7 +61,7 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fi
             template:
                 '<md-dialog style="opacity:0.9;">' +
                     '  <md-dialog-content>'+
-                '       <pre style="color:white;border:none;opacity:1;">{{exportSchema}}</pre>' +
+                '       <div hljs source="exportSchema"></div>' +
                 '  </md-dialog-content>' +
                 '  <div class="md-actions">' +
                 '    <md-button ng-click="closeDialog()" class="md-primary">' +

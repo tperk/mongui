@@ -1,7 +1,7 @@
 'use strict';
-window.app = angular.module('Mongui', ['ui.router', 'ui.bootstrap', 'fsaPreBuilt', 'ngMaterial', 'ncy-angular-breadcrumb', 'materialDatePicker']);
+window.app = angular.module('Mongui', ['ui.router', 'ui.bootstrap', 'fsaPreBuilt', 'ngMaterial', 'ncy-angular-breadcrumb', 'materialDatePicker', 'hljs']);
 
-app.config(function ($urlRouterProvider, $locationProvider, $mdThemingProvider) {
+app.config(function ($urlRouterProvider, $locationProvider, $mdThemingProvider, hljsServiceProvider) {
     // This turns off hashbang urls (/#about) and changes it to something normal (/about)
     $locationProvider.html5Mode(true);
     // If we go to a URL that ui-router doesn't have registered, go to the "/" url.
@@ -32,6 +32,9 @@ app.config(function ($urlRouterProvider, $locationProvider, $mdThemingProvider) 
         })
         .accentPalette('green')
         .warnPalette('orange');
+    hljsServiceProvider.setOptions({
+
+    });
 
 });
 
