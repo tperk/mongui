@@ -1,5 +1,5 @@
-<md-toolbar layout="row" class="top-toolbar md-primary md-toolbar-tools md-whiteframe-z2">
-        <div class="mongui-logo" flex="66" layout="row" layout-align="start center" ng-click="goHome()">
+<md-toolbar layout="row" layout-align="start center" class="top-toolbar md-primary md-toolbar-tools md-whiteframe-z2">
+        <div class="mongui-logo" flex="66" layout="row" layout-align="start center">
             <p>Mongui</p>
         </div>
     <!--Login Feature-->
@@ -24,11 +24,11 @@
 
     <!--User Profile-->
  <div class="profile" ng-show="user" flex layout="row" layout-align="end center">
-        <md-button ng-click="logout()">
+        <md-button class="md-warn md-hue-1" ng-click="logout()">
             <md-tooltip>
                 Logout
             </md-tooltip>
-            <md-icon aria-label="Logout" class="md-warn material-icons md-36">close</md-icon>
+            <md-icon aria-label="Logout" class="material-icons md-36">exit_to_app</md-icon>
         </md-button>
   </div>
 
