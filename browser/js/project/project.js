@@ -45,7 +45,7 @@ app.controller('projectCtrl', function ($scope, schemas, user, $state, SchemaFac
 			SchemaFactory.getSchemas($stateParams.projectid).then(function(schemasArr){
 				$scope.schemas = schemasArr;
 			})
-			.catch(function(e) {console.log(e)});
+			.catch(function(e) {console.log(e);});
 		});
 	};
 
@@ -53,7 +53,7 @@ app.controller('projectCtrl', function ($scope, schemas, user, $state, SchemaFac
 	$scope.updateSchema = function (schema, schemaId) {
 		SchemaFactory.updateSchema(schema, schemaId).then(function (response) {
 		})
-		.catch(function(e) {console.log(e)});
+		.catch(function(e) {console.log(e);});
 	};
 
 	$scope.goToSchema = function (schema) {
@@ -66,7 +66,7 @@ app.controller('projectCtrl', function ($scope, schemas, user, $state, SchemaFac
 				$scope.schemas = schemasArr;
 
 			})
-			.catch(function(e) {console.log(e)});
+			.catch(function(e) {console.log(e);});
 		});
 	};
 	$scope.backToProjects = function () {

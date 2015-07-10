@@ -3,7 +3,7 @@ var router = require('express').Router();
 var Promise = require('bluebird');
 module.exports = router;
 
-var Project = mongoose.model('Project')
+var Project = mongoose.model('Project');
 
 var fs = require('fs');
 var mkdirp = require('mkdirp');
@@ -16,7 +16,7 @@ function publishNpm(directory, projectId, res){
 	var wF = Promise.promisify(fs.writeFile);
 	var rF = Promise.promisify(fs.readFile);
 	var versionArr = [];
-	var projectVersion = ""
+	var projectVersion = "";
 	var obj;
 
 	exec.call(child_process, "npm init -y", {cwd: directory}).then(function(data){
@@ -50,7 +50,7 @@ function publishNpm(directory, projectId, res){
 		    }); 
 		});			
 	});
-};
+}
 
 function removeFolder (folderName, directory) {
 	setTimeout(function () {
@@ -58,13 +58,13 @@ function removeFolder (folderName, directory) {
 		
 		child_process.exec('rm -rf ../' + folderName, {cwd: directory});
 	}, 600000);//remove folder after 10 min
-};
+}
 
 function removeZip (fileName, directory) {
 	setTimeout(function () {
 		child_process.exec('rm ' + fileName, {cwd: directory});
 	}, 600000);//remove file after 10 min
-};
+}
 
 function createPackageDirectory (subDirectory, fileName, filestr) {
 	mkdirp(subDirectory, function (err) {
@@ -73,7 +73,7 @@ function createPackageDirectory (subDirectory, fileName, filestr) {
             return;
         });  
 	});
-};
+}
 
 function createPackage (schemasArr, projectId, npmElseZip, res) {
 	var mainDirectory = "/tmp/monguiProjects/" + projectId +"/";
@@ -107,9 +107,9 @@ function createPackage (schemasArr, projectId, npmElseZip, res) {
 			}else{
 				createZip (mainDirectory, projectId, res);
 			}
-		}).catch(function(e) {console.log(e)});
+		}).catch(function(e) {console.log(e);});
 	});
-};
+}
 
 function createZip (mainDirectory, projectId, res) {
 	var packageName = "mongui_pkg_" + projectId;
@@ -122,7 +122,7 @@ function createZip (mainDirectory, projectId, res) {
 	        res.status(200).send(fileName);
 	    }); 
 	});
-};
+}
 
 router.get('/:id', function (req, res, next){
 	Project.getSchemas(req.params.id)
