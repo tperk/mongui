@@ -25,7 +25,11 @@ app.config(function ($urlRouterProvider, $locationProvider, $mdThemingProvider) 
         //     .primaryPalette('neonRed')
 
     $mdThemingProvider.theme('default')
-        .primaryPalette('brown')
+        .primaryPalette('grey', {
+            'hue-1': '400',
+            'hue-2': '600',
+            'hue-3': '700'
+        })
         .accentPalette('green')
         .warnPalette('orange');
         // .backgroundPalette('grey', {

@@ -1,0 +1,26 @@
+<h1>Virtual</h1>
+<div layout="row" layout-wrap layout-fill layout-padding>
+	<div flex="35">
+		<md-switch ng-model="props.getset" ng-true-value="'get'" ng-false-value="'set'" ng-change="functionchange()">
+			Get/Set: {{props.getset}}
+		</md-switch>
+		<md-select placeholder="Field" ng-model="props.field" ng-change='functionchange()'>
+			<md-option ng-repeat="field in fields">{{field.name}}</md-option>
+		</md-select>
+	</div>
+	<div flex>
+		<md-input-container flex>
+	        <label>Function</label>
+	        <textarea ng-model="props.func" ng-change='functionchange()'></textarea>
+	    </md-input-container>
+	    <md-chips
+			flex="100" 
+			ng-model="props.parameters"
+			placeholder="Parameters"
+			secondary-placeholder="Enter Parameters"
+			ng-click='functionchange()'
+			ng-keypress='functionchange()'
+			>
+		</md-chips>
+	</div>
+</div>
