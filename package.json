@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon --watch server -e js,html server/start.js",
     "postinstall": "gulp build",
-    "build": "browserify public/main.js -o public/bundle.js"
+    "build": "browserify public/main.js -o public/bundle.js",
+    "watch": "watchify public/main.js -o public/bundle.js"
   },
   "dependencies": {
     "angular": "^1.4.0",

@@ -32,6 +32,20 @@ app.factory('ProjectsFactory', function ($http) {
 			return $http.delete('/api/projects/pending/'+userId+"/"+projectId).then(function (response) {
 				return response.data;
 			});
+		},
+		getProject: function (projectId) {
+			return $http.get('/api/projects/current/'+projectId).then(function (projects) {
+				return projects.data;
+			});
+		},
+		updateProject: function (projectId, currentProject) {
+			return $http.put('/api/projects/'+projectId, currentProject).then(function (response) {
+				return response.data;
+			});
 		}
+
+		//need to give back project name and all the schema names
+		//need to get version number
+		//need to update and get indexjs 
 	};
 });

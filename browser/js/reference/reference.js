@@ -52,6 +52,9 @@ app.config(function ($stateProvider) {
             schemas: function (SchemaFactory, $stateParams) {
         		return SchemaFactory.getSchemas($stateParams.projectid);
         	},
+        	currentProject: function (ProjectsFactory, $stateParams) {
+        		return ProjectsFactory.getProject($stateParams.projectid);
+        	}
         },
         data: {
             authenticate: true
@@ -83,7 +86,7 @@ app.controller('SeedDatabaseCtrl', function ($scope, $state, user, schemas, $sta
 	$scope.projectid = $stateParams.projectid;	
 });
 
-app.controller('SeedCollectionCtrl', function ($scope, $state, user, fields, TemplateFactory, schemas, currentSchema, SchemaFactory, PackageFactory, $stateParams) {
+app.controller('SeedCollectionCtrl', function ($scope, $state, user, fields, TemplateFactory, schemas, currentSchema, SchemaFactory, PackageFactory, $stateParams, ProjectsFactory, currentProject) {
 	$scope.fields = fields;	
 	$scope.schemas = schemas;
 	$scope.fieldNames = [];
@@ -112,35 +115,19 @@ app.controller('SeedCollectionCtrl', function ($scope, $state, user, fields, Tem
 		});
 	};
 	$scope.addSeedFileToSchema = function () {
-		console.log($scope.seedFile);
-		console.log(currentSchema);
-		
-		
-		//add generated code to schema field first
-
-		// SchemaFactory.updateSchema(currentSchema, $stateParams.projectid).then(function(message){
-		// 	console.log('message', message);//display message
-		// }).catch(function(e) {console.log(e)});
+		currentSchema.exportSeed = $scope.seedFile;
+		SchemaFactory.updateSchema(currentSchema, currentSchema._id).then(function(message){
+			currentProject.seedIndexJS = TemplateFactory.createSeedIndexJS(currentProject.name, schemas);
+			ProjectsFactory.updateProject($stateParams.projectid, currentProject).then(function(message){
+				console.log(message);//display message
+			}).catch(function(e) {console.log(e)});
+		}).catch(function(e) {console.log(e)});
 	};
 
 	$scope.packageProject = function () {
 		PackageFactory.packageProject($stateParams.projectid).then(function(message){
 			console.log('message', message);//display message
 		}).catch(function(e) {console.log(e)});
-	};
-
-	$scope.exportSeedFile = function () {
-		//$scope.seedFile
-		var a = window.document.createElement('a');
-		a.href = window.URL.createObjectURL(new Blob([$scope.seedFile], {type: 'text/javascript'}));
-		a.download = currentSchema.name + 'SeedFile.js';
-
-		// Append anchor to body.
-		document.body.appendChild(a)
-		a.click();
-
-		// Remove anchor from body
-		document.body.removeChild(a)
 	};
 
 	$scope.changeQuantity = function (quantity) {
@@ -155,6 +142,7 @@ app.controller('SeedCollectionCtrl', function ($scope, $state, user, fields, Tem
 		}
 		$scope.seedFile = TemplateFactory.createSeedFile(currentSchema, seedFields);
 	};
+
 	$scope.changeSeedByType = function (seedBy, val, type){
 		seedBy.random = null;
 		seedBy.schema = null;

@@ -77,6 +77,14 @@ function createPackage (schemasArr, projectId, npmElseZip, res) {
 			})
 		])
 		.then(function(){
+			var subDirectory = mainDirectory + "seed_files/";
+			return Project.findById(projectId)
+			.exec()
+			.then(function (project) {	
+				return createPackageDirectory(subDirectory, "index.js", project.seedIndexJS);
+			});
+		})
+		.then(function(){
 			if(npmElseZip){
 				publishNpm(mainDirectory, projectId, res);
 			}else{
