@@ -8,8 +8,10 @@
 			<md-option ng-repeat="field in fields">{{field.name}}</md-option>
 		</md-select>
 	</div>
-		<md-input-container flex>
+	<div flex>
+		<md-input-container>
 	        <label>Function</label>
 	        <textarea ng-model="props.func" ng-change='functionchange()'></textarea>
 	    </md-input-container>
+	</div>
 </div>
