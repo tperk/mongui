@@ -57,35 +57,21 @@ app.controller('projectCtrl', function ($scope, schemas, user, $state, SchemaFac
 	};
 
 	$scope.goToSchema = function (schema) {
-		// $scope.currentSchema = schema.name;
 		$state.go('project.schema', {schemaid: schema._id, schemaname: schema.name});
 	};
 
 	$scope.deleteSchema = function (schemaId) {
 		SchemaFactory.deleteSchema(schemaId).then(function (response){
-			// $state.reload();
-			// return SchemaFactory.getSchemas($stateParams.projectid).then(function(schemasArr){
-			// // 	$scope.schemas = schemasArr;
+			return SchemaFactory.getSchemas($stateParams.projectid).then(function(schemasArr){
+				$scope.schemas = schemasArr;
 
-			// })
-			// .catch(function(e) {console.log(e)});
-			console.log('response is ', response)
+			})
+			.catch(function(e) {console.log(e)});
 		});
 	};
 	$scope.backToProjects = function () {
-		// console.log('hitting back t o projects')
 			$state.go('home');
 	};
 
-	//$scope.members = members;
-	////console.log('members', members);
-	
-	//$scope.addMember = function (email) {
-	//	UserFactory.addMember($stateParams.projectid, email).then(function(user){
-	//		//add message here if !user
-	//		console.log(user);
-	//	})
-	//	.catch(function(e) {console.log(e)});
-	//};
 });
 

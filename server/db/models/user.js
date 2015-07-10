@@ -20,7 +20,6 @@ var schema = new mongoose.Schema({
     google: {
         id: String
     },
-    profilePicture: String,
     projects: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Project'

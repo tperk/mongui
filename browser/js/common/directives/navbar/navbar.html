@@ -1,14 +1,7 @@
-<md-toolbar layout="row" class="top-toolbar md-toolbar-tools md-whiteframe-z2">
-        <div class="mongui-logo md-primary" flex="66" layout="row" layout-align="start center" ng-click="goHome()">
+<md-toolbar layout="row" layout-align="start center" class="top-toolbar md-primary md-toolbar-tools md-whiteframe-z2">
+        <div class="mongui-logo" flex="66" layout="row" layout-align="start center">
             <p>Mongui</p>
         </div>
-
-        <!--<md-tabs>-->
-            <!--<md-tab ng-repeat="item in items" ng-show="!item.auth || isLoggedIn()" ui-sref-active="active" ui-sref="{{ item.state }}" label="{{item.label}}">-->
-            <!--</md-tab>-->
-        <!--</md-tabs>-->
-
-
     <!--Login Feature-->
     <div class="login" ng-show="!user" flex layout="row" layout-align="end center">
         <md-fab-speed-dial md-open="false" md-direction="left" class="md-scale">
@@ -28,26 +21,15 @@
             </md-fab-actions>
         </md-fab-speed-dial>
     </div>
-    <md-button class="md-icon-button">
-        <md-button class="md-raised">Button</md-button>
-        <md-icon md-svg-src="images/facebook.svg" class="facebook s18" aria-label="Facebook">
-    </md-button>
 
     <!--User Profile-->
- <div class="profile" ng-show="user" flex="33" layout="row" layout-align="end center">
-        <md-button ng-click="logout()">
+ <div class="profile" ng-show="user" flex layout="row" layout-align="end center">
+        <md-button class="md-warn md-hue-1" ng-click="logout()">
             <md-tooltip>
                 Logout
             </md-tooltip>
-            <md-icon aria-label="Logout" class="md-warn material-icons md-36">close</md-icon>
+            <md-icon aria-label="Logout" class="material-icons md-36">exit_to_app</md-icon>
         </md-button>
   </div>
 
-        <!--<md-button ng-show="!user" ui-sref="login" class="md-accent login-button md-raised">Login</md-button>-->
-        <!--<md-button ng-show="!user" ui-sref="register" class="md-accent md-raised register-button">Sign Up</md-button>-->
-        <!--<div ng-show="user" class="welcome">-->
-            <!--<span ng-if="user.email">Welcome, {{ user.email }}!</span>-->
-            <!--<span ng-if="!user.email">Welcome, Guest!</span>-->
-            <!--<md-button class="md-warn md-raised" ng-click="logout()">Logout</md-button>-->
-        <!--</div>-->
 </md-toolbar>

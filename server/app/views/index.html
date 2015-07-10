@@ -2,11 +2,10 @@
 <html lang="en">
 <head>
     <base href="/" />
-    <title>Fullstack Academy Generated Application</title>
+    <title>Mongui</title>
     <link rel="stylesheet" type="text/css" href="/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="/angular-material/angular-material.css" />
     <link rel="stylesheet" type="text/css" href="material-design-iconic-font/dist/css/material-design-iconic-font.css">
-    <link rel="stylesheet" type="text/css" href="/material-design-iconic-font/dist/css/material-design-iconic-font.min.css">
     <link rel="stylesheet" type="text/css" href="/style.css" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href='http://fonts.googleapis.com/css?family=PT+Sans:700' rel='stylesheet' type='text/css'>
@@ -23,8 +22,8 @@
     <script src="/moment/moment.js"></script>
     <script src="bundle.js"></script>
 </head>
-<body ng-app="FullstackGeneratedApp">
+<body layout="column" ng-app="Mongui">
     <navbar></navbar>
-    <div ui-view></div>
+    <div ui-view flex layout="column"></div>
 </body>
 </html>
