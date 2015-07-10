@@ -39,7 +39,7 @@ app.config(function ($stateProvider) {
 });
 
 
-app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fields, functions, $stateParams, currentSchema, schemas, fieldFactory, SchemaFactory, functionFactory, $q) {
+app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fields, functions, $stateParams, currentSchema, schemas, fieldFactory, SchemaFactory, TemplateFactory, functionFactory, $q) {
 
     $scope.schemas = schemas;
     $scope.currentSchema = currentSchema;
@@ -96,18 +96,31 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fi
     $scope.generateExportSchemaAndUpdate = function (fields, functions) {
         var exportSchema = ''
 
-        fields.forEach(function (field) {
-            exportSchema += field.generatedCode + ',' + '\n'
-        })
-        exportSchema = exportSchema.substring(0, exportSchema.length - 2)
+        exportSchema += 'var mongoose = require("mongoose");' + '\n'
 
-        if (functions) {
-            exportSchema += '\n'
-        }
+        exportSchema += 'var schema = new mongoose.Schema({'
+
+        fields.forEach(function (field) {
+            var arr = field.generatedCode.split('\n')
+            for (var i = 0; i < arr.length; i++) {
+                if (i === 0 || i === arr.length - 1) {
+                    exportSchema += TemplateFactory.indent(arr[i], 1)
+                } else {
+                    exportSchema += TemplateFactory.indent(arr[i], 2)
+                }
+            }
+            exportSchema += ','
+        })
+
+        exportSchema = exportSchema.substring(0, exportSchema.length - 1)
+
+        exportSchema += '\n' + '});' + '\n' + '\n'
 
         functions.forEach(function (func) {
             exportSchema += func.generatedCode + '\n'
         })
+
+        exportSchema += '\n' + 'mongoose.model("' + currentSchema.name + '", schema);'
 
         var schema = {
             exportSchema: exportSchema

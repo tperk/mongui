@@ -45,9 +45,9 @@ app.factory('fieldFactory', function ($http) {
             if (key === 'stringEnums' || key === 'array') {
                 if (key === 'stringEnums' && field.typeOptions.stringEnums.length > 0 && field.fieldType === 'String') {
                     out += indent('enum:' + handleValue(field.typeOptions[key]) + ', ', 1)
-                } else {
-                }
-            } else {
+                } 
+            } 
+            else {
                 out += indent(key + ': ' + handleValue(field.typeOptions[key]) + ', ', 1)
             }
         }

@@ -232,7 +232,7 @@ app.factory('TemplateFactory', function (){
     var requireTemplate = function (schemas) {
         var str = "";
         schemas.forEach(function(schema){
-            str += indent("var " + schema.name + " = require('./files/"+schema.name+"');", 0);
+            str += indent("var " + schema.name + " = require('../schema_files/schemas/"+schema.name+"');", 0);
         });
         return str;
     };
