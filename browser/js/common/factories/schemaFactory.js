@@ -48,7 +48,7 @@ app.factory('SchemaFactory', function ($http){
 			}
 		}			
 		return schemaTop + JSON.stringify(schemaObj, null, 4) + schemaBottom + infoStr + "\nmongoose.model('"+ collectionName + "', schema)";
-	}
+	};
 
 	return {
 		getSchemaById: function(schemaId){
@@ -61,6 +61,12 @@ app.factory('SchemaFactory', function ($http){
 			return $http.get('/api/schemas/fields/'+id)
 				.then(function (fields) {
 					return fields.data;
+				});
+		},
+		getFunctionsBySchemaId: function (id) {
+			return $http.get('/api/schemas/functions/'+id)
+				.then(function (functions) {
+					return functions.data;
 				});
 		},
 		submitNewSchema: function (newSchema, id) {

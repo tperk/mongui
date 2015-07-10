@@ -27,8 +27,8 @@ app.config(function ($stateProvider) {
         }
     });
 });
-app.controller('projectsCtrl', function ($timeout, $q, $log, $scope, $mdSidenav, ProjectsFactory, projects, user, $state, pendingProjects, UserFactory, userDictionary) {
-    var self = this;
+app.controller('projectsCtrl', function ($scope, $mdSidenav, ProjectsFactory, projects, user, $state, pendingProjects, UserFactory, userDictionary) {
+
     $scope.sideNavProjectName = "";
     $scope.sideNavCollaborators = [];
     $scope.projects = projects;
@@ -42,32 +42,34 @@ app.controller('projectsCtrl', function ($timeout, $q, $log, $scope, $mdSidenav,
         ProjectsFactory.submitNewProject(newProject, user._id).then(function (result) {
             $state.reload();
         })
-        .catch(function(e) {console.log(e)});
+        .catch(function(e) {console.log(e);});
     };
 
     $scope.goToProject = function (projectId, projectName) {
-        $state.go('project', {projectname: projectName, projectid: projectId})
+        $state.go('project', {projectname: projectName, projectid: projectId});
+        console.log("GOING TO ");
     };
 
     $scope.deleteProject = function (projectId) {
+        console.log("Deleting");
         ProjectsFactory.deleteProject(projectId).then(function (result) {
             $state.reload();
         })
-        .catch(function(e) {console.log(e)});
+        .catch(function(e) {console.log(e);});
     };
 
     $scope.acceptProject = function (project) {
         ProjectsFactory.acceptPendingProjects(user._id, project._id).then(function (){
             $state.reload();
         })
-        .catch(function(e) {console.log(e)});
+        .catch(function(e) {console.log(e);});
     };
 
     $scope.rejectProject = function (project) {
         ProjectsFactory.removePendingProjects(user._id, project._id).then(function (){
             $state.reload();
         })
-        .catch(function(e) {console.log(e)});
+        .catch(function(e) {console.log(e);});
     };
 
     $scope.toggleCollaboratorSidenav = function(project) {

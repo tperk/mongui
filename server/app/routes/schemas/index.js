@@ -6,7 +6,7 @@ module.exports = router;
 var Schema = mongoose.model('Schema');
 var Project = mongoose.model('Project')
 
-//Get all schemas in a project
+//
 router.get('/:id', function (req, res, next){
 	Schema.findById(req.params.id).exec()
 	.then(function (schema) {
@@ -15,11 +15,20 @@ router.get('/:id', function (req, res, next){
 	.then(null, next);
 });
 
-////Get all fields in a schema
+//Get all fields in a schema
 router.get('/fields/:id', function (req, res, next) {
 	Schema.getFields(req.params.id)
 		.then(function (fields) {
 			res.json(fields);
+		})
+		.then(null, next);
+});
+
+//Get all functions in a schema
+router.get('/functions/:id', function (req, res, next) {
+	Schema.getFunctions(req.params.id)
+		.then(function (functions) {
+			res.json(functions);
 		})
 		.then(null, next);
 });

@@ -39,13 +39,29 @@ router.post('/:id', function (req, res, next){
 });
 
 router.get('/schemas/:id', function (req, res, next) {
-
 	Project.getSchemas(req.params.id)
 	.then(function (schemas) {
 		res.json(schemas)
 	})
 	.then(null, next)
 
+});
+
+router.get('/current/:id', function (req, res, next){
+	Project.findById(req.params.id)
+	.exec()
+	.then(function (project) {		
+		res.status(200).json(project);
+	})
+	.then(null, next);
+});
+
+router.put('/:id', function (req, res, next){
+	Project.findByIdAndUpdate(req.params.id, req.body) 
+	.then(function(){
+		res.status(200).json("updated");
+	})
+	.then(null, next);
 });
 
 router.put('/pending/:userid/:projectid', function (req, res, next){

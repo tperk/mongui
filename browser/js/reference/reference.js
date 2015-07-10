@@ -5,7 +5,7 @@ app.config(function ($stateProvider) {
         controller: 'SeedCtrl',
         resolve: {
             user: function (AuthService) {
-                return AuthService.getLoggedInUser()
+                return AuthService.getLoggedInUser();
             },
             projects: function (ProjectsFactory, user) {
                 return ProjectsFactory.getProjects(user._id);
@@ -22,7 +22,7 @@ app.config(function ($stateProvider) {
         controller: 'SeedDatabaseCtrl',
         resolve: {
             user: function (AuthService) {
-                return AuthService.getLoggedInUser()
+                return AuthService.getLoggedInUser();
             },
             schemas: function (SchemaFactory, $stateParams) {
         		return SchemaFactory.getSchemas($stateParams.projectid);
@@ -39,7 +39,7 @@ app.config(function ($stateProvider) {
         controller: 'SeedCollectionCtrl',
         resolve: {
             user: function (AuthService) {
-                return AuthService.getLoggedInUser()
+                return AuthService.getLoggedInUser();
             },
             currentSchema: function (SchemaFactory, $stateParams, $state){
                 return SchemaFactory.getSchemaById($stateParams.schemaid).then(function(schema) {
@@ -52,6 +52,9 @@ app.config(function ($stateProvider) {
             schemas: function (SchemaFactory, $stateParams) {
         		return SchemaFactory.getSchemas($stateParams.projectid);
         	},
+        	currentProject: function (ProjectsFactory, $stateParams) {
+        		return ProjectsFactory.getProject($stateParams.projectid);
+        	}
         },
         data: {
             authenticate: true
@@ -74,7 +77,7 @@ app.filter('excludeSelf', function () {
 app.controller('SeedCtrl', function ($scope, $state, user, projects) {
 	$scope.projects = projects;
     $scope.goToProject = function (projectId, projectName) {    	
-        $state.go('database', {projectid: projectId})
+        $state.go('database', {projectid: projectId});
     };
 });
 
@@ -83,11 +86,11 @@ app.controller('SeedDatabaseCtrl', function ($scope, $state, user, schemas, $sta
 	$scope.projectid = $stateParams.projectid;	
 });
 
-app.controller('SeedCollectionCtrl', function ($scope, $state, user, fields, TemplateFactory, schemas, currentSchema, PackageFactory, $stateParams) {
+app.controller('SeedCollectionCtrl', function ($scope, $state, user, fields, TemplateFactory, schemas, currentSchema, SchemaFactory, PackageFactory, $stateParams, ProjectsFactory, currentProject) {
 	$scope.fields = fields;	
 	$scope.schemas = schemas;
 	$scope.fieldNames = [];
-	$scope.seedFile;
+	$scope.seedFile = null;
 	$scope.currentSchema = currentSchema;
 	var seedFields = [];
 	fields.forEach(function(el){
@@ -100,24 +103,31 @@ app.controller('SeedCollectionCtrl', function ($scope, $state, user, fields, Tem
 		$scope.addSeedOptions(field);
 	};
 
-	$scope.packageSeedFile = function () {
-		PackageFactory.addFileToProjectDir($scope.seedFile, currentSchema.name, $stateParams.projectid).then(function(message){
-			console.log('message', message);//display message
-		}).catch(function(e) {console.log(e)});
+	$scope.exportPackageToZip = function () {
+		PackageFactory.exportProject($stateParams.projectid).then(function(fileName){
+			var a = window.document.createElement('a');
+			a.href = fileName;
+			a.target = "_self";
+			a.download = fileName;
+			document.body.appendChild(a);
+			a.click();
+			document.body.removeChild(a);
+		});
+	};
+	$scope.addSeedFileToSchema = function () {
+		currentSchema.exportSeed = $scope.seedFile;
+		SchemaFactory.updateSchema(currentSchema, currentSchema._id).then(function(message){
+			currentProject.seedIndexJS = TemplateFactory.createSeedIndexJS(currentProject.name, schemas);
+			ProjectsFactory.updateProject($stateParams.projectid, currentProject).then(function(message){
+				console.log(message);//display message
+			}).catch(function(e) {console.log(e);});
+		}).catch(function(e) {console.log(e);});
 	};
 
-	$scope.exportSeedFile = function () {
-		//$scope.seedFile
-		var a = window.document.createElement('a');
-		a.href = window.URL.createObjectURL(new Blob([$scope.seedFile], {type: 'text/javascript'}));
-		a.download = currentSchema.name + 'SeedFile.js';
-
-		// Append anchor to body.
-		document.body.appendChild(a)
-		a.click();
-
-		// Remove anchor from body
-		document.body.removeChild(a)
+	$scope.packageProject = function () {
+		PackageFactory.packageProject($stateParams.projectid).then(function(message){
+			console.log('message', message);//display message
+		}).catch(function(e) {console.log(e);});
 	};
 
 	$scope.changeQuantity = function (quantity) {
@@ -128,10 +138,11 @@ app.controller('SeedCollectionCtrl', function ($scope, $state, user, fields, Tem
 				seedFields.push({});
 			}
 		}else if(diff < 0){
-			seedFields = seedFields.slice(0, quantity)
+			seedFields = seedFields.slice(0, quantity);
 		}
 		$scope.seedFile = TemplateFactory.createSeedFile(currentSchema, seedFields);
 	};
+
 	$scope.changeSeedByType = function (seedBy, val, type){
 		seedBy.random = null;
 		seedBy.schema = null;
@@ -218,6 +229,6 @@ app.controller('SeedCollectionCtrl', function ($scope, $state, user, fields, Tem
 					items:[]
 				}];
 		        break;
-		};
+		}
 	};
 });

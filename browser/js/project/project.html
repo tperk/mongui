@@ -1,17 +1,18 @@
-<section id="project" layout="row">
-        <md-sidenav class="md-whiteframe-z3 md-sidenav-left" flex md-component-id="left" md-is-locked-open="true">
-            <md-toolbar>
-                <div layout="row">
-                <md-button aria-label="Back to Projects" flex="10" layout-align="start center" class="material-icons backToProjects md-24" ng-click="backToProjects()">arrow_back</md-button>
-                <h1 id="sidenavProjectName" class="md-toolbar-tools" flex>{{projectName}}</h1>
-                </div>
+
+<section id="project" flex layout="row">
+        <md-sidenav class="md-whiteframe-z3 md-sidenav-left" md-component-id="left" md-is-locked-open="true">
+            <md-toolbar class="md-primary md-hue-3"layout="row" layout-align="start center">
+                <md-button aria-label="Back to Projects" id="backToProjects"layout-align="start center" class="material-icons md-accent md-hue-1 md-fab md-mini" ng-click="backToProjects()">
+                    arrow_back
+                </md-button>
+                <h1 id="sidenavProjectName" flex class="md-toolbar-tools" >{{projectName}}</h1>
             </md-toolbar>
             <form name="newSchemaForm" layout="row" layout-padding layout-align="start center" ng-submit="newSchemaForm.$valid && submitSchema(newSchema)">
-                <md-input-container id="newSchemaForm" class="md-accent" flex="75">
+                <md-input-container id="newSchemaForm" class="md-accent" flex="70">
                     <label>New Schema</label>
                     <input type="text" ng-model="newSchema.name" required>
                 </md-input-container>
-                <md-button class="md-accent material-icons md-24" type="submit">add_circle_outline</md-button>
+                <md-button class="md-accent md-hue-3 material-icons md-24" type="submit">add</md-button>
             </form>
             <md-divider></md-divider>
             <md-content>
@@ -29,34 +30,8 @@
                 </md-list>
             </md-content>
         </md-sidenav>
-        <md-content layout="row" flex>
-            <ui-view></ui-view>
-        </md-content>
+        <div flex layout="column">
+            <div ui-view flex layout="column">
+            </div>
+        </div>
 </section>
-
-
-
-
-
-
-
-<md-autocomplete md-selected-item="selectedItem" md-search-text="searchText" md-items="item in userDictionary" md-item-text="item.display">
-    <span md-highlight-text="searchText">{{item.display}}</span>
-</md-autocomplete>
-
-
-            <!--<h1 class="md-toolbar-tools">{{projectName}} Members</h1>-->
-            <!--<md-input-container>-->
-                <!--<label>Add New Members By Email</label>-->
-                <!--<input type="text" ng-model="newMemberEmail" required>-->
-            <!--</md-input-container>-->
-            <!--<md-button class="md-accent md-raised md-hue-3" ng-click="addMember(newMemberEmail)">Add Member</md-button>-->
-            <!--<md-content>-->
-                <!--<md-list>-->
-                    <!--<md-list-item flex layout-wrap layout-padding ng-repeat="member in members">-->
-                        <!--&lt;!&ndash; <p>{{member.firstName}}, {{member.lastName}}</p> &ndash;&gt;-->
-                        <!--<p>{{member.email}}</p>-->
-                    <!--</md-list-item>-->
-                <!--</md-list>-->
-            <!--</md-content>-->
-        <!--</div>-->
