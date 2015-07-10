@@ -1,46 +1,28 @@
 
 #project {
   button{
-    text-align: center;
+    text-align: left;
   }
-  .ng-scope {
-    width: 100%;
-    height: 100%;
-  }
-  md-sidenav {
-    position: relative;
-  }
-  md-content {
-    background-color: transparent;
-  }
+
   .md-button:not([disabled]):hover {
     background-color: transparent;
   }
-  #schemaToolbar {
-    background-color: transparent;
-  }
-  md-card {
-    background-color: transparent;
-  }
 
-  .backToProjects {
-      text-align: left;
-      margin-right: 0;
-      padding-right: 0;
-      width: 80%;
+  #backToProjects {
       transition: none;
+      text-align: center;
   }
-  #sidenavProjectName {
-    padding-left: 0;
-  }
-  #schemaNavButtons {
-    .md-button {
-      padding-right: 0;
-      padding-left: 0;
-      margin-left: 0;
-      margin-right: 0;
-    }
-  }
+  // #sidenavProjectName {
+  //   padding-left: 0;
+  // }
+  // #schemaNavButtons {
+  //   .md-button {
+  //     padding-right: 0;
+  //     padding-left: 0;
+  //     margin-left: 0;
+  //     margin-right: 0;
+  //   }
+  // }
 
 
 }

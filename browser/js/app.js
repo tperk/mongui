@@ -1,5 +1,5 @@
 'use strict';
-window.app = angular.module('FullstackGeneratedApp', ['ui.router', 'ui.bootstrap', 'fsaPreBuilt', 'ngMaterial', 'ncy-angular-breadcrumb', 'materialDatePicker']);
+window.app = angular.module('Mongui', ['ui.router', 'ui.bootstrap', 'fsaPreBuilt', 'ngMaterial', 'ncy-angular-breadcrumb', 'materialDatePicker']);
 
 app.config(function ($urlRouterProvider, $locationProvider, $mdThemingProvider) {
     // This turns off hashbang urls (/#about) and changes it to something normal (/about)
@@ -17,22 +17,20 @@ app.config(function ($urlRouterProvider, $locationProvider, $mdThemingProvider) 
             '500': 'FBC93D'
         });
         // Register the new color palette map with the name <code>neonRed</code>
-        $mdThemingProvider.definePalette('monguiRed', monguiRedMap);
-        $mdThemingProvider.definePalette('monguiBlue', monguiBlueMap);
-        $mdThemingProvider.definePalette('monguiYellow', monguiYellowMap);
+        // $mdThemingProvider.definePalette('monguiRed', monguiRedMap);
+        // $mdThemingProvider.definePalette('monguiBlue', monguiBlueMap);
+        // $mdThemingProvider.definePalette('monguiYellow', monguiYellowMap);
         // Use that theme for the primary intentions
-        $mdThemingProvider.theme('default')
-            .primaryPalette('neonRed')
+        // $mdThemingProvider.theme('default')
+        //     .primaryPalette('neonRed')
 
     $mdThemingProvider.theme('default')
-        .primaryPalette("brown")
-        .accentPalette('green', {
-            'default': '300'
-        })
-        .warnPalette('monguiRed')
-        .backgroundPalette('grey', {
-            'default': '50'
-        })
+        .primaryPalette('brown')
+        .accentPalette('green')
+        .warnPalette('orange');
+        // .backgroundPalette('grey', {
+        //     'default': '50'
+        // })
 });
 
 // This app.run is for controlling access to specific states.

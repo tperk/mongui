@@ -4,21 +4,15 @@ navbar {
     p {
       font-family: 'PT Sans', sans-serif;
       font-size: 150%;
-      color: #FBC93D;
+      color: #A5D6A7;
+      margin-bottom: 0px;
     }
     margin-left: 20px;
   }
   .top-toolbar {
-    background-color: #393A3B;
+    background-color: #5D4037;
   }
-  md-tabs{
-      .md-active{
-        color: #a3e9a4 !important;
-      }
-      .md-tab{
-        color: white;
-      }
-  }
+
   .md-button:not([disabled]):hover {
     background-color: transparent;
   }

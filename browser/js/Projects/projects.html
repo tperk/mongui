@@ -19,18 +19,18 @@
    <div id="project-list" layout="column" flex>
     <md-content>
        <div ng-repeat="project in projects" layout="row" layout-wrap>
-           <md-button flex class="md-accent" ng-click="goToProject(project._id, project.name)">
+           <md-list-item flex class="" ng-click="goToProject(project._id, project.name)">
            {{project.name}}
-           </md-button>
-           <md-button aria-label="Npm Install" flex='10'>
+           </md-list-item>
+           <md-button class="md-primary" aria-label="Npm Install">
                <md-icon class="material-icons md-24">file_download</md-icon>
                <md-tooltip>Show Schema Code</md-tooltip>
            </md-button>
-           <md-button aria-label="Add Collaborator" flex='10' ng-click="toggleCollaboratorSidenav(project)">
+           <md-button class="md-accent" aria-label="Add Collaborator" ng-click="toggleCollaboratorSidenav(project)">
                <md-icon class="material-icons md-24">person_add</md-icon>
                <md-tooltip>Add Collaborator</md-tooltip>
            </md-button>
-           <md-button aria-label="Delete Project" flex='10' ng-click="deleteProject(project._id)">
+           <md-button aria-label="Delete Project" class=" md-warn" ng-click="deleteProject(project._id)">
                <md-icon class="material-icons md-24 md-warn">delete</md-icon>
                <md-tooltip>Delete</md-tooltip>
            </md-button>
