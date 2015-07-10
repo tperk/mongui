@@ -151,7 +151,7 @@ app.factory('TemplateFactory', function (){
     	}
 		str = indentString + str;
 		return "\n"+str;
-	};
+	}
 
     var objectTemplate = function (arrArg){
         var str = "";
@@ -201,21 +201,21 @@ app.factory('TemplateFactory', function (){
 		fieldsArr.forEach(function (el){
 			if(field.seedBy.type === 'random'){				
 				switch (field.fieldType) {
-			    	case 'String': stringFunc(el, field)
+			    	case 'String': stringFunc(el, field);
 			    		break;
-			    	case 'Number': numberFunc(el, field)
+			    	case 'Number': numberFunc(el, field);
 			    		break;
-			    	case 'Date': dateFunc(el, field)
+			    	case 'Date': dateFunc(el, field);
 			    		break;
 			    	// case 'Buffer': bufferFunc(el, field)
 			    	// 	break;
-			    	case 'Boolean': booleanFunc(el, field)
+			    	case 'Boolean': booleanFunc(el, field);
 			    		break;
 			    	// case 'Mixed': mixedFunc(el, field)
 			    	// 	break;
-			    	case 'Objectid': objectidFunc(el, field)
+			    	case 'Objectid': objectidFunc(el, field);
 			    		break;
-			    	case 'Nested': nestedFunc(el, field)
+			    	case 'Nested': nestedFunc(el, field);
 			    		break;
 		    	}
 			}
@@ -243,9 +243,9 @@ app.factory('TemplateFactory', function (){
             str += schema.name + ", ";
         });
         str = str.slice(0,-2);
-        str += "];"
+        str += "];";
         return str;
-    }
+    };
 
     var createSeedIndexJS = function(projectName, schemas){
         var projectName = projectName;
@@ -275,7 +275,7 @@ app.factory('TemplateFactory', function (){
         indent(".then(function(){", 1) +
         indent(" process.kill(0);", 2) +
         indent("});", 1) +
-        indent("});", 0)
+        indent("});", 0);
         return str;
     };
 

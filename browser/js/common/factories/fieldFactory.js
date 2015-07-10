@@ -11,35 +11,35 @@ app.factory('fieldFactory', function ($http) {
 
 	var handleValue = function (value) {
         if (typeof value === 'string') {
-            return  '"' + value + '"'
+            return  '"' + value + '"';
         } else if (Array.isArray(value)) {
             if (!value.length) {
-                return '[]'
+                return '[]';
             } else {
-                var out = ''
+                var out = '';
                 value.forEach(function (subval) {
-                    out += handleValue(subval) + ','
-                })
-                out = out.substring(0, out.length - 1)
-                return '[' + out + ']'
+                    out += handleValue(subval) + ',';
+                });
+                out = out.substring(0, out.length - 1);
+                return '[' + out + ']';
             }
         } else {
             //booleans, numbers
-            return value
+            return value;
         }
-    }
+    };
 
     function codeConverter (field) {
-        var out = ''
-        out += field.name + ': '
+        var out = '';
+        out += field.name + ': ';
         if (field.typeOptions.array) {
-            out += '[{'
+            out += '[{';
         } else {
-            out += '{'
+            out += '{';
         }
-        out += indent('type: '+ field.fieldType + ', ', 1)
+        out += indent('type: '+ field.fieldType + ', ', 1);
         if (field.required === true) {
-            out += indent("required: true, ", 1)
+            out += indent("required: true, ", 1);
         }
         for (var key in field.typeOptions) {
             if (key === 'stringEnums' || key === 'array') {
@@ -51,13 +51,13 @@ app.factory('fieldFactory', function ($http) {
                 out += indent(key + ': ' + handleValue(field.typeOptions[key]) + ', ', 1)
             }
         }
-        out = out.substring(0, out.length - 2)
+        out = out.substring(0, out.length - 2);
         if (field.typeOptions.array) {
-            out += '\n' + '}]'
+            out += '\n' + '}]';
         } else {
-            out += '\n' + '}'
+            out += '\n' + '}';
         }
-        return out
+        return out;
     }
 
 

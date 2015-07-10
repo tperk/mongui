@@ -48,7 +48,7 @@ app.factory('SchemaFactory', function ($http, TemplateFactory){
 			}
 		}			
 		return schemaTop + JSON.stringify(schemaObj, null, 4) + schemaBottom + infoStr + "\nmongoose.model('"+ TemplateFactory.firstLetterUpperCase(collectionName) + "', schema)";
-	}
+	};
 
 	return {
 		getSchemaById: function(schemaId){

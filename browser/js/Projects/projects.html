@@ -15,6 +15,7 @@
            </md-button>
        </form>
    </div>
+
    <!-- <md-list> -->
    <div id="project-list" layout="column" flex>
     <md-content>
@@ -23,8 +24,12 @@
            {{project.name}}
            </md-list-item>
            <md-button class="md-primary" aria-label="Npm Install">
+               <md-icon class="material-icons md-24">publish</md-icon>
+               <md-tooltip>Publish to NPM</md-tooltip>
+           </md-button>
+           <md-button class="md-primary" aria-label="Npm Install">
                <md-icon class="material-icons md-24">file_download</md-icon>
-               <md-tooltip>Show Schema Code</md-tooltip>
+               <md-tooltip>Zip Project</md-tooltip>
            </md-button>
            <md-button class="md-accent" aria-label="Add Collaborator" ng-click="toggleCollaboratorSidenav(project)">
                <md-icon class="material-icons md-24">person_add</md-icon>
@@ -44,17 +49,11 @@
            <h1 class="md-toolbar-tools">{{sideNavProjectName}}</h1>
        </md-toolbar>
        <md-content layout-padding>
-           <form>
-                <md-autocomplete
-                    md-items="user in userDictionary" 
-                    md-item-text="userDictionary[user]" 
-                    md-search-text="searchText" 
-                    md-selected-item="userDictionary"
-                    placeholder="Enter Users Email"
-                    md-min-length="0"
-                    >
-                    <span md-highlight-text="searchText">{{user.email}}</span>
-                </md-autocomplete>
+           <form name="newCollaborator" ng-submit="addMember(sideNavProjectId, newCollaborator.email)">
+               <md-input-container>
+                   <label>New Collaborator</label>
+                   <input type="text" ng-model="newCollaborator.email" required>
+               </md-input-container>
            </form>
            <md-list>
                 <md-list-item ng-repeat="collaborator in sideNavCollaborators">{{collaborator.email}}
