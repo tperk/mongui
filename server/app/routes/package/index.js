@@ -94,6 +94,14 @@ function createPackage (schemasArr, projectId, npmElseZip, res) {
 			})
 		])
 		.then(function(){
+			var subDirectory = mainDirectory + "schema_files/";
+			return Project.findById(projectId)
+			.exec()
+			.then(function (project) {	
+				return createPackageDirectory(subDirectory, "index", project.schemaIndexJS);
+			});
+		})
+		.then(function(){
 			var subDirectory = mainDirectory + "seed_files/";
 			return Project.findById(projectId)
 			.exec()

@@ -178,9 +178,9 @@ app.factory('TemplateFactory', function (){
         return str;
     };
 
-    var firstLetterUpperCase = function(str){
+    function firstLetterUpperCase (str){
         return str.charAt(0).toUpperCase() + str.slice(1);
-    }
+    };
 
     var makeTemplate = function(schema, fieldsArr){
     	return indent("var mongoose = require('mongoose');", 0) +
@@ -232,7 +232,7 @@ app.factory('TemplateFactory', function (){
     var requireTemplate = function (schemas) {
         var str = "";
         schemas.forEach(function(schema){
-            str += indent("var " + schema.name + " = require('../schema_files/schemas/"+schema.name+"');", 0);
+            str += indent("var " + schema.name + " = require('./seeds/"+schema.name+"');", 0);
         });
         return str;
     };
@@ -279,9 +279,21 @@ app.factory('TemplateFactory', function (){
         return str;
     };
 
+    function createSchemaIndexJS (projectName, schemas) {
+        var str = "var mongoose = require('mongoose');" +
+        indent("var DATABASE_URI = 'mongodb://localhost:27017/" + projectName + "';", 0) +
+        indent("var db = mongoose.connect(DATABASE_URI).connection;", 0);
+        schemas.forEach(function(schema){
+           str += indent("require('./schemas/" + schema.name + "');", 0) ;
+        })
+        return str;
+    };
+
 	return {
 		createSeedFile: createSeedFile,
         indent: indent,
-        createSeedIndexJS: createSeedIndexJS
+        createSeedIndexJS: createSeedIndexJS,
+        createSchemaIndexJS: createSchemaIndexJS,
+        firstLetterUpperCase: firstLetterUpperCase
 	};
 });

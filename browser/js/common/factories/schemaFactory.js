@@ -1,4 +1,4 @@
-app.factory('SchemaFactory', function ($http){	
+app.factory('SchemaFactory', function ($http, TemplateFactory){	
 	
 	var schemaCreate = function(schemaObj, infoObj){
 		var schemaTop = "var mongoose = require('mongoose');\nvar schema = new mongoose.Schema(";
@@ -47,7 +47,7 @@ app.factory('SchemaFactory', function ($http){
 				}
 			}
 		}			
-		return schemaTop + JSON.stringify(schemaObj, null, 4) + schemaBottom + infoStr + "\nmongoose.model('"+ collectionName + "', schema)";
+		return schemaTop + JSON.stringify(schemaObj, null, 4) + schemaBottom + infoStr + "\nmongoose.model('"+ TemplateFactory.firstLetterUpperCase(collectionName) + "', schema)";
 	}
 
 	return {

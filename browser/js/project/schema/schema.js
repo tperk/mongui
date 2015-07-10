@@ -28,6 +28,9 @@ app.config(function ($stateProvider) {
             },
             schemas: function (SchemaFactory, $stateParams) {
                 return SchemaFactory.getSchemas($stateParams.projectid);
+            },
+            currentProject: function (ProjectsFactory, $stateParams) {
+                return ProjectsFactory.getProject($stateParams.projectid);
             }
         },
         data: {
@@ -39,7 +42,7 @@ app.config(function ($stateProvider) {
 });
 
 
-app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fields, functions, $stateParams, currentSchema, schemas, fieldFactory, SchemaFactory, TemplateFactory, functionFactory, $q) {
+app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fields, functions, $stateParams, currentSchema, schemas, fieldFactory, SchemaFactory, TemplateFactory, functionFactory, $q, currentProject, ProjectsFactory) {
 
     $scope.schemas = schemas;
     $scope.currentSchema = currentSchema;
@@ -106,7 +109,7 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fi
                 if (i === 0 || i === arr.length - 1) {
                     exportSchema += TemplateFactory.indent(arr[i], 1)
                 } else {
-                    exportSchema += TemplateFactory.indent(arr[i], 2)
+                    exportSchema += TemplateFactory.indent(arr[i], 1)
                 }
             }
             exportSchema += ','
@@ -120,7 +123,7 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fi
             exportSchema += func.generatedCode + '\n'
         })
 
-        exportSchema += '\n' + 'mongoose.model("' + currentSchema.name + '", schema);'
+        exportSchema += '\n' + 'mongoose.model("' + TemplateFactory.firstLetterUpperCase(currentSchema.name) + '", schema);'
 
         var schema = {
             exportSchema: exportSchema
@@ -129,6 +132,10 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fi
         SchemaFactory.updateSchema(schema, $stateParams.schemaid)
         .then(function (exportSchema) {
             $scope.exportSchema = exportSchema
+            currentProject.schemaIndexJS = TemplateFactory.createSchemaIndexJS($stateParams.projectname, schemas);
+            ProjectsFactory.updateProject($stateParams.projectid, currentProject).then(function(message){
+                console.log(message);//display message
+            }).catch(function(e) {console.log(e)});
         })
         .catch(function(e) {console.log(e)});
     }
