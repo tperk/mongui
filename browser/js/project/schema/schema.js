@@ -79,6 +79,10 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fi
         });
     };
 
+    $scope.goToSeed = function(){
+        $state.go('database.collection', {projectid: $stateParams.projectid, schemaid: currentSchema._id});
+    };
+
 // FIELDS
 
     $scope.updateFieldsChanged = function (){

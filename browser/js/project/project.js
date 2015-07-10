@@ -37,6 +37,7 @@ app.controller('projectCtrl', function ($scope, schemas, user, $state, SchemaFac
 	$rootScope.$on("toggleSideBar", toggleSideBar);
 
 	$scope.projectName = $stateParams.projectname;
+
 	$scope.newSchema = {};
 	$scope.schemas = schemas;
 
@@ -57,7 +58,11 @@ app.controller('projectCtrl', function ($scope, schemas, user, $state, SchemaFac
 	};
 
 	$scope.goToSchema = function (schema) {
-		$state.go('project.schema', {schemaid: schema._id, schemaname: schema.name});
+		$state.go('project.schema', {
+			schemaid: schema._id, 
+			schemaname: schema.name, 
+			projectid: $stateParams.projectid
+		});
 	};
 
 	$scope.deleteSchema = function (schemaId) {
