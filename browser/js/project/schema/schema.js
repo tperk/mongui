@@ -54,15 +54,14 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fi
     $scope.exportSchema = currentSchema.exportSchema;
 
     $scope.openCodeDialog = function() {
-        console.log('hitting code dialog');
         $mdDialog.show({
             clickOutsideToClose: true,
             scope: $scope, //use parent scope in template
             preserveScope: true,
             template:
-                '<md-dialog>' +
+                '<md-dialog style="opacity:0.9;">' +
                     '  <md-dialog-content>'+
-                '       {{exportSchema}}' +
+                '       <pre style="color:white;border:none;opacity:1;">{{exportSchema}}</pre>' +
                 '  </md-dialog-content>' +
                 '  <div class="md-actions">' +
                 '    <md-button ng-click="closeDialog()" class="md-primary">' +
