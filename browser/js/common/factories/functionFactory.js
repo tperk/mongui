@@ -10,45 +10,45 @@ app.factory('functionFactory', function ($http) {
     };
 
     function parametersHandler (parameters) {
-        var out = ''
+        var out = '';
         parameters.forEach(function (parameter) {
-            out += parameter + ','
-        })
-        out = out.substring(0, out.length - 2)
-        console.log(out)
-        return out
+            out += parameter + ',';
+        });
+        out = out.substring(0, out.length - 1);
+        console.log(out);
+        return out;
     }
 
 
     function codeConverter (func) {
-        var out = ''
+        var out = '';
 
         if (!func.typeOptions.func) {
-            func.typeOptions.func = ''
+            func.typeOptions.func = '';
         }
 
-        var makefunc = 'function (' + parametersHandler(func.typeOptions.parameters) + ') {' + indent(func.typeOptions.func, 1) + '\n' + '});'
+        var makefunc = 'function (' + parametersHandler(func.typeOptions.parameters) + ') {' + indent(func.typeOptions.func, 1) + '\n' + '});';
         if (func.functionType === 'Getter/Setter') {
-            out += 'function ' + func.name + ' (val) {' + func.typeOptions.func + '};'
+            out += 'function ' + func.name + ' (val) {' + func.typeOptions.func + '};';
         } else {
-            out += 'schema.'
+            out += 'schema.';
             if (func.functionType === 'Virtual') {
                 out += 'virtual("' + func.typeOptions.field + '").' + func.typeOptions.getset + 
-                '(' + makefunc
+                '(' + makefunc;
             } else if (func.functionType === 'Hook') {
-                out += func.typeOptions.completion + '("' + func.typeOptions.event + '", '
+                out += func.typeOptions.completion + '("' + func.typeOptions.event + '", ';
                 if (func.typeOptions.flow === "Parallel") {
-                    out += 'true, '
+                    out += 'true, ';
                 }
-                out += makefunc
+                out += makefunc;
             } else {
-                out += func.functionType.toLowerCase() + 's.' + func.name + ' = ' + makefunc
-                out = out.substring(0, out.length - 1)
-                out += ';'
+                out += func.functionType.toLowerCase() + 's.' + func.name + ' = ' + makefunc;
+                out = out.substring(0, out.length - 1);
+                out += ';';
             }
 
         }
-        return out
+        return out;
     }
 
 	return {
