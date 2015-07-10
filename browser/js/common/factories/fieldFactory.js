@@ -44,11 +44,11 @@ app.factory('fieldFactory', function ($http) {
         for (var key in field.typeOptions) {
             if (key === 'stringEnums' || key === 'array') {
                 if (key === 'stringEnums' && field.typeOptions.stringEnums.length > 0 && field.fieldType === 'String') {
-                    out += indent('enum:' + handleValue(field.typeOptions[key]) + ', ', 1);
-                } else {
-                }
-            } else {
-                out += indent(key + ': ' + handleValue(field.typeOptions[key]) + ', ', 1);
+                    out += indent('enum:' + handleValue(field.typeOptions[key]) + ', ', 1)
+                } 
+            } 
+            else {
+                out += indent(key + ': ' + handleValue(field.typeOptions[key]) + ', ', 1)
             }
         }
         out = out.substring(0, out.length - 2);
