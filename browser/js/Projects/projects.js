@@ -9,13 +9,16 @@ app.config(function ($stateProvider) {
         },
         resolve: {
             user: function (AuthService) {
-                return AuthService.getLoggedInUser()
+                return AuthService.getLoggedInUser();
             },
             projects: function (ProjectsFactory, user) {
                 return ProjectsFactory.getProjects(user._id);
             },
             pendingProjects: function (ProjectsFactory, user) {
                 return ProjectsFactory.getPendingProjects(user._id);
+            },
+            userDictionary: function(UserFactory){
+                return UserFactory.getUserDictionary();
             }
         },
         data: {
@@ -24,14 +27,20 @@ app.config(function ($stateProvider) {
     });
 });
 
+<<<<<<< HEAD
 app.controller('projectsCtrl', function ($scope, $mdSidenav, ProjectsFactory, projects, user, $state, pendingProjects) {
 
+=======
+app.controller('projectsCtrl', function ($scope, $mdSidenav, ProjectsFactory, projects, user, $state, pendingProjects, UserFactory, userDictionary) {
+    $scope.sideNavProjectName = "";
+    $scope.sideNavCollaborators = [];
+>>>>>>> bf9e5fcad280d7a2bd2b58a31eb7fda2141b87f8
     $scope.projects = projects;
     $scope.pendingProjects = pendingProjects;
-
     $scope.newProject = {
         name: ''
     };
+    $scope.userDictionary = userDictionary;
 
     $scope.submitProject = function (newProject) {
         ProjectsFactory.submitNewProject(newProject, user._id).then(function (result) {
@@ -67,8 +76,18 @@ app.controller('projectsCtrl', function ($scope, $mdSidenav, ProjectsFactory, pr
         .catch(function(e) {console.log(e)});
     };
 
+<<<<<<< HEAD
     $scope.toggleCollaboratorSidenav = function() {
         $mdSidenav('right').toggle();
+=======
+    $scope.toggleCollaboratorSidenav = function(project) {
+        $scope.sideNavProjectName = project.name;
+        $mdSidenav('right').toggle();
+        UserFactory.getMembers(project._id).then(function(collaborators){
+            console.log("collaborators ", collaborators);
+            $scope.sideNavCollaborators = collaborators;
+        });
+>>>>>>> bf9e5fcad280d7a2bd2b58a31eb7fda2141b87f8
     };
     //$scope.addMember = function (email) {
     //    UserFactory.addMember($stateParams.projectid, email).then(function(user){

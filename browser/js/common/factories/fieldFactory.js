@@ -60,6 +60,7 @@ app.factory('fieldFactory', function ($http) {
         return out
     }
 
+<<<<<<< HEAD
     function generateExportSchema (fields) {
         var out = ''
         fields.forEach(function (field) {
@@ -70,6 +71,8 @@ app.factory('fieldFactory', function ($http) {
     }
 
 
+=======
+>>>>>>> bf9e5fcad280d7a2bd2b58a31eb7fda2141b87f8
 	return {
 		getAllFields: function(){
 			return $http.get('/api/fields/')
@@ -83,13 +86,6 @@ app.factory('fieldFactory', function ($http) {
 				return response.data;
 			});
 		},
-		// uncomment when engine is moved to schemacontroller
-		// createField: function(body, schemaId){
-		// 	return $http.post('/api/fields/'+schemaId, body)
-		// 	.then(function (response){
-		// 		return response.data;
-		// 	});
-		// },
 		createField: function(schemaId, body){
 			return $http.post('/api/fields/' + schemaId, body)
 			.then(function (response){
@@ -114,7 +110,11 @@ app.factory('fieldFactory', function ($http) {
 				return fields.data;
 			});
 		},
+<<<<<<< HEAD
 		codeConverter: codeConverter,
 		generateExportSchema: generateExportSchema
+=======
+		codeConverter: codeConverter
+>>>>>>> bf9e5fcad280d7a2bd2b58a31eb7fda2141b87f8
 	};
 });

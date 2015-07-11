@@ -1,17 +1,27 @@
-<section id="project" layout="row">
+<section id="project" flex layout="row">
         <md-sidenav class="md-whiteframe-z3 md-sidenav-left" md-component-id="left" md-is-locked-open="true">
+<<<<<<< HEAD
             <md-toolbar>
                 <div layout="row">
                 <md-button aria-label="Back to Projects" flex="10" layout-align="start center" class="material-icons backToProjects md-24" ng-click="backToProjects()">arrow_back</md-button>
                 <h1 id="sidenavProjectName" class="md-toolbar-tools" flex>{{projectName}}</h1>
                 </div>
+=======
+            <md-toolbar class="md-primary md-hue-3"layout="row" layout-align="start center">
+
+                <md-button aria-label="Back to Projects" id="backToProjects"layout-align="start center" class="material-icons md-accent md-hue-1 md-fab md-mini" ng-click="backToProjects()">
+                    arrow_back
+                </md-button>
+                <h1 id="sidenavProjectName" flex class="md-toolbar-tools" >{{projectName}}</h1>
+
+>>>>>>> bf9e5fcad280d7a2bd2b58a31eb7fda2141b87f8
             </md-toolbar>
             <form name="newSchemaForm" layout="row" layout-padding layout-align="start center" ng-submit="newSchemaForm.$valid && submitSchema(newSchema)">
-                <md-input-container id="newSchemaForm" class="md-accent" flex="75">
+                <md-input-container id="newSchemaForm" class="md-accent" flex="70">
                     <label>New Schema</label>
                     <input type="text" ng-model="newSchema.name" required>
                 </md-input-container>
-                <md-button class="md-accent material-icons md-24" type="submit">add_circle_outline</md-button>
+                <md-button class="md-accent md-hue-3 material-icons md-24" type="submit">add</md-button>
             </form>
             <md-divider></md-divider>
             <md-content>
@@ -29,8 +39,14 @@
                 </md-list>
             </md-content>
         </md-sidenav>
+<<<<<<< HEAD
         <div layout="row" layout-fill>
             <ui-view></ui-view>
+=======
+        <div flex layout="column">
+            <div ui-view flex layout="column">
+            </div>
+>>>>>>> bf9e5fcad280d7a2bd2b58a31eb7fda2141b87f8
         </div>
 </section>
 

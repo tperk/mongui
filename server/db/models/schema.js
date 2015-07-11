@@ -8,6 +8,10 @@ var schema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Field'
 	}],
+	functions: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Func'
+	}],
 	exportSchema: String,
 	exportSeed: String
 });
@@ -49,7 +53,21 @@ schema.static('getFields', function (id) {
 		.then(function (schema) {
 			return schema.fields;
 		});
+<<<<<<< HEAD
+=======
+});
+>>>>>>> bf9e5fcad280d7a2bd2b58a31eb7fda2141b87f8
 
+schema.static('getFunctions', function (id) {
+	return this.findById(id).populate('functions').exec()
+		.then(function (schema) {
+			return schema.functions;
+		});
 });
 
+
 mongoose.model('Schema', schema);
+
+
+
+

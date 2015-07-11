@@ -64,12 +64,21 @@ app.controller('projectCtrl', function ($scope, schemas, user, $state, SchemaFac
 	$scope.deleteSchema = function (schemaId) {
 		SchemaFactory.deleteSchema(schemaId).then(function (response){
 			// $state.reload();
+<<<<<<< HEAD
 			// return SchemaFactory.getSchemas($stateParams.projectid).then(function(schemasArr){
 			// // 	$scope.schemas = schemasArr;
 
 			// })
 			// .catch(function(e) {console.log(e)});
 			console.log('response is ', response)
+=======
+			return SchemaFactory.getSchemas($stateParams.projectid).then(function(schemasArr){
+				$scope.schemas = schemasArr;
+
+			})
+			.catch(function(e) {console.log(e)});
+			// console.log('response is ', response)
+>>>>>>> bf9e5fcad280d7a2bd2b58a31eb7fda2141b87f8
 		});
 	};
 	$scope.backToProjects = function () {

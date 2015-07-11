@@ -1,50 +1,71 @@
-<section layout="column">
-        <md-sidenav md-component-id="right" class="md-sidenav-right">
-            <p>testing</p>
-        </md-sidenav>
-		<md-toolbar id="schemaSubheader" class="md-whiteframe-z3 md-primary hue-1" layout="row" layout-align="center center">
+<section flex layout="column">
+		<md-toolbar id="schemaSubheader" class="md-whiteframe-z3 md-primary md-hue-2" layout="row" layout-align="center center">
             <span flex="50"><h1 class="md-toolbar-tools">{{currentSchema.name}}</h1></span>
             <span id="schemaNavButtons" layout="row" layout-align="end center" flex>
                 <!--<md-button aria-label="Delete Schema" class="md-warn material-icons md-24" ng-click="(deleteSchema(schema._id))">remove_circle</md-button>-->
-                <md-button ng-click="createField()" aria-label="Add Field">
+                <md-button class="md-accent md-hue-1" ng-click="createField()" aria-label="Add Field">
                     <md-icon class="material-icons md-24">note_add</md-icon>
                     <md-tooltip>Add Field</md-tooltip>
                 </md-button>
-                <md-button ng-click="openCodeDialog()" aria-label="Show Schema Code">
+                <md-button class="md-accent md-hue-1" style="text-align:center;" ng-click="createFunction()" aria-label="Add Function">
+                    F(x)
+                    <md-tooltip>Add Function</md-tooltip>
+                </md-button>
+                <md-button class="md-accent md-hue-1" ng-click="openCodeDialog()" aria-label="Show Schema Code">
                     <md-icon class="material-icons md-24">code</md-icon>
                     <md-tooltip>Show Schema Code</md-tooltip>
                 </md-button>
+<<<<<<< HEAD
                 <md-button ng-click="saveUpdatedFields()" aria-label="Save Updated Fields">
+=======
+                <md-button class="md-warn md-hue-1" ng-click="saveUpdatedFields();saveUpdatedFunctions()" aria-label="Save Updated Fields and Functions">
+>>>>>>> bf9e5fcad280d7a2bd2b58a31eb7fda2141b87f8
                     <md-icon class="material-icons md-24">save</md-icon>
                     <md-tooltip>Save</md-tooltip>
                 </md-button>
             </span>
 		</md-toolbar>
-    <md-content>
-    <div>
-    <field layout-fill
-      ng-repeat="field in fields"
-      field="field"
-      deletebyid="deleteField(field)"
-      savefield="saveField(field._id, field)"
-      saving="saving"
-      subfield="createSubField(field)"
-      typechangeclear="typeChangeClear(field)"
-      schemas="schemas"
-      currentschema="currentSchema">
-    </field>
-    </div>
-    </md-content>
 
-    <md-dialog>
+    <div flex layout="column">
+        <md-content>  
+          <field
+            ng-repeat="field in fields"
+            field="field"
+            deletebyid="deleteField(field)"
+            savefield="saveField(field._id, field)"
+            saving="saving"
+            subfield="createSubField(field)"
+            typechangeclear="typeChangeClear(field)"
+            schemas="schemas"
+            currentschema="currentSchema">
+          </field>
+          <function layout-fill
+              ng-repeat="func in functions"
+              func="func"
+              fields="fields"
+              deletebyid="deleteFunction(func)"
+              savefunction="saveFunction(func._id, func)"
+              saving="saving"
+              typechangeclear="typeChangeClearFn(func)"
+              schemas="schemas"
+              currentschema="currentSchema">
+          </function>
+        </md-content>
+    </div>
+
+<!--     <md-dialog>
         <md-dialog-content>
 
         </md-dialog-content>
         <md-actions>
 
         </md-actions>
+<<<<<<< HEAD
     </md-dialog>
 
 
 
+=======
+    </md-dialog> -->
+>>>>>>> bf9e5fcad280d7a2bd2b58a31eb7fda2141b87f8
 </section>

@@ -1,20 +1,17 @@
 #projects {
-	h1 {
-		margin-top: 40px;
-		text-align: center;
+
+ //  .md-button:not([disabled]):hover {
+	// background-color: transparent;
+ //  }
+	#project-list {
+		// max-height: 67vh;
 	}
-  	h5 {
-	  color: #393A3B;
-	  margin: 0;
+
+	.newProject {
+		min-height: 83px;
+		max-height: 83px;
 	}
-	md-tabs {
-		.link {
-			color: blue;
-		}
-		.child {
-			color: green;
-		}
-	}
+<<<<<<< HEAD
   md-content {
 	background-color: #fff;
   }
@@ -29,6 +26,8 @@
 	margin-right: 0;
 	background-color: #FBC93D;
   }
+=======
+>>>>>>> bf9e5fcad280d7a2bd2b58a31eb7fda2141b87f8
 
  #projectButtons {
    margin-left: 0;

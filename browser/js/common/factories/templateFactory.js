@@ -279,7 +279,11 @@ app.factory('TemplateFactory', function (){
 
 	return {
 		createSeedFile: createSeedFile,
+<<<<<<< HEAD
         indent: indent,
         createSeedIndexJS: createSeedIndexJS
+=======
+        indent: indent
+>>>>>>> bf9e5fcad280d7a2bd2b58a31eb7fda2141b87f8
 	};
 });
