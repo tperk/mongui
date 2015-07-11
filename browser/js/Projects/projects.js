@@ -27,8 +27,7 @@ app.config(function ($stateProvider) {
         }
     });
 });
-app.controller('projectsCtrl', function ($scope, $mdSidenav, ProjectsFactory, projects, user, $state, pendingProjects, UserFactory, userDictionary) {
-
+app.controller('projectsCtrl', function ($mdDialog, $scope, $mdSidenav, ProjectsFactory, projects, user, $state, pendingProjects, UserFactory, userDictionary, PackageFactory) {
     $scope.sideNavProjectName = "";
     $scope.sideNavCollaborators = [];
     $scope.projects = projects;
@@ -37,6 +36,32 @@ app.controller('projectsCtrl', function ($scope, $mdSidenav, ProjectsFactory, pr
         name: ''
     };
     $scope.userDictionary = userDictionary;
+    $scope.alert = '';
+
+    $scope.packageProject = function (projectid) {
+        PackageFactory.packageProject(projectid).then(function(message){
+            $mdDialog.show(
+                $mdDialog.alert()
+                    .parent(angular.element(document.body))
+                    .title('Your Package Is Ready To NPM Install')
+                    .content(message)
+                    .ariaLabel('Your Package Has Been Published TO NPM!')
+                    .ok('OK!')
+            );
+        }).catch(function(e) {console.log(e);});
+    };
+
+    $scope.exportPackageToZip = function (projectid) {
+        PackageFactory.exportProject(projectid).then(function(fileName){
+            var a = window.document.createElement('a');
+            a.href = fileName;
+            a.target = "_self";
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        });
+    };
 
     $scope.submitProject = function (newProject) {
         ProjectsFactory.submitNewProject(newProject, user._id).then(function (result) {
@@ -85,7 +110,14 @@ app.controller('projectsCtrl', function ($scope, $mdSidenav, ProjectsFactory, pr
 
     $scope.addMember = function (projectId, email) {
         UserFactory.addMember(projectId, email).then(function(user){
-            //add message here if !user
+            $mdDialog.show(
+                $mdDialog.alert()
+                    .parent(angular.element(document.body))
+                    .title('A New User Has Been Invited To Your Project')
+                    .content(email)
+                    .ariaLabel('New User')
+                    .ok('OK!')
+            );
             UserFactory.getMembers(projectId).then(function(collaborators){
                 console.log("collaborators ", collaborators);
                 console.log('dictionary ', $scope.userDictionary);

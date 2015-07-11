@@ -1,28 +1,29 @@
-
 <section id="seed" flex layout="column">
 	<md-toolbar id="seedSubheader" class="md-whiteframe-z3 md-primary md-hue-2" layout="row">
-				<md-button class="md-accent md-hue-1"  layout-align="start center" flex ng-click="backToProject()" layout-align="start center" aria-label="Back to Schema">
-					<md-icon class="material-icons md-24">arrow_back</md-icon>
-				</md-button>
-				<h3 flex class="md-primary" style="text-align:center;">{{currentSchema.name}}</h3>
-                <md-button class="md-accent md-hue-1" ng-click="addSeedFileToSchema()" flex  layout-align="end center" aria-label="Save">
-					<md-icon class="material-icons md-24">save</md-icon>
-					<md-tooltip>Save Seed File</md-tooltip>
-				</md-button>
+		<md-button class="md-accent md-hue-1"  layout-align="start center" flex ng-click="backToProject()" layout-align="start center" aria-label="Back to Schema">
+			<md-icon class="material-icons md-24">arrow_back</md-icon>
+		</md-button>
+		<h3 flex class="md-primary" style="text-align:center;">{{currentSchema.name}}</h3>
+        <md-button class="md-accent md-hue-1" ng-click="addSeedFileToSchema()" flex  layout-align="end center" aria-label="Save">
+			<md-icon class="material-icons md-24">save</md-icon>
+			<md-tooltip>Save Seed File</md-tooltip>
+		</md-button>
 	</md-toolbar>
-		<div id="seedQuantity" layout="row" layout-align="center center">
-			<md-input-container flex="25">
-		    	<label>How many seed files would you like?</label>
-		    	<input type="number" ng-model="quantity" required>
-		    </md-input-container>
-		    <md-button flex="10" ng-click="changeQuantity(quantity)">
-				<md-icon class="material-icons md-accent md-24">add_circle_outline</md-icon>
-			</md-button>
-		</div>
-		<md-divider></md-divider>
 
-		<div layout="row">
-			<div flex="50" layout="column" layout-wrap layout-padding ng-repeat="field in fields" ng-init="addSeedOptions(field)">
+	<div id="seedQuantity" layout="row" layout-align="center center">
+		<md-input-container flex="40">
+	    	<label>How Documents Would You Like To Add To The {{currentSchema.name}} Collection?</label>
+	    	<input type="number" ng-model="quantity" required>
+	    </md-input-container>
+	    <md-button flex="10" ng-click="changeQuantity(quantity)">
+			<md-icon class="material-icons md-accent md-24">add_circle_outline</md-icon>
+		</md-button>
+	</div>
+	<md-divider></md-divider>
+
+	<div flex="50" layout="row">
+		<div flex layout-wrap layout-padding>
+			<div  ng-repeat="field in fields" ng-init="addSeedOptions(field)">
 				<md-content>
 				<div layout="column" flex>
 					<h3  flex="25" layout="row" layout-align="start center"> {{field.name}} </h3>
@@ -38,14 +39,6 @@
 							</md-optgroup>
 						</md-select>
 					</md-input-container>
-
-					<!-- <md-input-container ng-if="field.fieldType === 'Mixed">
-						<md-select placeholder="Choose Type" ng-model="field.mixedType" ng-change="changeMixedType(field, field.mixedType)">
-							<md-optgroup ng-repeat="options in field.mixedOptions" label="{{options.category}}">
-								<md-option ng-repeat="item in options.items"> {{item}} </md-option>
-							</md-optgroup>
-						</md-select>
-					</md-input-container> -->
 
 					<md-input-container flex ng-if="(field.wasMixed || field.fieldType === 'Mixed')">
 						<md-select placeholder="Choose Type" ng-model="field.fieldType" ng-change="changeMixedType(field)">
@@ -63,10 +56,11 @@
 				<md-divider></md-divider>
 				</md-content>
 			</div>
-			<div layout="column" flex>
-				<md-content>
-					<div hljs source="seedFile"></div>
-				</md-content>
-			</div>
 		</div>
+		<div flex>
+			<md-content>
+				<div hljs source="seedFile"></div>
+			</md-content>
+		</div>
+	</div>		
 </section>
