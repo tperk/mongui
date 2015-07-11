@@ -57,10 +57,29 @@ app.factory('fieldFactory', function ($http) {
         } else {
             out += '\n' + '}';
         }
+<<<<<<< HEAD
+        return out
+    }
+
+<<<<<<< HEAD
+    function generateExportSchema (fields) {
+        var out = ''
+        fields.forEach(function (field) {
+            out += field.generatedCode + ',' + '\n'
+        })
+        out = out.substring(0, out.length - 2)
+        return out
+    }
+
+
+=======
+>>>>>>> bf9e5fcad280d7a2bd2b58a31eb7fda2141b87f8
+=======
         return out;
     }
 
 
+>>>>>>> edd1323c89c06069225b40dc56be33a8d7fd7a4a
 	return {
 		getAllFields: function(){
 			return $http.get('/api/fields/')
@@ -98,6 +117,15 @@ app.factory('fieldFactory', function ($http) {
 				return fields.data;
 			});
 		},
+<<<<<<< HEAD
+<<<<<<< HEAD
+		codeConverter: codeConverter,
+		generateExportSchema: generateExportSchema
+=======
 		codeConverter: codeConverter
+>>>>>>> bf9e5fcad280d7a2bd2b58a31eb7fda2141b87f8
+=======
+		codeConverter: codeConverter
+>>>>>>> edd1323c89c06069225b40dc56be33a8d7fd7a4a
 	};
 });

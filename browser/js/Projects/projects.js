@@ -27,10 +27,22 @@ app.config(function ($stateProvider) {
         }
     });
 });
+<<<<<<< HEAD
+
+<<<<<<< HEAD
+app.controller('projectsCtrl', function ($scope, $mdSidenav, ProjectsFactory, projects, user, $state, pendingProjects) {
+
+=======
+=======
+>>>>>>> edd1323c89c06069225b40dc56be33a8d7fd7a4a
 app.controller('projectsCtrl', function ($scope, $mdSidenav, ProjectsFactory, projects, user, $state, pendingProjects, UserFactory, userDictionary) {
 
     $scope.sideNavProjectName = "";
     $scope.sideNavCollaborators = [];
+<<<<<<< HEAD
+>>>>>>> bf9e5fcad280d7a2bd2b58a31eb7fda2141b87f8
+=======
+>>>>>>> edd1323c89c06069225b40dc56be33a8d7fd7a4a
     $scope.projects = projects;
     $scope.pendingProjects = pendingProjects;
     $scope.newProject = {
@@ -72,6 +84,13 @@ app.controller('projectsCtrl', function ($scope, $mdSidenav, ProjectsFactory, pr
         .catch(function(e) {console.log(e);});
     };
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+    $scope.toggleCollaboratorSidenav = function() {
+        $mdSidenav('right').toggle();
+=======
+=======
+>>>>>>> edd1323c89c06069225b40dc56be33a8d7fd7a4a
     $scope.toggleCollaboratorSidenav = function(project) {
         $scope.sideNavProjectName = project.name;
         $scope.sideNavProjectId = project._id;
@@ -80,7 +99,11 @@ app.controller('projectsCtrl', function ($scope, $mdSidenav, ProjectsFactory, pr
             console.log('dictionary ', $scope.userDictionary);
             $scope.sideNavCollaborators = collaborators;
         });
+<<<<<<< HEAD
+>>>>>>> bf9e5fcad280d7a2bd2b58a31eb7fda2141b87f8
+=======
         $mdSidenav('right').toggle();
+>>>>>>> edd1323c89c06069225b40dc56be33a8d7fd7a4a
     };
 
     $scope.addMember = function (projectId, email) {

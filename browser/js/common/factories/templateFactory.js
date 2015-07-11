@@ -291,9 +291,18 @@ app.factory('TemplateFactory', function (){
 
 	return {
 		createSeedFile: createSeedFile,
+<<<<<<< HEAD
+<<<<<<< HEAD
+        indent: indent,
+        createSeedIndexJS: createSeedIndexJS
+=======
+        indent: indent
+>>>>>>> bf9e5fcad280d7a2bd2b58a31eb7fda2141b87f8
+=======
         indent: indent,
         createSeedIndexJS: createSeedIndexJS,
         createSchemaIndexJS: createSchemaIndexJS,
         firstLetterUpperCase: firstLetterUpperCase
+>>>>>>> edd1323c89c06069225b40dc56be33a8d7fd7a4a
 	};
 });

@@ -25,10 +25,26 @@ app.config(function ($urlRouterProvider, $locationProvider, $mdThemingProvider, 
         //     .primaryPalette('neonRed')
 
     $mdThemingProvider.theme('default')
+<<<<<<< HEAD
+<<<<<<< HEAD
+        .primaryPalette("monguiYellow")
+        .accentPalette('green', {
+            'default': '300'
+        })
+        .warnPalette('monguiRed')
+        .backgroundPalette('grey', {
+            'default': '50'
+=======
+=======
+>>>>>>> edd1323c89c06069225b40dc56be33a8d7fd7a4a
         .primaryPalette('grey', {
             'hue-1': '400',
             'hue-2': '600',
             'hue-3': '700'
+<<<<<<< HEAD
+>>>>>>> bf9e5fcad280d7a2bd2b58a31eb7fda2141b87f8
+=======
+>>>>>>> edd1323c89c06069225b40dc56be33a8d7fd7a4a
         })
         .accentPalette('green')
         .warnPalette('orange');

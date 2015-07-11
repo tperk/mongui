@@ -1,11 +1,26 @@
 
 <section id="project" flex layout="row">
         <md-sidenav class="md-whiteframe-z3 md-sidenav-left" md-component-id="left" md-is-locked-open="true">
+<<<<<<< HEAD
+<<<<<<< HEAD
+            <md-toolbar>
+                <div layout="row">
+                <md-button aria-label="Back to Projects" flex="10" layout-align="start center" class="material-icons backToProjects md-24" ng-click="backToProjects()">arrow_back</md-button>
+                <h1 id="sidenavProjectName" class="md-toolbar-tools" flex>{{projectName}}</h1>
+                </div>
+=======
+=======
+>>>>>>> edd1323c89c06069225b40dc56be33a8d7fd7a4a
             <md-toolbar class="md-primary md-hue-3"layout="row" layout-align="start center">
                 <md-button aria-label="Back to Projects" id="backToProjects"layout-align="start center" class="material-icons md-accent md-hue-1 md-fab md-mini" ng-click="backToProjects()">
                     arrow_back
                 </md-button>
                 <h1 id="sidenavProjectName" flex class="md-toolbar-tools" >{{projectName}}</h1>
+<<<<<<< HEAD
+
+>>>>>>> bf9e5fcad280d7a2bd2b58a31eb7fda2141b87f8
+=======
+>>>>>>> edd1323c89c06069225b40dc56be33a8d7fd7a4a
             </md-toolbar>
             <form name="newSchemaForm" layout="row" layout-padding layout-align="start center" ng-submit="newSchemaForm.$valid && submitSchema(newSchema)">
                 <md-input-container id="newSchemaForm" class="md-accent" flex="70">
@@ -30,8 +45,19 @@
                 </md-list>
             </md-content>
         </md-sidenav>
+<<<<<<< HEAD
+<<<<<<< HEAD
+        <div layout="row" layout-fill>
+            <ui-view></ui-view>
+=======
         <div flex layout="column">
             <div ui-view flex layout="column">
             </div>
+>>>>>>> bf9e5fcad280d7a2bd2b58a31eb7fda2141b87f8
+=======
+        <div flex layout="column">
+            <div ui-view flex layout="column">
+            </div>
+>>>>>>> edd1323c89c06069225b40dc56be33a8d7fd7a4a
         </div>
 </section>
