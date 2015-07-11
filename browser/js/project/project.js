@@ -37,6 +37,7 @@ app.controller('projectCtrl', function ($scope, schemas, user, $state, SchemaFac
 	$rootScope.$on("toggleSideBar", toggleSideBar);
 
 	$scope.projectName = $stateParams.projectname;
+
 	$scope.newSchema = {};
 	$scope.schemas = schemas;
 
@@ -45,7 +46,7 @@ app.controller('projectCtrl', function ($scope, schemas, user, $state, SchemaFac
 			SchemaFactory.getSchemas($stateParams.projectid).then(function(schemasArr){
 				$scope.schemas = schemasArr;
 			})
-			.catch(function(e) {console.log(e)});
+			.catch(function(e) {console.log(e);});
 		});
 	};
 
@@ -53,16 +54,20 @@ app.controller('projectCtrl', function ($scope, schemas, user, $state, SchemaFac
 	$scope.updateSchema = function (schema, schemaId) {
 		SchemaFactory.updateSchema(schema, schemaId).then(function (response) {
 		})
-		.catch(function(e) {console.log(e)});
+		.catch(function(e) {console.log(e);});
 	};
 
 	$scope.goToSchema = function (schema) {
-		// $scope.currentSchema = schema.name;
-		$state.go('project.schema', {schemaid: schema._id, schemaname: schema.name});
+		$state.go('project.schema', {
+			schemaid: schema._id, 
+			schemaname: schema.name, 
+			projectid: $stateParams.projectid
+		});
 	};
 
 	$scope.deleteSchema = function (schemaId) {
 		SchemaFactory.deleteSchema(schemaId).then(function (response){
+<<<<<<< HEAD
 			// $state.reload();
 <<<<<<< HEAD
 			// return SchemaFactory.getSchemas($stateParams.projectid).then(function(schemasArr){
@@ -79,22 +84,19 @@ app.controller('projectCtrl', function ($scope, schemas, user, $state, SchemaFac
 			.catch(function(e) {console.log(e)});
 			// console.log('response is ', response)
 >>>>>>> bf9e5fcad280d7a2bd2b58a31eb7fda2141b87f8
+=======
+
+			return SchemaFactory.getSchemas($stateParams.projectid).then(function(schemasArr){
+				$scope.schemas = schemasArr;
+			})
+			.catch(function(e) {console.log(e);});
+
+>>>>>>> edd1323c89c06069225b40dc56be33a8d7fd7a4a
 		});
 	};
 	$scope.backToProjects = function () {
-		// console.log('hitting back t o projects')
 			$state.go('home');
 	};
 
-	//$scope.members = members;
-	////console.log('members', members);
-	
-	//$scope.addMember = function (email) {
-	//	UserFactory.addMember($stateParams.projectid, email).then(function(user){
-	//		//add message here if !user
-	//		console.log(user);
-	//	})
-	//	.catch(function(e) {console.log(e)});
-	//};
 });
 

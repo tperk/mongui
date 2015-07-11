@@ -151,7 +151,7 @@ app.factory('TemplateFactory', function (){
     	}
 		str = indentString + str;
 		return "\n"+str;
-	};
+	}
 
     var objectTemplate = function (arrArg){
         var str = "";
@@ -178,13 +178,13 @@ app.factory('TemplateFactory', function (){
         return str;
     };
 
-    var firstLetterUpperCase = function(str){
+    function firstLetterUpperCase (str){
         return str.charAt(0).toUpperCase() + str.slice(1);
-    }
+    };
 
     var makeTemplate = function(schema, fieldsArr){
     	return indent("var mongoose = require('mongoose');", 0) +
-        indent("require('../../schema/" + schema.name + ");", 0) +
+        indent("require('../../schema_files/schemas/" + schema.name + "'" + ");", 0) +
         indent("var " + firstLetterUpperCase(schema.name) + " = mongoose.model('" + firstLetterUpperCase(schema.name) + "');", 0) +
         indent("var q = require('q');", 0) +
         indent("var seed = function () {", 0) +
@@ -201,21 +201,21 @@ app.factory('TemplateFactory', function (){
 		fieldsArr.forEach(function (el){
 			if(field.seedBy.type === 'random'){				
 				switch (field.fieldType) {
-			    	case 'String': stringFunc(el, field)
+			    	case 'String': stringFunc(el, field);
 			    		break;
-			    	case 'Number': numberFunc(el, field)
+			    	case 'Number': numberFunc(el, field);
 			    		break;
-			    	case 'Date': dateFunc(el, field)
+			    	case 'Date': dateFunc(el, field);
 			    		break;
 			    	// case 'Buffer': bufferFunc(el, field)
 			    	// 	break;
-			    	case 'Boolean': booleanFunc(el, field)
+			    	case 'Boolean': booleanFunc(el, field);
 			    		break;
 			    	// case 'Mixed': mixedFunc(el, field)
 			    	// 	break;
-			    	case 'Objectid': objectidFunc(el, field)
+			    	case 'Objectid': objectidFunc(el, field);
 			    		break;
-			    	case 'Nested': nestedFunc(el, field)
+			    	case 'Nested': nestedFunc(el, field);
 			    		break;
 		    	}
 			}
@@ -232,7 +232,7 @@ app.factory('TemplateFactory', function (){
     var requireTemplate = function (schemas) {
         var str = "";
         schemas.forEach(function(schema){
-            str += indent("var user = require('./files/"+schema+"');", 0);
+            str += indent("var " + schema.name + " = require('./seeds/"+schema.name+"');", 0);
         });
         return str;
     };
@@ -242,8 +242,10 @@ app.factory('TemplateFactory', function (){
         schemas.forEach(function(schema){
             str += schema.name + ", ";
         });
+        str = str.slice(0,-2);
+        str += "];";
         return str;
-    }
+    };
 
     var createSeedIndexJS = function(projectName, schemas){
         var projectName = projectName;
@@ -273,17 +275,34 @@ app.factory('TemplateFactory', function (){
         indent(".then(function(){", 1) +
         indent(" process.kill(0);", 2) +
         indent("});", 1) +
-        indent("});", 0)
+        indent("});", 0);
+        return str;
+    };
+
+    function createSchemaIndexJS (projectName, schemas) {
+        var str = "var mongoose = require('mongoose');" +
+        indent("var DATABASE_URI = 'mongodb://localhost:27017/" + projectName + "';", 0) +
+        indent("var db = mongoose.connect(DATABASE_URI).connection;", 0);
+        schemas.forEach(function(schema){
+           str += indent("require('./schemas/" + schema.name + "');", 0) ;
+        })
         return str;
     };
 
 	return {
 		createSeedFile: createSeedFile,
 <<<<<<< HEAD
+<<<<<<< HEAD
         indent: indent,
         createSeedIndexJS: createSeedIndexJS
 =======
         indent: indent
 >>>>>>> bf9e5fcad280d7a2bd2b58a31eb7fda2141b87f8
+=======
+        indent: indent,
+        createSeedIndexJS: createSeedIndexJS,
+        createSchemaIndexJS: createSchemaIndexJS,
+        firstLetterUpperCase: firstLetterUpperCase
+>>>>>>> edd1323c89c06069225b40dc56be33a8d7fd7a4a
 	};
 });

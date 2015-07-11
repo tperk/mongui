@@ -3,7 +3,7 @@ var router = require('express').Router();
 var Promise = require('bluebird');
 module.exports = router;
 
-var Project = mongoose.model('Project')
+var Project = mongoose.model('Project');
 
 var fs = require('fs');
 var mkdirp = require('mkdirp');
@@ -15,39 +15,56 @@ function publishNpm(directory, projectId, res){
 	var exec = Promise.promisify(child_process.exec);
 	var wF = Promise.promisify(fs.writeFile);
 	var rF = Promise.promisify(fs.readFile);
+	var versionArr = [];
+	var projectVersion = "";
+	var obj;
 
 	exec.call(child_process, "npm init -y", {cwd: directory}).then(function(data){
 	    rF.call(fs, directory + "package.json").then(function(data){			
-		    var obj = JSON.parse(data);
+		    obj = JSON.parse(data);
 		    obj.name = packageName;
-		    var versionArr = obj.version.split('.');
-		    versionArr[2]++; 
-		    obj.version = versionArr.join('.');
-		    wF.call(fs, directory + "package.json", JSON.stringify(obj, null, 2)).then(function(){
-		    	child_process.exec('npm publish', {cwd: directory}, function (){
-		    		removeFolder(projectId, directory);
-					res.status(200).send("npm install " + packageName);
+
+		    Project.findById(projectId)
+		    .exec()
+		    .then(function(project){
+		    	console.log("project", project);
+		    	console.log("project version", project.version);
+		    	
+
+		    	if(project.version){
+		    		projectVersion = project.version;
+		    		versionArr = projectVersion.split('.');
+				    versionArr[2]++; 
+				    obj.version = versionArr.join('.');
+				    project.version = obj.version;
+		    	}else{
+		    		project.version = "1.0.0";
+		    	}
+		    	project.save();
+		    	wF.call(fs, directory + "package.json", JSON.stringify(obj, null, 2)).then(function(){
+			    	child_process.exec('npm publish', {cwd: directory}, function (){
+			    		removeFolder(projectId, directory);
+						res.status(200).send("npm install " + packageName);
+					});
 				});
-			});
+		    }); 
 		});			
 	});
-};
+}
 
 function removeFolder (folderName, directory) {
 	setTimeout(function () {
+		console.log(directory);
+		
 		child_process.exec('rm -rf ../' + folderName, {cwd: directory});
-	}, 600000);//remove after 10 min
-};
+	}, 600000);//remove folder after 10 min
+}
 
 function removeZip (fileName, directory) {
 	setTimeout(function () {
-		console.log('rm ' + fileName);
-		console.log(directory);
-		
-		
 		child_process.exec('rm ' + fileName, {cwd: directory});
-	}, 600000);//remove after 10 min
-};
+	}, 600000);//remove file after 10 min
+}
 
 function createPackageDirectory (subDirectory, fileName, filestr) {
 	mkdirp(subDirectory, function (err) {
@@ -56,32 +73,40 @@ function createPackageDirectory (subDirectory, fileName, filestr) {
             return;
         });  
 	});
-};
+}
 
 function createPackage (schemasArr, projectId, npmElseZip, res) {
 	var mainDirectory = "/tmp/monguiProjects/" + projectId +"/";
 	mkdirp(mainDirectory, function (err) {
 		Promise.all([
 			Promise.map(schemasArr, function (schema) {
-				var subDirectory = mainDirectory + "schema_files/";
+				var subDirectory = mainDirectory + "schema_files/schemas/";
 				if(schema.exportSchema){
 					return createPackageDirectory(subDirectory, schema.name, schema.exportSchema);
 				}else return;
 		
 			}),
 			Promise.map(schemasArr, function (schema) {
-				var subDirectory = mainDirectory + "seed_files/";
+				var subDirectory = mainDirectory + "seed_files/seeds/";
 				if(schema.exportSeed){
 					return createPackageDirectory(subDirectory, schema.name, schema.exportSeed);
 				}else return;
 			})
 		])
 		.then(function(){
+			var subDirectory = mainDirectory + "schema_files/";
+			return Project.findById(projectId)
+			.exec()
+			.then(function (project) {	
+				return createPackageDirectory(subDirectory, "index", project.schemaIndexJS);
+			});
+		})
+		.then(function(){
 			var subDirectory = mainDirectory + "seed_files/";
 			return Project.findById(projectId)
 			.exec()
 			.then(function (project) {	
-				return createPackageDirectory(subDirectory, "index.js", project.seedIndexJS);
+				return createPackageDirectory(subDirectory, "index", project.seedIndexJS);
 			});
 		})
 		.then(function(){
@@ -90,9 +115,9 @@ function createPackage (schemasArr, projectId, npmElseZip, res) {
 			}else{
 				createZip (mainDirectory, projectId, res);
 			}
-		}).catch(function(e) {console.log(e)});
+		}).catch(function(e) {console.log(e);});
 	});
-};
+}
 
 function createZip (mainDirectory, projectId, res) {
 	var packageName = "mongui_pkg_" + projectId;
@@ -105,7 +130,7 @@ function createZip (mainDirectory, projectId, res) {
 	        res.status(200).send(fileName);
 	    }); 
 	});
-};
+}
 
 router.get('/:id', function (req, res, next){
 	Project.getSchemas(req.params.id)

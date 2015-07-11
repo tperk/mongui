@@ -54,9 +54,13 @@ schema.static('getFields', function (id) {
 			return schema.fields;
 		});
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 });
 >>>>>>> bf9e5fcad280d7a2bd2b58a31eb7fda2141b87f8
+=======
+});
+>>>>>>> edd1323c89c06069225b40dc56be33a8d7fd7a4a
 
 schema.static('getFunctions', function (id) {
 	return this.findById(id).populate('functions').exec()

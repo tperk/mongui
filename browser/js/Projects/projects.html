@@ -1,14 +1,20 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 <section layout="column" class="projectsList">
    <md-toolbar md-scroll-shrink>
 =======
 <section id="projects" flex class="projectsList" layout="column">
    <md-toolbar layout="row">
 >>>>>>> bf9e5fcad280d7a2bd2b58a31eb7fda2141b87f8
+=======
+<section id="projects" flex class="projectsList" layout="column">
+   <md-toolbar layout="row">
+>>>>>>> edd1323c89c06069225b40dc56be33a8d7fd7a4a
        <div class="md-toolbar-tools" layout-align="center center">
            <h3>Projects</h3>
        </div>
    </md-toolbar>
+<<<<<<< HEAD
 <<<<<<< HEAD
    <div class="newProject md-whiteframe-z1">
        <form name="newProjectForm" ng-submit="newProjectForm.$valid && submitProject(newProject)" layout="row">
@@ -58,6 +64,8 @@
                Close Sidenav Right
            </md-button>
 =======
+=======
+>>>>>>> edd1323c89c06069225b40dc56be33a8d7fd7a4a
    <div flex class="newProject md-whiteframe-z1" style="min-height: 83px;">
        <form name="newProjectForm" ng-submit="newProjectForm.$valid && submitProject(newProject)" layout="row" layout-align="center center">
            <md-input-container id="newProjectForm" class="md-accent" flex="50">
@@ -69,6 +77,7 @@
            </md-button>
        </form>
    </div>
+
    <!-- <md-list> -->
    <div id="project-list" layout="column" flex>
     <md-content>
@@ -77,8 +86,12 @@
            {{project.name}}
            </md-list-item>
            <md-button class="md-primary" aria-label="Npm Install">
+               <md-icon class="material-icons md-24">publish</md-icon>
+               <md-tooltip>Publish to NPM</md-tooltip>
+           </md-button>
+           <md-button class="md-primary" aria-label="Npm Install">
                <md-icon class="material-icons md-24">file_download</md-icon>
-               <md-tooltip>Show Schema Code</md-tooltip>
+               <md-tooltip>Zip Project</md-tooltip>
            </md-button>
            <md-button class="md-accent" aria-label="Add Collaborator" ng-click="toggleCollaboratorSidenav(project)">
                <md-icon class="material-icons md-24">person_add</md-icon>
@@ -98,31 +111,20 @@
            <h1 class="md-toolbar-tools">{{sideNavProjectName}}</h1>
        </md-toolbar>
        <md-content layout-padding>
-           <form>
-                <md-autocomplete
-                    md-items="user in userDictionary" 
-                    md-item-text="userDictionary[user]" 
-                    md-search-text="searchText" 
-                    md-selected-item="userDictionary"
-                    placeholder="Enter Users Email"
-                    md-min-length="0"
-                    >
-                    <span md-highlight-text="searchText">{{user.email}}</span>
-                </md-autocomplete>
+           <form name="newCollaborator" ng-submit="addMember(sideNavProjectId, newCollaborator.email)">
+               <md-input-container>
+                   <label>New Collaborator</label>
+                   <input type="text" ng-model="newCollaborator.email" required>
+               </md-input-container>
            </form>
            <md-list>
                 <md-list-item ng-repeat="collaborator in sideNavCollaborators">{{collaborator.email}}
                 </md-list-item>
            </md-list>
+<<<<<<< HEAD
 >>>>>>> bf9e5fcad280d7a2bd2b58a31eb7fda2141b87f8
+=======
+>>>>>>> edd1323c89c06069225b40dc56be33a8d7fd7a4a
        </md-content>
    </md-sidenav>
 </section>
-
-           <!--<h2>Project Invitations</h2>-->
-           <!--<div ng-repeat="project in pendingProjects">-->
-               <!--<p>{{project.name}}</p>-->
-               <!--<md-button class="md-primary md-raised" ng-click="acceptProject(project)">Accept</md-button>-->
-               <!--<md-button class="md-warn md-raised" ng-click="rejectProject(project)">Reject</md-button>-->
-           <!--</div>-->
-       <!--</div>-->

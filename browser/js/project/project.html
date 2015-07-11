@@ -1,5 +1,7 @@
+
 <section id="project" flex layout="row">
         <md-sidenav class="md-whiteframe-z3 md-sidenav-left" md-component-id="left" md-is-locked-open="true">
+<<<<<<< HEAD
 <<<<<<< HEAD
             <md-toolbar>
                 <div layout="row">
@@ -7,14 +9,18 @@
                 <h1 id="sidenavProjectName" class="md-toolbar-tools" flex>{{projectName}}</h1>
                 </div>
 =======
+=======
+>>>>>>> edd1323c89c06069225b40dc56be33a8d7fd7a4a
             <md-toolbar class="md-primary md-hue-3"layout="row" layout-align="start center">
-
                 <md-button aria-label="Back to Projects" id="backToProjects"layout-align="start center" class="material-icons md-accent md-hue-1 md-fab md-mini" ng-click="backToProjects()">
                     arrow_back
                 </md-button>
                 <h1 id="sidenavProjectName" flex class="md-toolbar-tools" >{{projectName}}</h1>
+<<<<<<< HEAD
 
 >>>>>>> bf9e5fcad280d7a2bd2b58a31eb7fda2141b87f8
+=======
+>>>>>>> edd1323c89c06069225b40dc56be33a8d7fd7a4a
             </md-toolbar>
             <form name="newSchemaForm" layout="row" layout-padding layout-align="start center" ng-submit="newSchemaForm.$valid && submitSchema(newSchema)">
                 <md-input-container id="newSchemaForm" class="md-accent" flex="70">
@@ -26,7 +32,7 @@
             <md-divider></md-divider>
             <md-content>
                 <md-list>
-                <md-list-item ng-click="goToSchema(schema)" ng-repeat="schema in schemas" layout="row">
+                <md-list-item ng-click="goToSchema(schema)" ng-repeat="schema in schemas" layout="row" layout-wrap>
                     <div flex="75" layout-align="start center">
                         <h5>{{schema.name}}</h5>
                     </div>
@@ -34,11 +40,12 @@
                         <md-button aria-label="Delete Schema" class="md-warn material-icons md-24" ng-click="(deleteSchema(schema._id))">remove_circle</md-button>
                         <md-tooltip>Remove</md-tooltip>
                     </div>
-                    <md-divider></md-divider>
+                    <md-divider flex></md-divider>
                 </md-list-item>
                 </md-list>
             </md-content>
         </md-sidenav>
+<<<<<<< HEAD
 <<<<<<< HEAD
         <div layout="row" layout-fill>
             <ui-view></ui-view>
@@ -47,23 +54,10 @@
             <div ui-view flex layout="column">
             </div>
 >>>>>>> bf9e5fcad280d7a2bd2b58a31eb7fda2141b87f8
+=======
+        <div flex layout="column">
+            <div ui-view flex layout="column">
+            </div>
+>>>>>>> edd1323c89c06069225b40dc56be33a8d7fd7a4a
         </div>
 </section>
-
-
-
-            <!--<h1 class="md-toolbar-tools">{{projectName}} Members</h1>-->
-            <!--<md-input-container>-->
-                <!--<label>Add New Members By Email</label>-->
-                <!--<input type="text" ng-model="newMemberEmail" required>-->
-            <!--</md-input-container>-->
-            <!--<md-button class="md-accent md-raised md-hue-3" ng-click="addMember(newMemberEmail)">Add Member</md-button>-->
-            <!--<md-content>-->
-                <!--<md-list>-->
-                    <!--<md-list-item flex layout-wrap layout-padding ng-repeat="member in members">-->
-                        <!--&lt;!&ndash; <p>{{member.firstName}}, {{member.lastName}}</p> &ndash;&gt;-->
-                        <!--<p>{{member.email}}</p>-->
-                    <!--</md-list-item>-->
-                <!--</md-list>-->
-            <!--</md-content>-->
-        <!--</div>-->

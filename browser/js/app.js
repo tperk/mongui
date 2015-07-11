@@ -1,7 +1,7 @@
 'use strict';
-window.app = angular.module('Mongui', ['ui.router', 'ui.bootstrap', 'fsaPreBuilt', 'ngMaterial', 'ncy-angular-breadcrumb', 'materialDatePicker']);
+window.app = angular.module('Mongui', ['ui.router', 'ui.bootstrap', 'fsaPreBuilt', 'ngMaterial', 'ncy-angular-breadcrumb', 'materialDatePicker', 'hljs']);
 
-app.config(function ($urlRouterProvider, $locationProvider, $mdThemingProvider) {
+app.config(function ($urlRouterProvider, $locationProvider, $mdThemingProvider, hljsServiceProvider) {
     // This turns off hashbang urls (/#about) and changes it to something normal (/about)
     $locationProvider.html5Mode(true);
     // If we go to a URL that ui-router doesn't have registered, go to the "/" url.
@@ -26,6 +26,7 @@ app.config(function ($urlRouterProvider, $locationProvider, $mdThemingProvider) 
 
     $mdThemingProvider.theme('default')
 <<<<<<< HEAD
+<<<<<<< HEAD
         .primaryPalette("monguiYellow")
         .accentPalette('green', {
             'default': '300'
@@ -34,17 +35,23 @@ app.config(function ($urlRouterProvider, $locationProvider, $mdThemingProvider) 
         .backgroundPalette('grey', {
             'default': '50'
 =======
+=======
+>>>>>>> edd1323c89c06069225b40dc56be33a8d7fd7a4a
         .primaryPalette('grey', {
             'hue-1': '400',
             'hue-2': '600',
             'hue-3': '700'
+<<<<<<< HEAD
 >>>>>>> bf9e5fcad280d7a2bd2b58a31eb7fda2141b87f8
+=======
+>>>>>>> edd1323c89c06069225b40dc56be33a8d7fd7a4a
         })
         .accentPalette('green')
         .warnPalette('orange');
-        // .backgroundPalette('grey', {
-        //     'default': '50'
-        // })
+    hljsServiceProvider.setOptions({
+
+    });
+
 });
 
 // This app.run is for controlling access to specific states.

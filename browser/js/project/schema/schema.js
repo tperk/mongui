@@ -28,6 +28,9 @@ app.config(function ($stateProvider) {
             },
             schemas: function (SchemaFactory, $stateParams) {
                 return SchemaFactory.getSchemas($stateParams.projectid);
+            },
+            currentProject: function (ProjectsFactory, $stateParams) {
+                return ProjectsFactory.getProject($stateParams.projectid);
             }
         },
         data: {
@@ -40,10 +43,14 @@ app.config(function ($stateProvider) {
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fields, $stateParams, currentSchema, schemas, fieldFactory, SchemaFactory, $q) {
 =======
 app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fields, functions, $stateParams, currentSchema, schemas, fieldFactory, SchemaFactory, functionFactory, $q) {
 >>>>>>> bf9e5fcad280d7a2bd2b58a31eb7fda2141b87f8
+=======
+app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fields, functions, $stateParams, currentSchema, schemas, fieldFactory, SchemaFactory, TemplateFactory, functionFactory, $q, currentProject, ProjectsFactory) {
+>>>>>>> edd1323c89c06069225b40dc56be33a8d7fd7a4a
 
     $scope.schemas = schemas;
     $scope.currentSchema = currentSchema;
@@ -51,10 +58,13 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fi
     $scope.fields = fields;
     $scope.fieldsChanged = {};
 <<<<<<< HEAD
+<<<<<<< HEAD
     $scope.saving = false;
     $scope.exportSchema = currentSchema.exportSchema;
     
 =======
+=======
+>>>>>>> edd1323c89c06069225b40dc56be33a8d7fd7a4a
 
     $scope.functions = functions;
     $scope.functionsChanged = {};
@@ -63,15 +73,14 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fi
     $scope.exportSchema = currentSchema.exportSchema;
 
     $scope.openCodeDialog = function() {
-        console.log('hitting code dialog')
         $mdDialog.show({
             clickOutsideToClose: true,
             scope: $scope, //use parent scope in template
             preserveScope: true,
             template:
-                '<md-dialog>' +
+                '<md-dialog style="opacity:0.9;">' +
                     '  <md-dialog-content>'+
-                '       {{exportSchema}}' +
+                '       <div hljs source="exportSchema"></div>' +
                 '  </md-dialog-content>' +
                 '  <div class="md-actions">' +
                 '    <md-button ng-click="closeDialog()" class="md-primary">' +
@@ -88,9 +97,16 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fi
         });
     };
 
+    $scope.goToSeed = function(){
+        $state.go('database.collection', {projectid: $stateParams.projectid, schemaid: currentSchema._id});
+    };
+
 // FIELDS
 
+<<<<<<< HEAD
 >>>>>>> bf9e5fcad280d7a2bd2b58a31eb7fda2141b87f8
+=======
+>>>>>>> edd1323c89c06069225b40dc56be33a8d7fd7a4a
     $scope.updateFieldsChanged = function (){
         $scope.fieldsChanged = {};
         $scope.fields.forEach(function(field){
@@ -104,6 +120,53 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fi
     });
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    $scope.generateExportSchemaAndUpdate = function (fields, functions) {
+        var exportSchema = '';
+
+        exportSchema += 'var mongoose = require("mongoose");' + '\n'
+
+        exportSchema += 'var schema = new mongoose.Schema({'
+
+        fields.forEach(function (field) {
+            var arr = field.generatedCode.split('\n')
+            for (var i = 0; i < arr.length; i++) {
+                if (i === 0 || i === arr.length - 1) {
+                    exportSchema += TemplateFactory.indent(arr[i], 1)
+                } else {
+                    exportSchema += TemplateFactory.indent(arr[i], 1)
+                }
+            }
+            exportSchema += ','
+        })
+
+        exportSchema = exportSchema.substring(0, exportSchema.length - 1)
+
+        exportSchema += '\n' + '});' + '\n' + '\n'
+
+        functions.forEach(function (func) {
+            exportSchema += func.generatedCode + '\n';
+        });
+
+        exportSchema += '\n' + 'mongoose.model("' + TemplateFactory.firstLetterUpperCase(currentSchema.name) + '", schema);'
+
+        var schema = {
+            exportSchema: exportSchema
+        };
+
+        SchemaFactory.updateSchema(schema, $stateParams.schemaid)
+        .then(function (exportSchema) {
+            $scope.exportSchema = exportSchema;
+            currentProject.schemaIndexJS = TemplateFactory.createSchemaIndexJS($stateParams.projectname, schemas);
+            ProjectsFactory.updateProject($stateParams.projectid, currentProject).then(function(message){
+                console.log(message);//display message
+            }).catch(function(e) {console.log(e)});
+        })
+        .catch(function(e) {console.log(e);});
+    };
+
+>>>>>>> edd1323c89c06069225b40dc56be33a8d7fd7a4a
     $scope.saveUpdatedFields = function(){
 
         var fieldsPromises = function () {
@@ -113,7 +176,7 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fi
                     if ($scope.fieldsChanged[id]) fieldsToUpdate.push(id);
                 }
 
-                var promises = []
+                var promises = [];
 
                 fieldsToUpdate.forEach(function(fieldId){
                     var theField = $scope.fields.filter(function(field){
@@ -122,16 +185,17 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fi
                     });
                     promises.push($scope.saveField(theField[0]._id, theField[0]));
                 });
-                console.log(promises)
-                $q.all(promises)
+                console.log(promises);
+                $q.all(promises);
                 resolve();
-            })
-        }
+            });
+        };
 
         fieldsPromises().then(function () {
-            console.log('after')
+            console.log('after');
             $scope.updateFieldsChanged();
 
+<<<<<<< HEAD
             var schema = {
                 exportSchema: fieldFactory.generateExportSchema($scope.fields)
             }
@@ -202,6 +266,12 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fi
 >>>>>>> bf9e5fcad280d7a2bd2b58a31eb7fda2141b87f8
         })
     }
+=======
+            $scope.generateExportSchemaAndUpdate($scope.fields, $scope.functions);
+            
+        });
+    };
+>>>>>>> edd1323c89c06069225b40dc56be33a8d7fd7a4a
 
 
     // not in use
@@ -255,6 +325,7 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fi
     };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     $scope.openCodeDialog = function() {
         console.log('hitting code dialog')
         $mdDialog.show({
@@ -283,6 +354,8 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fi
 =======
     
 >>>>>>> bf9e5fcad280d7a2bd2b58a31eb7fda2141b87f8
+=======
+>>>>>>> edd1323c89c06069225b40dc56be33a8d7fd7a4a
     // not in use
     $scope.createSubField = function(parent){
         console.log("called create sub field");
@@ -316,8 +389,11 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fi
     };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     
 =======
+=======
+>>>>>>> edd1323c89c06069225b40dc56be33a8d7fd7a4a
 //FUNCTIONS
 
     $scope.updateFunctionsChanged = function (){
@@ -340,28 +416,28 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fi
                 for(var id in $scope.functionsChanged){
                     if ($scope.functionsChanged[id]) functionsToUpdate.push(id);
                 }
-                var promises = []
+                var promises = [];
 
                 functionsToUpdate.forEach(function(funcId){
                     var theFunc = $scope.functions.filter(function(func){
                         if(func._id === funcId) return true;
                         else return false;
                     });
-                    console.log('promises push', theFunc[0]._id, theFunc[0])
+                    console.log('promises push', theFunc[0]._id, theFunc[0]);
                     promises.push($scope.saveFunction(theFunc[0]._id, theFunc[0]));
                 });
-                console.log(promises)
-                $q.all(promises)
+                console.log(promises);
+                $q.all(promises);
                 resolve();
-            })
-        }
+            });
+        };
 
         functionsPromises().then(function () {
             $scope.updateFunctionsChanged();
 
-            $scope.generateExportSchemaAndUpdate($scope.fields, $scope.functions)
-        })
-    }
+            $scope.generateExportSchemaAndUpdate($scope.fields, $scope.functions);
+        });
+    };
 
 
     // not in use
@@ -411,8 +487,11 @@ app.controller('schemaCtrl', function ($scope, $mdSidenav, $mdDialog, $state, fi
         console.log("called type change clear fn");
         func.typeOptions = {parameters: []};
         $scope.saveFunction(func._id, func).then(function(result){
-            return
+            return;
         });
     };
+<<<<<<< HEAD
 >>>>>>> bf9e5fcad280d7a2bd2b58a31eb7fda2141b87f8
+=======
+>>>>>>> edd1323c89c06069225b40dc56be33a8d7fd7a4a
 });

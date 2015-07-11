@@ -19,7 +19,7 @@ router.post('/:id', function (req, res, next){
 	Promise.all([User.findOne(req.body).exec(), Project.findById(req.params.id).exec()])
 	.spread(function (user, project) {
 		if(user){
-			user.pendingProjects.push(project._id);
+			user.projects.push(project._id);
 			user.save();
 		}
 		return user
@@ -30,15 +30,21 @@ router.post('/:id', function (req, res, next){
 	.then(null, next);
 });
 
+
 router.get('/dictionary', function (req, res, next){
 	User.find({}).exec()
-	.then(function(allUsers){
-		var dictionary = {};
-		allUsers.forEach(function(user){
-			dictionary[user.email] = user._id;
-		});
-		res.json(dictionary);
-	})
-	.then(null, next);
+		.then(function(allUsers){
+			var dictionary = [];
+			allUsers.forEach(function(user){
+				if(user.email){
+					dictionary.push({
+						email: user.email
+					});
+				}
+			});
+			res.send(dictionary);
+		})
+		.then(null, next);
 });
+
 

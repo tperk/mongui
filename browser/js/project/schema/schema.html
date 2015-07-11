@@ -1,3 +1,4 @@
+
 <section flex layout="column">
 		<md-toolbar id="schemaSubheader" class="md-whiteframe-z3 md-primary md-hue-2" layout="row" layout-align="center center">
             <span flex="50"><h1 class="md-toolbar-tools">{{currentSchema.name}}</h1></span>
@@ -16,16 +17,23 @@
                     <md-tooltip>Show Schema Code</md-tooltip>
                 </md-button>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <md-button ng-click="saveUpdatedFields()" aria-label="Save Updated Fields">
 =======
                 <md-button class="md-warn md-hue-1" ng-click="saveUpdatedFields();saveUpdatedFunctions()" aria-label="Save Updated Fields and Functions">
 >>>>>>> bf9e5fcad280d7a2bd2b58a31eb7fda2141b87f8
+=======
+                <md-button class="md-warn md-hue-3" ng-click="saveUpdatedFields();saveUpdatedFunctions()" aria-label="Save Updated Fields and Functions">
+>>>>>>> edd1323c89c06069225b40dc56be33a8d7fd7a4a
                     <md-icon class="material-icons md-24">save</md-icon>
                     <md-tooltip>Save</md-tooltip>
                 </md-button>
+                <md-button class="md-warn md-hue-3" ng-click="goToSeed()" aria-label="Seed Schema">
+                    <md-icon class="material-icons md-24">local_florist</md-icon>
+                    <md-tooltip>Seed Schema</md-tooltip>
+                </md-button>
             </span>
 		</md-toolbar>
-
     <div flex layout="column">
         <md-content>  
           <field
@@ -52,6 +60,7 @@
           </function>
         </md-content>
     </div>
+<<<<<<< HEAD
 
 <!--     <md-dialog>
         <md-dialog-content>
@@ -68,4 +77,6 @@
 =======
     </md-dialog> -->
 >>>>>>> bf9e5fcad280d7a2bd2b58a31eb7fda2141b87f8
+=======
+>>>>>>> edd1323c89c06069225b40dc56be33a8d7fd7a4a
 </section>

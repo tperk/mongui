@@ -17,27 +17,32 @@
 				<div layout="row" class="function-options md-padding" flex="66">
 
 					<function-getset
+					flex
 					props="func.typeOptions" 
 					fields="fields"
 					ng-if="func.functionType === 'Getter/Setter'"
 					functionchange="functionChange()">
 					</function-getset>
 					<function-hook 
+					flex
 					props="func.typeOptions" 
 					ng-if="func.functionType === 'Hook'"
 					functionchange="functionChange()">
 					</function-hook>
 					<function-method 
+					flex
 					props="func.typeOptions" 
 					ng-if="func.functionType === 'Method'"
 					functionchange="functionChange()">
 					</function-method>
 					<function-static 
+					flex
 					props="func.typeOptions" 
 					ng-if="func.functionType  === 'Static'"
 					functionchange="functionChange()">
 					</function-static>
 					<function-virtual 
+					flex
 					fields="fields"
 					props="func.typeOptions" 
 					ng-if="func.functionType === 'Virtual'"
@@ -45,7 +50,8 @@
 					</function-virtual>
 					
   				</div>
-  				<pre flex>{{func.generatedCode}}</pre>
+  				<div flex="80" hljs source="func.generatedCode">
+  				</div>
 				<div layout="row" layout-align="end center">
 					<md-button id="deleteFunction" aria-label="Delete Function" ng-click="deletebyid()">
 						<md-icon class="material-icons md-24 md-warn">delete</md-icon>
