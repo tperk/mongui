@@ -15,7 +15,6 @@ app.factory('functionFactory', function ($http) {
             out += parameter + ',';
         });
         out = out.substring(0, out.length - 1);
-        console.log(out);
         return out;
     }
 
@@ -27,7 +26,15 @@ app.factory('functionFactory', function ($http) {
             func.typeOptions.func = '';
         }
 
-        var makefunc = 'function (' + parametersHandler(func.typeOptions.parameters) + ') {' + indent(func.typeOptions.func, 1) + '\n' + '});';
+        var makefunc = 'function (' + parametersHandler(func.typeOptions.parameters) + ') {' + indent(func.typeOptions.func, 1) + '\n' + '}';
+        if(func.functionType === 'Method' || func.functionType === 'Static'){
+            makefunc = makefunc + ';';
+        }else{
+            makefunc = makefunc + ');';
+        }
+
+        'is this a critcal bug??'
+
         if (func.functionType === 'Getter/Setter') {
             out += 'function ' + func.name + ' (val) {' + func.typeOptions.func + '};';
         } else {

@@ -39,20 +39,41 @@ app.controller('projectsCtrl', function ($mdDialog, $scope, $mdSidenav, Projects
     $scope.alert = '';
 
     $scope.packageProject = function (projectid) {
+        $scope.showLoading = true;
         PackageFactory.packageProject(projectid).then(function(message){
-            $mdDialog.show(
-                $mdDialog.alert()
-                    .parent(angular.element(document.body))
-                    .title('Your Package Is Ready To NPM Install')
-                    .content(message)
-                    .ariaLabel('Your Package Has Been Published TO NPM!')
-                    .ok('OK!')
-            );
+            $scope.showLoading = false;
+            $scope.alert = message;
+            $mdDialog.show({
+                clickOutsideToClose: true,
+                scope: $scope, //use parent scope in template
+                preserveScope: true,
+                template:
+                    '<md-dialog style="opacity:0.9;">' +
+                        '  <md-dialog-content>'+
+                    '       <h4 style="color:white;">Your Package Is Ready To NPM Install!</h4>' +
+                    '           <hr/>' +
+                    '           <div style="color:white;">{{alert}}</div>' +
+                    '  </md-dialog-content>' +
+                    '  <div class="md-actions">' +
+                    '    <md-button ng-click="closeDialog()" class="md-primary">' +
+                    '      Close Dialog' +
+                    '    </md-button>' +
+                    '  </div>' +
+                    '</md-dialog>',
+                controller: function DialogController($scope, $mdDialog) {
+                    $scope.closeDialog = function() {
+                        $mdDialog.hide();
+                    };
+                }
+            });
+        //});
         }).catch(function(e) {console.log(e);});
     };
 
     $scope.exportPackageToZip = function (projectid) {
+        $scope.showLoading = true;
         PackageFactory.exportProject(projectid).then(function(fileName){
+            $scope.showLoading = false;
             var a = window.document.createElement('a');
             a.href = fileName;
             a.target = "_self";
@@ -72,11 +93,9 @@ app.controller('projectsCtrl', function ($mdDialog, $scope, $mdSidenav, Projects
 
     $scope.goToProject = function (projectId, projectName) {
         $state.go('project', {projectname: projectName, projectid: projectId});
-        console.log("GOING TO ");
     };
 
     $scope.deleteProject = function (projectId) {
-        console.log("Deleting");
         ProjectsFactory.deleteProject(projectId).then(function (result) {
             $state.reload();
         })
@@ -101,30 +120,44 @@ app.controller('projectsCtrl', function ($mdDialog, $scope, $mdSidenav, Projects
         $scope.sideNavProjectName = project.name;
         $scope.sideNavProjectId = project._id;
         UserFactory.getMembers(project._id).then(function(collaborators){
-            console.log("collaborators ", collaborators);
-            console.log('dictionary ', $scope.userDictionary);
             $scope.sideNavCollaborators = collaborators;
         });
         $mdSidenav('right').toggle();
     };
 
     $scope.addMember = function (projectId, email) {
+        $scope.showLoading = true;
         UserFactory.addMember(projectId, email).then(function(user){
-            $mdDialog.show(
-                $mdDialog.alert()
-                    .parent(angular.element(document.body))
-                    .title('A New User Has Been Invited To Your Project')
-                    .content(email)
-                    .ariaLabel('New User')
-                    .ok('OK!')
-            );
+            $scope.showLoading = false;
+            $scope.alert = email;
+            $mdDialog.show({
+                clickOutsideToClose: true,
+                scope: $scope, //use parent scope in template
+                preserveScope: true,
+                template:
+                    '<md-dialog style="opacity:0.9;">' +
+                        '  <md-dialog-content>'+
+                    '       <h4 style="color:white;">New User Added!</h4>' +
+                    '           <hr/>' +
+                    '           <div style="color:white;">{{alert}}</div>' +
+                    '  </md-dialog-content>' +
+                    '  <div class="md-actions">' +
+                    '    <md-button ng-click="closeDialog()" class="md-primary">' +
+                    '      Close Dialog' +
+                    '    </md-button>' +
+                    '  </div>' +
+                    '</md-dialog>',
+                controller: function DialogController($scope, $mdDialog) {
+                    $scope.closeDialog = function() {
+                        $mdDialog.hide();
+                    };
+                }
+            });
             UserFactory.getMembers(projectId).then(function(collaborators){
-                console.log("collaborators ", collaborators);
-                console.log('dictionary ', $scope.userDictionary);
                 $scope.sideNavCollaborators = collaborators;
             });
             console.log("returned user!", user);
         })
-            .catch(function(e) {console.log(e)});
+        .catch(function(e) {console.log(e)});
     };
 });
