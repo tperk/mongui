@@ -10,6 +10,31 @@ var mkdirp = require('mkdirp');
 var child_process = require("child_process");
 var publicDirectory = "/tmp/monguiProjects/public";
 
+function removeZip (fileName, directory) {
+	setTimeout(function () {
+		child_process.exec('rm ' + fileName, {cwd: directory});
+	}, 600000);//remove file after 10 min
+}
+
+function removeFolder (folderName, directory) {
+	setTimeout(function () {		
+		child_process.exec('rm -rf ../' + folderName, {cwd: directory});
+	}, 600000);//remove folder after 10 min
+}
+
+function createZip (mainDirectory, projectId, res) {
+	var packageName = "mongui_pkg_" + projectId;
+	var fileName = packageName+".zip";
+	mkdirp(publicDirectory, function (err) {
+		var exec = Promise.promisify(child_process.exec);                   
+	    return exec.call(child_process, "zip -r " + packageName + " ../" + projectId, {cwd: publicDirectory}).then(function(err){
+	        removeFolder(projectId, mainDirectory);
+	        removeZip(fileName, publicDirectory);
+	        res.status(200).send(fileName);
+	    }); 
+	});
+}
+
 function publishNpm(directory, projectId, res){	
 	var packageName = "mongui_pkg_" + projectId;
 	var exec = Promise.promisify(child_process.exec);
@@ -23,14 +48,13 @@ function publishNpm(directory, projectId, res){
 	    rF.call(fs, directory + "package.json").then(function(data){			
 		    obj = JSON.parse(data);
 		    obj.name = packageName;
-
+		    obj.dependencies = {
+		    	q: "^1.2.0",
+		    	mongoose: "^4.0.0"
+		    };
 		    Project.findById(projectId)
 		    .exec()
-		    .then(function(project){
-		    	console.log("project", project);
-		    	console.log("project version", project.version);
-		    	
-
+		    .then(function(project){		    	
 		    	if(project.version){
 		    		projectVersion = project.version;
 		    		versionArr = projectVersion.split('.');
@@ -52,19 +76,7 @@ function publishNpm(directory, projectId, res){
 	});
 }
 
-function removeFolder (folderName, directory) {
-	setTimeout(function () {
-		console.log(directory);
-		
-		child_process.exec('rm -rf ../' + folderName, {cwd: directory});
-	}, 600000);//remove folder after 10 min
-}
 
-function removeZip (fileName, directory) {
-	setTimeout(function () {
-		child_process.exec('rm ' + fileName, {cwd: directory});
-	}, 600000);//remove file after 10 min
-}
 
 function createPackageDirectory (subDirectory, fileName, filestr) {
 	mkdirp(subDirectory, function (err) {
@@ -116,19 +128,6 @@ function createPackage (schemasArr, projectId, npmElseZip, res) {
 				createZip (mainDirectory, projectId, res);
 			}
 		}).catch(function(e) {console.log(e);});
-	});
-}
-
-function createZip (mainDirectory, projectId, res) {
-	var packageName = "mongui_pkg_" + projectId;
-	var fileName = packageName+".zip";
-	mkdirp(publicDirectory, function (err) {
-		var exec = Promise.promisify(child_process.exec);                   
-	    return exec.call(child_process, "zip -r " + packageName + " ../" + projectId, {cwd: publicDirectory}).then(function(err){
-	        removeFolder(projectId, mainDirectory);
-	        removeZip(fileName, publicDirectory);
-	        res.status(200).send(fileName);
-	    }); 
 	});
 }
 
