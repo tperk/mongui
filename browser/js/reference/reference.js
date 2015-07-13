@@ -103,17 +103,6 @@ app.controller('SeedCollectionCtrl', function ($scope, $state, user, fields, Tem
 		$scope.addSeedOptions(field);
 	};
 
-	$scope.exportPackageToZip = function () {
-		PackageFactory.exportProject($stateParams.projectid).then(function(fileName){
-			var a = window.document.createElement('a');
-			a.href = fileName;
-			a.target = "_self";
-			a.download = fileName;
-			document.body.appendChild(a);
-			a.click();
-			document.body.removeChild(a);
-		});
-	};
 	$scope.backToProject = function() {
 		console.log("CLicked")
 		$state.go('project', {projectid: currentProject._id, projectname: currentProject.name})
@@ -128,13 +117,7 @@ app.controller('SeedCollectionCtrl', function ($scope, $state, user, fields, Tem
 		}).catch(function(e) {console.log(e);});
 	};
 
-	$scope.packageProject = function () {
-		PackageFactory.packageProject($stateParams.projectid).then(function(message){
-			console.log('message', message);//display message
-		}).catch(function(e) {console.log(e);});
-	};
-
-	$scope.changeQuantity = function (quantity) {
+	$scope.changeQuantity = function (quantity) {		
 		var diff = quantity - seedFields.length;
 		if(diff > 0){
 			var i;
@@ -144,7 +127,7 @@ app.controller('SeedCollectionCtrl', function ($scope, $state, user, fields, Tem
 		}else if(diff < 0){
 			seedFields = seedFields.slice(0, quantity);
 		}
-		$scope.seedFile = TemplateFactory.createSeedFile(currentSchema, seedFields);
+		$scope.seedFile = TemplateFactory.createSeedFile(currentSchema, seedFields);			
 	};
 
 	$scope.changeSeedByType = function (seedBy, val, type){

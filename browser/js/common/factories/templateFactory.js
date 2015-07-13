@@ -1,8 +1,8 @@
 app.factory('TemplateFactory', function (){
-	var seedData = [];
-	var seedingInfo , i, prop;	
-	var faker = require('faker');
-	var fakerDataObj = {
+    var seedData = [];
+    var seedingInfo , i, prop;  
+    var faker = require('faker');
+    var fakerDataObj = {
         //name
         firstName: faker.name.firstName,
         lastName: faker.name.lastName,
@@ -102,56 +102,56 @@ app.factory('TemplateFactory', function (){
     };
 
     var stringFunc = function (el, field) {
-    	prop = field.seedBy[field.seedBy.type].trim();
-    	el[field.name] = fakerDataObj[prop]();
+        prop = field.seedBy[field.seedBy.type].trim();
+        el[field.name] = fakerDataObj[prop]();
     };
     var numberFunc = function (el, field) {
-    	prop = field.seedBy[field.seedBy.type].trim();
-		if(prop === 'number'){
-			var max = 1000000;
-    		var numberMax = field.typeOptions.numberMax ? field.typeOptions.numberMax: 0;
-    		var numberMin = field.typeOptions.numberMin ? field.typeOptions.numberMax: 0;
-    		var diff = field.typeOptions.numberMax - field.typeOptions.numberMin; 
-    		if(diff !== 0) max = diff;
-			el[field.name] = numberMin + fakerDataObj[prop](max);
-		}else{
-			el[field.name] = fakerDataObj[prop]();
-		}	
+        prop = field.seedBy[field.seedBy.type].trim();
+        if(prop === 'number'){
+            var max = 1000000;
+            var numberMax = field.typeOptions.numberMax ? field.typeOptions.numberMax: 0;
+            var numberMin = field.typeOptions.numberMin ? field.typeOptions.numberMax: 0;
+            var diff = field.typeOptions.numberMax - field.typeOptions.numberMin; 
+            if(diff !== 0) max = diff;
+            el[field.name] = numberMin + fakerDataObj[prop](max);
+        }else{
+            el[field.name] = fakerDataObj[prop]();
+        }   
     };
     var dateFunc = function (el, field) {
-    	prop = field.seedBy[field.seedBy.type].trim();
-    	el[field.name] = fakerDataObj[prop]();
+        prop = field.seedBy[field.seedBy.type].trim();
+        el[field.name] = fakerDataObj[prop]();
     };
     // var bufferFunc = function (el, field) {
-    // 	prop = field.seedBy[field.seedBy.type].trim();
-    // 	el[field.name] = fakerDataObj[prop]();
+    //  prop = field.seedBy[field.seedBy.type].trim();
+    //  el[field.name] = fakerDataObj[prop]();
     // };
     var booleanFunc = function (el, field) {
-    	prop = field.seedBy[field.seedBy.type].trim();
-    	if(prop === 'random'){
-    	 	el[field.name] = fakerDataObj.number(1) ? 'true' : 'false';
-    	}else el[field.name] = prop;
+        prop = field.seedBy[field.seedBy.type].trim();
+        if(prop === 'random'){
+            el[field.name] = fakerDataObj.number(1) ? 'true' : 'false';
+        }else el[field.name] = prop;
     };
     // var mixedFunc = function (el, field) {
 
-    	
+        
     // };
     var objectidFunc = function (el, field) {
-		el[field.name] = require('mongoose').Types.ObjectId();
-	};
+        el[field.name] = require('mongoose').Types.ObjectId();
+    };
     var nestedFunc = function (el, field) {
-    	prop = field.seedBy[field.seedBy.type].trim();
-    	el[field.name] = fakerDataObj[prop]();
+        prop = field.seedBy[field.seedBy.type].trim();
+        el[field.name] = fakerDataObj[prop]();
     };
 
     function indent (str, numOfIndents) {
-    	var indentString = "";
-    	for(var i=0; i<numOfIndents; i++){
-    		indentString = "    " + indentString;
-    	}
-		str = indentString + str;
-		return "\n"+str;
-	}
+        var indentString = "";
+        for(var i=0; i<numOfIndents; i++){
+            indentString = "    " + indentString;
+        }
+        str = indentString + str;
+        return "\n"+str;
+    }
 
     var objectTemplate = function (arrArg){
         var str = "";
@@ -178,61 +178,61 @@ app.factory('TemplateFactory', function (){
         return str;
     };
 
-    var firstLetterUpperCase = function(str){
+    function firstLetterUpperCase (str){
         return str.charAt(0).toUpperCase() + str.slice(1);
     };
 
     var makeTemplate = function(schema, fieldsArr){
-    	return indent("var mongoose = require('mongoose');", 0) +
+        return indent("var mongoose = require('mongoose');", 0) +
         indent("require('../../schema_files/schemas/" + schema.name + "'" + ");", 0) +
         indent("var " + firstLetterUpperCase(schema.name) + " = mongoose.model('" + firstLetterUpperCase(schema.name) + "');", 0) +
         indent("var q = require('q');", 0) +
         indent("var seed = function () {", 0) +
         indent("var data" + " = [", 1) + 
-        objectTemplate(fieldsArr) +    	
+        objectTemplate(fieldsArr) +     
         indent("return q.invoke(" + firstLetterUpperCase(schema.name) + ", 'create', data);", 1) +
         indent("};", 0)+
         indent("module.exports = seed;", 0);
     };
 
-	var createSeedFile = function (currentSchema, fieldsArr, field){	
-		if(!field) return makeTemplate(currentSchema, fieldsArr);
-		
-		fieldsArr.forEach(function (el){
-			if(field.seedBy.type === 'random'){				
-				switch (field.fieldType) {
-			    	case 'String': stringFunc(el, field);
-			    		break;
-			    	case 'Number': numberFunc(el, field);
-			    		break;
-			    	case 'Date': dateFunc(el, field);
-			    		break;
-			    	// case 'Buffer': bufferFunc(el, field)
-			    	// 	break;
-			    	case 'Boolean': booleanFunc(el, field);
-			    		break;
-			    	// case 'Mixed': mixedFunc(el, field)
-			    	// 	break;
-			    	case 'Objectid': objectidFunc(el, field);
-			    		break;
-			    	case 'Nested': nestedFunc(el, field);
-			    		break;
-		    	}
-			}
-			// else if(field.seedBy.type === 'schema'){
+    var createSeedFile = function (currentSchema, fieldsArr, field){    
+        if(!field) return makeTemplate(currentSchema, fieldsArr);
+        
+        fieldsArr.forEach(function (el){
+            if(field.seedBy.type === 'random'){             
+                switch (field.fieldType) {
+                    case 'String': stringFunc(el, field);
+                        break;
+                    case 'Number': numberFunc(el, field);
+                        break;
+                    case 'Date': dateFunc(el, field);
+                        break;
+                    // case 'Buffer': bufferFunc(el, field)
+                    //  break;
+                    case 'Boolean': booleanFunc(el, field);
+                        break;
+                    // case 'Mixed': mixedFunc(el, field)
+                    //  break;
+                    case 'Objectid': objectidFunc(el, field);
+                        break;
+                    case 'Nested': nestedFunc(el, field);
+                        break;
+                }
+            }
+            // else if(field.seedBy.type === 'schema'){
 
-			// }
-			else {
-				el[field.name] = field.seedBy[field.seedBy.type];
-			}	
-		});
-		return makeTemplate(currentSchema, fieldsArr);
-	};
+            // }
+            else {
+                el[field.name] = field.seedBy[field.seedBy.type];
+            }   
+        });
+        return makeTemplate(currentSchema, fieldsArr);
+    };
 
     var requireTemplate = function (schemas) {
         var str = "";
         schemas.forEach(function(schema){
-            str += indent("var " + schema.name + " = require('./files/"+schema.name+"');", 0);
+            str += indent("var " + schema.name + " = require('./seeds/"+schema.name+"');", 0);
         });
         return str;
     };
@@ -248,7 +248,6 @@ app.factory('TemplateFactory', function (){
     };
 
     var createSeedIndexJS = function(projectName, schemas){
-        var projectName = projectName;
         var schemaNamesArr = schemas;
 
         var str = "var Q = require('q');" +
@@ -279,9 +278,21 @@ app.factory('TemplateFactory', function (){
         return str;
     };
 
-	return {
-		createSeedFile: createSeedFile,
+    function createSchemaIndexJS (projectName, schemas) {
+        var str = "var mongoose = require('mongoose');" +
+        indent("var DATABASE_URI = 'mongodb://localhost:27017/" + projectName + "';", 0) +
+        indent("var db = mongoose.connect(DATABASE_URI).connection;", 0);
+        schemas.forEach(function(schema){
+           str += indent("require('./schemas/" + schema.name + "');", 0) ;
+        })
+        return str;
+    };
+
+    return {
+        createSeedFile: createSeedFile,
         indent: indent,
-        createSeedIndexJS: createSeedIndexJS
-	};
+        createSeedIndexJS: createSeedIndexJS,
+        createSchemaIndexJS: createSchemaIndexJS,
+        firstLetterUpperCase: firstLetterUpperCase
+    };
 });

@@ -23,11 +23,11 @@
            <md-list-item flex class="" ng-click="goToProject(project._id, project.name)">
            {{project.name}}
            </md-list-item>
-           <md-button class="md-primary" aria-label="Npm Install">
+           <md-button class="md-primary" aria-label="Npm Install" ng-click="packageProject(project._id)">
                <md-icon class="material-icons md-24">publish</md-icon>
                <md-tooltip>Publish to NPM</md-tooltip>
            </md-button>
-           <md-button class="md-primary" aria-label="Npm Install">
+           <md-button class="md-primary" aria-label="Zip Download" ng-click="exportPackageToZip(project._id)">
                <md-icon class="material-icons md-24">file_download</md-icon>
                <md-tooltip>Zip Project</md-tooltip>
            </md-button>
