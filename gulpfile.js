@@ -88,10 +88,12 @@ gulp.task('seedDB', function () {
 
 });
 
+
+
 //"build": "browserify public/main.js -o public/bundle.js",
 //"watch": "watchify public/main.js -o public/bundle.js"
 // gulp.task('buildBundle', function () {
-//     return gulp.src('./public/main.js')
+//     js/projects/projects.html Failed to load resource: the server responded with a status of 404 (Not Found) gulp.src('./public/main.js')
 //         .pipe(plumber())
 //         .pipe(browserify())
 //         .pipe(rename('bundle.js'))
@@ -120,6 +122,17 @@ gulp.task('buildJSProduction', function () {
         .pipe(gulp.dest('./public'));
 });
 
+gulp.task('compileJS', function () {
+   var b = browserify();
+    b.add('./public/main.js');
+
+    b.bundle()
+        .pipe(source('main.js')
+            .pipe(buffer())
+            .pipe(gulp.dest('./public')))
+
+});
+
 gulp.task('buildProduction', ['buildCSSProduction', 'buildJSProduction']);
 
 // --------------------------------------------------------------
@@ -144,7 +157,9 @@ gulp.task('default', function () {
         runSeq('buildJS', ['testBrowserJS', 'reload']);
     });
 
-    // gulp.watch('public/main.js', ['buildBundle']);
+    gulp.watch('public/main.js', function () {
+        runSeq('compileJS');
+    });
 
     gulp.watch('browser/scss/**', function () {
         runSeq('buildCSS', 'reloadCSS');
