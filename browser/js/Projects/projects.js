@@ -6,7 +6,7 @@ app.config(function ($stateProvider) {
         templateUrl: 'js/projects/projects.html',
         controller: 'projectsCtrl',
         ncyBreadcrumb: {
-            label: 'Projects page'
+            label: 'projects page'
         },
         resolve: {
             user: function (AuthService) {
