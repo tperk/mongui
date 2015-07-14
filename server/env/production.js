@@ -10,13 +10,13 @@ module.exports = {
     "DATABASE_URI": process.env.MONGOLAB_URI,
     "SESSION_SECRET": process.env.SESSION_SECRET,
     "FACEBOOK": {
-        "clientID": "503429563144362",
-        "clientSecret": "b33f58d664c7ad0613ef0a9ee00bbc56",
-        "callbackURL": "https://www.mongui.io/auth/facebook/callback"
+        "clientID": process.env.FACEBOOK_APP_ID,
+        "clientSecret": process.env.FACEBOOK_CLIENT_SECRET,
+        "callbackURL": process.env.FACEBOOK_CALLBACK_URL
     },
     "GOOGLE": {
-        "clientID": "435571589713-i4qvulmk5tvf0l73h57t68gopoj0l7j4.apps.googleusercontent.com",
-        "clientSecret": "lu6eCLQ2Z7mgOCLxgLjn7_8u",
-        "callbackURL": "https://www.mongui.io/auth/google/callback"
+        "clientID": process.env.GOOGLE_CLIENT_ID,
+        "clientSecret": process.env.GOOGLE_CLIENT_SECRET,
+        "callbackURL": process.env.CALLBACK_URL
     }
-}
+};
