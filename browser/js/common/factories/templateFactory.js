@@ -120,17 +120,20 @@ app.factory('TemplateFactory', function (){
     };
     var dateFunc = function (el, field) {
         prop = field.seedBy[field.seedBy.type].trim();
-        el[field.name] = fakerDataObj[prop]();
+        el[field.name] = fakerDataObj[prop]().toString();
     };
     // var bufferFunc = function (el, field) {
     //  prop = field.seedBy[field.seedBy.type].trim();
     //  el[field.name] = fakerDataObj[prop]();
     // };
     var booleanFunc = function (el, field) {
-        prop = field.seedBy[field.seedBy.type].trim();
+        prop = field.seedBy[field.seedBy.type].trim();        
         if(prop === 'random'){
-            el[field.name] = fakerDataObj.number(1) ? 'true' : 'false';
-        }else el[field.name] = prop;
+            el[field.name] = fakerDataObj.number(1) ? true : false;
+        }else{
+            if(prop === 'true') el[field.name] = true;
+            else el[field.name] = false;
+        } 
     };
     // var mixedFunc = function (el, field) {
 
@@ -225,7 +228,7 @@ app.factory('TemplateFactory', function (){
             else {
                 el[field.name] = field.seedBy[field.seedBy.type];
             }   
-        });
+        });        
         return makeTemplate(currentSchema, fieldsArr);
     };
 
