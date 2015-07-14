@@ -120,7 +120,7 @@ app.factory('TemplateFactory', function (){
     };
     var dateFunc = function (el, field) {
         prop = field.seedBy[field.seedBy.type].trim();
-        el[field.name] = fakerDataObj[prop]();
+        el[field.name] = fakerDataObj[prop]().toString();
     };
     // var bufferFunc = function (el, field) {
     //  prop = field.seedBy[field.seedBy.type].trim();
@@ -128,9 +128,15 @@ app.factory('TemplateFactory', function (){
     // };
     var booleanFunc = function (el, field) {
         prop = field.seedBy[field.seedBy.type].trim();
+        console.log(prop);
+        
         if(prop === 'random'){
-            el[field.name] = fakerDataObj.number(1) ? 'true' : 'false';
-        }else el[field.name] = prop;
+            el[field.name] = fakerDataObj.number(1) ? true : false;
+            console.log(el[field.name]);
+        }else{
+            if(prop === 'true') el[field.name] = true;
+            else el[field.name] = false;
+        } 
     };
     // var mixedFunc = function (el, field) {
 
@@ -226,6 +232,8 @@ app.factory('TemplateFactory', function (){
                 el[field.name] = field.seedBy[field.seedBy.type];
             }   
         });
+        console.dir(fieldsArr);
+        
         return makeTemplate(currentSchema, fieldsArr);
     };
 
