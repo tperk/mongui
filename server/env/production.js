@@ -19,4 +19,4 @@ module.exports = {
         "clientSecret": "lu6eCLQ2Z7mgOCLxgLjn7_8u",
         "callbackURL": "https://www.mongui.io/auth/google/callback"
     }
-};
+}
