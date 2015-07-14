@@ -165,7 +165,7 @@ app.factory('TemplateFactory', function (){
             for (prop in obj) {
                 hasProps = true;
                 if(typeof obj[prop] === "string"){//probably need to do more checking ex. date
-                    str += indent(prop+": " + "'" + obj[prop] + "'" + ",", 3);
+                    str += indent(prop+": " + '"' + obj[prop] + '"' + ",", 3);
                 }else{
                     str += indent(prop+": " + obj[prop] + ",", 3);
                 }
