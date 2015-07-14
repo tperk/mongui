@@ -131,8 +131,7 @@ gulp.task('compileJS', function () {
 
     b.bundle()
         .pipe(source('main.js'))
-            .pipe(buffer())
-            .pipe(gulp.dest('./public'))
+        .pipe(gulp.dest('./public'))
 
 });
 
@@ -145,7 +144,7 @@ gulp.task('buildProduction', ['buildCSSProduction', 'buildJSProduction']);
 
 gulp.task('build', function () {
     if (process.env.NODE_ENV === 'production') {
-        runSeq(['buildJSProduction', 'buildCSSProduction']);
+        runSeq(['buildJS', 'buildCSSProduction'], 'compileJS');
     } else {
         runSeq(['lintJS', 'buildJS', 'buildCSS']);
     }
@@ -158,10 +157,6 @@ gulp.task('default', function () {
 
     gulp.watch('browser/js/**', function () {
         runSeq('buildJS', ['testBrowserJS', 'reload']);
-    });
-
-    gulp.watch('public/main.js', function () {
-        runSeq('compileJS');
     });
 
     gulp.watch('browser/scss/**', function () {
