@@ -127,12 +127,9 @@ app.factory('TemplateFactory', function (){
     //  el[field.name] = fakerDataObj[prop]();
     // };
     var booleanFunc = function (el, field) {
-        prop = field.seedBy[field.seedBy.type].trim();
-        console.log(prop);
-        
+        prop = field.seedBy[field.seedBy.type].trim();        
         if(prop === 'random'){
             el[field.name] = fakerDataObj.number(1) ? true : false;
-            console.log(el[field.name]);
         }else{
             if(prop === 'true') el[field.name] = true;
             else el[field.name] = false;
@@ -231,9 +228,7 @@ app.factory('TemplateFactory', function (){
             else {
                 el[field.name] = field.seedBy[field.seedBy.type];
             }   
-        });
-        console.dir(fieldsArr);
-        
+        });        
         return makeTemplate(currentSchema, fieldsArr);
     };
 
