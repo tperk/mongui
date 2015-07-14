@@ -16,6 +16,9 @@ var sourcemaps = require('gulp-sourcemaps');
 var jshint = require('gulp-jshint');
 var mocha = require('gulp-mocha');
 var karma = require('karma').server;
+var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
+var runSeq = require('run-sequence');
 
 var browserify = require('browserify');
 
@@ -127,9 +130,9 @@ gulp.task('compileJS', function () {
     b.add('./public/main.js');
 
     b.bundle()
-        .pipe(source('main.js')
+        .pipe(source('main.js'))
             .pipe(buffer())
-            .pipe(gulp.dest('./public')))
+            .pipe(gulp.dest('./public'))
 
 });
 
