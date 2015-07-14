@@ -3,7 +3,7 @@ app.config(function ($stateProvider) {
 
     $stateProvider.state('projects', {
         url: '/projects',
-        templateUrl: 'js/projects/projects.html',
+        templateUrl: 'js/Projects/projects.html',
         controller: 'projectsCtrl',
         ncyBreadcrumb: {
             label: 'projects page'
