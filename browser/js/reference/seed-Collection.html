@@ -23,8 +23,8 @@
 
 	<div flex="50" layout="row">
 		<div flex layout-wrap layout-padding>
+			<md-content>
 			<div  ng-repeat="field in fields" ng-init="addSeedOptions(field)">
-				<md-content>
 				<div layout="column" flex>
 					<h3  flex="25" layout="row" layout-align="start center"> {{field.name}} </h3>
 					<div flex="25" layout="row" layout-align="start center" layout-padding ng-if="field.wasMixed"> Type: Mixed </div>
@@ -54,8 +54,8 @@
 				</div>
 				<md-button class="md-raised md-accent" ng-click="seedField(field)"> Seed Field </md-button>
 				<md-divider></md-divider>
-				</md-content>
 			</div>
+				</md-content>
 		</div>
 		<div flex>
 			<md-content>

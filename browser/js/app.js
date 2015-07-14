@@ -16,13 +16,6 @@ app.config(function ($urlRouterProvider, $locationProvider, $mdThemingProvider, 
         var monguiYellowMap = $mdThemingProvider.extendPalette('yellow', {
             '500': 'FBC93D'
         });
-        // Register the new color palette map with the name <code>neonRed</code>
-        // $mdThemingProvider.definePalette('monguiRed', monguiRedMap);
-        // $mdThemingProvider.definePalette('monguiBlue', monguiBlueMap);
-        // $mdThemingProvider.definePalette('monguiYellow', monguiYellowMap);
-        // Use that theme for the primary intentions
-        // $mdThemingProvider.theme('default')
-        //     .primaryPalette('neonRed')
 
     $mdThemingProvider.theme('default')
         .primaryPalette('grey', {
