@@ -41,7 +41,6 @@ router.post('/:id', function (req, res, next){
 
 	return Promise.all([Field.create(req.body), Schema.findById(req.params.id).exec()])
 		.spread(function (field, schema){
-			console.log(field._id)
 			schema.fields.push(field._id);
 			schema.save();
 			return field;
@@ -82,11 +81,20 @@ router.put('/:id', function (req, res, next){
 	.then(null, next);
 });
 
-// delete by field ID 
+// // delete by field ID 
+// router.delete('/:id', function (req, res, next){
+// 	Field.findOne({_id: req.params.id}).exec().then(function(field){
+// 		field.remove();
+// 	}).then(function(){
+// 		res.send();
+// 	}).then(null, next);
+// });
+
 router.delete('/:id', function (req, res, next){
-	Field.findOne({_id: req.params.id}).exec().then(function(field){
-		field.remove();
-	}).then(function(){
+	Field.findByIdAndRemove(req.params.id)
+	.exec()
+	.then(function(deletedField){		
 		res.send();
 	}).then(null, next);
 });
+

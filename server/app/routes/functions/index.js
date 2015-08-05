@@ -66,10 +66,18 @@ router.put('/:id', function (req, res, next){
 });
 
 // delete by field ID 
+// router.delete('/:id', function (req, res, next){
+// 	Func.findOne({_id: req.params.id}).exec().then(function(func){
+// 		func.remove();
+// 	}).then(function(){
+// 		res.send();
+// 	}).then(null, next);
+// });
+
 router.delete('/:id', function (req, res, next){
-	Func.findOne({_id: req.params.id}).exec().then(function(func){
-		func.remove();
-	}).then(function(){
+	Func.findByIdAndRemove(req.params.id)
+	.exec()
+	.then(function(deletedFunction){		
 		res.send();
 	}).then(null, next);
 });

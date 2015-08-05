@@ -11,6 +11,21 @@ var Schema = mongoose.model('Schema');
 
 describe('Field routes', function () {
 	
+	function isObj(x){
+		if (typeof x === "object") return true;
+		else return false;
+	};
+
+	function isEmptyObj(obj){
+		var prop;
+		for (prop in obj) {
+			if (Object.hasOwnProperty.call(obj, prop)) {
+				return false;
+			}
+		}
+		return true;
+	};
+
 	beforeEach('Establish DB connection', function (done) {
 		if (mongoose.connection.db) return done();
 		mongoose.connect(dbURI, done);
@@ -21,19 +36,6 @@ describe('Field routes', function () {
 	});
 
 	describe('get requests', function () {
-		
-		// xit('returns an array of all the fields in the DB', function (done) {	
-		// 	Field.create({
-		// 		name: "test field"
-		// 	}).then(function (field){
-		// 		request(app)
-		// 		.get('/api/fields/')
-		// 		.expect(200, function (req, res) {
-		// 			expect(res.body[0].length).to.be.equal(1)
-		// 			done();
-		// 		})
-		// 	})
-		// });
 
 		it('returns one field', function (done) {	
 			Field.create({
@@ -124,9 +126,8 @@ describe('Field routes', function () {
 					request(app)
 					.get('/api/fields/' + field._id)
 					.expect(200, function (req, res) {
-						console.log('res.body', res.body);
-						//should be deleted but isn't
-
+						expect(isObj(res.body)).to.be.equal(true);
+						expect(isEmptyObj(res.body)).to.be.equal(true);
 						done();
 					})
 				})

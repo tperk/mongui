@@ -26,7 +26,6 @@ describe('Function routes', function () {
 		return true;
 	};
 
-
 	beforeEach('Establish DB connection', function (done) {
 		if (mongoose.connection.db) return done();
 		mongoose.connect(dbURI, done);
