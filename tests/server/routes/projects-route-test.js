@@ -1,7 +1,10 @@
 var expect = require('chai').expect;
 var request = require('supertest');
 var mongoose = require('mongoose')
-var models = require('../../../server/db')
+//var models = require('../../../server/db')
+
+
+
 // var projects = request(require('../../../server/app/routes/projects/index.js'));
 var app = require('../../../server/app')
 

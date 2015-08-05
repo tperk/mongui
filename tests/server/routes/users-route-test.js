@@ -25,7 +25,7 @@ describe('Schema routes', function () {
 
 	describe('get requests', function () {
 		
-		xit('returns project members', function (done) {	
+		it('returns project members', function (done) {	
 			Schema.create({
 				name: "test schema"
 			}).then(function (schema){	
@@ -38,7 +38,7 @@ describe('Schema routes', function () {
 			})
 		})
 
-		xit('returns all the user emails', function (done) {	
+		it('returns all the user emails', function (done) {	
 			Field.create({
 				name: "test field"
 			}).then(function (field){
@@ -59,7 +59,7 @@ describe('Schema routes', function () {
 
 	describe('post requests', function () {
 
-		xit('adds a project to a user', function (done) {
+		it('adds a project to a user', function (done) {
 			Project.create({
 				name: "my project"
 			}).then(function (project) {
