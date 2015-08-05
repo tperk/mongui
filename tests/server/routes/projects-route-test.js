@@ -5,14 +5,14 @@ var models = require('../../../server/db')
 // var projects = request(require('../../../server/app/routes/projects/index.js'));
 var app = require('../../../server/app')
 
-var dbURI = 'mongodb://localhost:27017/mongui_testing';
+var dbURI = 'mongodb://localhost:27017/testingDB';
 var clearDB = require('mocha-mongoose')(dbURI);
 
 var User = mongoose.model('User')
 var Project = mongoose.model('Project')
 var Schema = mongoose.model('Schema')
 
-describe('projects routes', function () {
+describe('Project routes', function () {
 	
 	beforeEach('Establish DB connection', function (done) {
 		if (mongoose.connection.db) return done();
@@ -120,14 +120,61 @@ describe('projects routes', function () {
 				name: "test project 1"
 			}).then(function (project) {
 				request(app)
-				.put('/api/projects/' + project._id, {name: "test project 2"})
+				.put('/api/projects/' + project._id)
+				.send({name: "test project 2"})
 				.expect(200, function (req, res) {
-					expect()
+					expect(res.body).to.be.equal("updated")
+					request(app)
+					.get('/api/projects/current/' + project._id)
+					.expect(200, function (req, res) {
+						expect(res.body.name).to.be.equal("test project 2")
+						done()
+					})
 				})
 			})
 		})
 
+		it('moves a pending project to a current project', function (done) {
+			Project.create({
+
+			}).then(function (project) {
+				User.create({
+					projects: [],
+					pendingProjects: [project._id]
+				}).then(function (user) {
+					request(app)
+					.put('/api/projects/pending/' + user._id + '/' + project._id)
+					.expect(200, function (req, res) {
+						expect(res.body.projects[0]).to.be.equal(String(project._id))
+						expect(res.body.pendingProjects.length).to.be.equal(0)
+						done()
+					})
+				})
+			})
+		})
 	})
+
+	describe('delete requests', function () {
+
+		it('deletes a pending project from a user', function (done) {
+			Project.create({
+
+			}).then(function (project) {
+				User.create({
+					projects: [],
+					pendingProjects: [project._id]
+				}).then(function (user) {
+					request(app)
+					.delete('/api/projects/pending/' + user._id + '/' + project._id)
+					.expect(200, function (req, res) {
+						expect(res.body.pendingProjects.length).to.be.equal(0)
+						done()
+					})
+				})
+			})
+		})
+	})
+
 })
 
 // mongoose.connection.close()
