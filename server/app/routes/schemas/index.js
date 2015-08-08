@@ -41,8 +41,10 @@ router.put('/:id', function (req, res, next) {
 		for (var prop in req.body) {
 			schema[prop] = req.body[prop]
 		}
-		schema.save();
-		res.send(schema.exportSchema);
+		schema.save().then(function (schema) {
+			res.send(schema.exportSchema);
+		});
+		
 	})
 	.then(null, next);
 });

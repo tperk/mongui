@@ -11,7 +11,7 @@ router.get('/:id', function (req, res, next){
 	.populate('projects')
 	.exec()
 	.then(function (user) {
-		res.send(user.projects);
+		res.json(user.projects);
 	})
 	.then(null, next);
 });
@@ -21,19 +21,7 @@ router.get('/pending/:id', function (req, res, next){
 	.populate('pendingProjects')
 	.exec()
 	.then(function (user) {
-		res.send(user.pendingProjects);
-	})
-	.then(null, next);
-});
-
-router.post('/:id', function (req, res, next){
-	return Promise.all([Project.create(req.body.params), User.findById(req.params.id).exec()])
-	.spread(function (project, user){
-		user.projects.push(project._id);
-		return user.save();
-	})
-	.then(function (savedUser) {
-		res.status(200).json(savedUser);
+		res.json(user.pendingProjects);
 	})
 	.then(null, next);
 });
@@ -52,6 +40,18 @@ router.get('/current/:id', function (req, res, next){
 	.exec()
 	.then(function (project) {		
 		res.status(200).json(project);
+	})
+	.then(null, next);
+});
+
+router.post('/:id', function (req, res, next){
+	return Promise.all([Project.create(req.body.params), User.findById(req.params.id).exec()])
+	.spread(function (project, user){
+		user.projects.push(project._id);
+		return user.save();
+	})
+	.then(function (savedUser) {
+		res.status(200).json(savedUser);
 	})
 	.then(null, next);
 });
