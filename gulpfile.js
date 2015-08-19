@@ -165,7 +165,8 @@ gulp.task('default', function () {
 
     gulp.watch('server/**/*.js', ['lintJS']);
     gulp.watch(['browser/**/*.html', 'server/app/views/*.html'], ['reload']);
-    gulp.watch(['tests/server/**/*.js', 'server/**/*.js'], ['testServerJS']);
+    // testServerJS should now only be run independently of gulp to avoid database errors 
+    // gulp.watch(['tests/server/**/*.js', 'server/**/*.js'], ['testServerJS']);
     gulp.watch('tests/browser/**/*', ['testBrowserJS']);
 
 });

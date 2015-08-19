@@ -1,23 +1,19 @@
 var expect = require('chai').expect;
 var request = require('supertest');
 var mongoose = require('mongoose')
-var models = require('../../../server/db')
-// var projects = request(require('../../../server/app/routes/projects/index.js'));
-var app = require('../../../server/app')
 
-var dbURI = 'mongodb://localhost:27017/testingDB';
+var dbURI = 'mongodb://localhost:27017/mongui_testing';
 var clearDB = require('mocha-mongoose')(dbURI);
 
-var User = mongoose.model('User')
-var Project = mongoose.model('Project')
-var Schema = mongoose.model('Schema')
+var app, User, Project, Schema
+
+require('../../../server/db');
+app = require('../../../server/app')
+User = mongoose.model('User')
+Project = mongoose.model('Project')
+Schema = mongoose.model('Schema')
 
 describe('Project routes', function () {
-	
-	beforeEach('Establish DB connection', function (done) {
-		if (mongoose.connection.db) return done();
-		mongoose.connect(dbURI, done);
-	});
 
 	afterEach('Clear test database', function (done) {
 		clearDB(done);
@@ -174,7 +170,6 @@ describe('Project routes', function () {
 			})
 		})
 	})
-
 })
 
 // mongoose.connection.close()
