@@ -1,4 +1,3 @@
-
 app.config(function ($stateProvider) {
 
     $stateProvider.state('projects', {
